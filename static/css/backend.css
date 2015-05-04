@@ -1,0 +1,15 @@
+.pimcore_icon_data_group_permissionToolkit {
+    background: url("/pimcore/static/img/icon/keys.png") no-repeat !important;
+}
+
+.pimcore_icon_permissionResource, .pimcore_icon_permission_resource {
+    background: url("/pimcore/static/img/icon/key.png") no-repeat !important;
+}
+
+.pimcore_icon_permissionObjects, .pimcore_icon_permission_objects {
+    background: url("/pimcore/static/img/icon/database_key.png") no-repeat !important;
+}
+
+.pimcore_icon_permissionHref, .pimcore_icon_permission_href {
+    background: url("/pimcore/static/img/icon/link_edit.png") no-repeat !important;
+}
