@@ -16,8 +16,8 @@ A scenario to setup a role based permission system:
 ### functionalities
 - additional datatypes for pimcore objects
   - Permission Resource:
-    - represents one specific user right (e.g. login) 
-    - can have values ```allow``` ```deny``` ```inherit``` 
+     - represents one specific user right (e.g. login) 
+     - can have values ```allow``` ```deny``` ```inherit``` 
   - Permission Objects: Wrapper for default datatype objects for recursive permission calculation. 
   - Permission Href: Wrapper for default datatype href for recursive permission calculation.
 
