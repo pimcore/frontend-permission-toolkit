@@ -7,6 +7,7 @@ A scenario to setup a role based permission system:
 - user represented as objects with a number of permission rights (= Permission Resources)
 - each user has relations to user groups (also pimcore objects) with also a number of permission rights (= Permission Resources)
 
+![sample](readme/img/sample.png)
 
 ### Development Instance
 > http://objecttools.plugins.elements.pm/admin
@@ -17,11 +18,9 @@ A scenario to setup a role based permission system:
   - Permission Resource:
     - represents one specific user right (e.g. login) 
     - can have values ```allow``` ```deny``` ```inherit``` 
-  
-  ![sample](readme/img/sample.png)
-  
   - Permission Objects: Wrapper for default datatype objects for recursive permission calculation. 
   - Permission Href: Wrapper for default datatype href for recursive permission calculation.
+
 - service for checking user rights based on a pimcore object and a permission resource as service class ```FrontendPermissionToolkit_Service``` with two methods:
   - ```FrontendPermissionToolkit_Service::getPermissions```: 
      - returns an array of all permissions for the given object, automatically merges all permission resources of objects related to the given object with 'Permission Objects' or 'Permission Href'.
