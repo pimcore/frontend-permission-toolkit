@@ -30,3 +30,47 @@ A scenario to setup a role based permission system:
 
 ### used by projects for example
 - Eberspaecher (http://eberspaecher.pim.elements.pm)
+
+
+### integration with pimcore navigation
+1) add following class to your website: 
+```php
+<?php
+
+include_once("Pimcore/View/Helper/PimcoreNavigation.php");
+
+class Website_View_Helper_Navigation_Controller extends \Pimcore\View\Helper\PimcoreNavigationController
+{
+    /**
+     * @var Object_Portaluser
+     */
+    protected $currentUser = null;
+
+    public function __construct($currentUser) {
+        $this->currentUser = $currentUser;
+    }
+
+    protected function getChilds($parentDocument) {
+        $children = $parentDocument->getChilds();
+
+        $allowedChildren = array();
+
+        foreach($children as $child) {
+            $permissionResource = $child->getProperty("permission_resource");
+
+            if(empty($permissionResource) || FrontendPermissionToolkit_Service::isAllowed($this->currentUser, $child->getProperty("permission_resource"))) {
+                $allowedChildren[] = $child;
+            }
+        }
+
+        return $allowedChildren;
+    }
+
+}
+?>
+```
+
+2) Add following line to your website controller in init-method after call of parent::init()
+```
+Pimcore_View_Helper_PimcoreNavigation::$_controller = new Website_View_Helper_Navigation_Controller($user);
+```
