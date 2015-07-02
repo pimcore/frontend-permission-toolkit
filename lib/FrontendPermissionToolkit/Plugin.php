@@ -1,4 +1,4 @@
- <?php
+<?php
 
 
 class FrontendPermissionToolkit_Plugin  extends Pimcore_API_Plugin_Abstract implements Pimcore_API_Plugin_Interface {
