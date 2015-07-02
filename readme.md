@@ -72,5 +72,6 @@ class Website_View_Helper_Navigation_Controller extends \Pimcore\View\Helper\Pim
 
 2) Add following line to your website controller in init-method after call of parent::init()
 ```
+<?php
 Pimcore_View_Helper_PimcoreNavigation::$_controller = new Website_View_Helper_Navigation_Controller($user);
 ```
