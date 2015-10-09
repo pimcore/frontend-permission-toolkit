@@ -75,3 +75,5 @@ class Website_View_Helper_Navigation_Controller extends \Pimcore\View\Helper\Pim
 <?php
 Pimcore_View_Helper_PimcoreNavigation::$_controller = new Website_View_Helper_Navigation_Controller($user);
 ```
+
+.
