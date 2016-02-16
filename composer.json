@@ -1,5 +1,5 @@
 {
-    "name": "pimcore-plugin/FrontendPermissionToolkit",
+    "name": "pimcore-plugins/FrontendPermissionToolkit",
     "type": "pimcore-plugin",
 	"require": {
         "pimcore/installer-plugin": ">=1"
