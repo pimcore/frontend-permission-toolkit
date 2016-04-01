@@ -44,9 +44,27 @@
 
 			</pluginJsPaths>
 
+            <pluginJsPaths-extjs6>
+                <path>/plugins/FrontendPermissionToolkit/static6/js/startup.js</path>
+
+                <path>/plugins/FrontendPermissionToolkit/static6/js/datatypes/classes/data/permissionResource.js</path>
+                <path>/plugins/FrontendPermissionToolkit/static6/js/datatypes/tags/permissionResource.js</path>
+
+                <path>/plugins/FrontendPermissionToolkit/static6/js/datatypes/classes/data/permissionObjects.js</path>
+                <path>/plugins/FrontendPermissionToolkit/static6/js/datatypes/tags/permissionObjects.js</path>
+
+                <path>/plugins/FrontendPermissionToolkit/static6/js/datatypes/classes/data/permissionHref.js</path>
+                <path>/plugins/FrontendPermissionToolkit/static6/js/datatypes/tags/permissionHref.js</path>
+
+            </pluginJsPaths-extjs6>
+
 			<!-- css files with path relative to plugin-directory -->
 			<pluginCssPaths>
                 <path>/plugins/FrontendPermissionToolkit/static/css/backend.css</path>
 			</pluginCssPaths>
+
+            <pluginCssPaths-extjs6>
+                <path>/plugins/FrontendPermissionToolkit/static6/css/backend.css</path>
+            </pluginCssPaths-extjs6>
 		</plugin>
 </zend-config>
