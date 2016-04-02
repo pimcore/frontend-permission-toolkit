@@ -29,7 +29,7 @@ A scenario to setup a role based permission system:
 
 
 ### used by projects for example
-- Eberspaecher (http://eberspaecher.pim.elements.pm)
+- Eberspaecher (http://eberspaecher.dev.elements.pm)
 
 
 ### integration with pimcore navigation
