@@ -49,7 +49,7 @@ class Object_Class_Data_PermissionResource extends Object_Class_Data_Select {
      * @param null|Object_Abstract $object
      * @return string
      */
-    public function getDataForResource($data, $object = null) {
+    public function getDataForResource($data, $object = null, $params = []) {
         return $this->checkForEmpty($data);
     }
 
@@ -58,7 +58,7 @@ class Object_Class_Data_PermissionResource extends Object_Class_Data_Select {
      * @param string $data
      * @return string
      */
-    public function getDataFromResource($data) {
+    public function getDataFromResource($data, $object = null, $params = []) {
         return $this->checkForEmpty($data);
     }
 
@@ -68,7 +68,7 @@ class Object_Class_Data_PermissionResource extends Object_Class_Data_Select {
      * @param null|Object_Abstract $object
      * @return string
      */
-    public function getDataForQueryResource($data, $object = null) {
+    public function getDataForQueryResource($data, $object = null, $params = []) {
         return $this->checkForEmpty($data);
     }
 
