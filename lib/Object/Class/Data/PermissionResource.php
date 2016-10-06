@@ -76,6 +76,16 @@ class Object_Class_Data_PermissionResource extends Object_Class_Data_Select {
     public function __wakeup () {
         $this->configureOptions();
     }
-
-   
+    
+    
+    /**
+     * @param $data
+     * @return static
+     */
+    public static function __set_state($data)
+    {
+        $obj = parent::__set_state($data);
+        $obj->configureOptions();
+        return $obj;
+    }
 }
