@@ -1,0 +1,3 @@
+services:
+    bundle.frontendpermissiontoolkit.service:
+        class: FrontendPermissionToolkitBundle\Service

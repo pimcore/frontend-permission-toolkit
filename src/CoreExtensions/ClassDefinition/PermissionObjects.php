@@ -12,8 +12,9 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
+namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-class Object_Class_Data_PermissionObjects extends Object_Class_Data_Objects {
+class PermissionObjects extends \Object_Class_Data_Objects {
 
     /**
      * Static type of this element

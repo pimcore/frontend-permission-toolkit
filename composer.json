@@ -1,7 +1,17 @@
 {
-    "name": "pimcore-plugins/FrontendPermissionToolkit",
-    "type": "pimcore-plugin",
-	"require": {
-        "pimcore/installer-plugin": ">=1"
+  "name": "pimcore/frontend-permission-toolkit-bundle",
+  "license": "GPL-3.0+",
+  "type": "pimcore-bundle",
+  "autoload": {
+    "psr-4": {
+      "FrontendPermissionToolkitBundle\\": "src/"
     }
+  },
+  "extra": {
+    "pimcore": {
+      "bundles": [
+        "FrontendPermissionToolkitBundle\\FrontendPermissionToolkitBundle"
+      ]
+    }
+  }
 }

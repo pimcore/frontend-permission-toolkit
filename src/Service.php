@@ -12,14 +12,15 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
+namespace FrontendPermissionToolkitBundle;
 
-class FrontendPermissionToolkit_Service {
+class Service {
 
     const DENY = "deny";
     const ALLOW = "allow";
     const INHERIT = "inherit";
 
-    private static $permissionCache = array();
+    private $permissionCache = array();
 
     /**
      * returns array of all permission resources of given object
@@ -33,10 +34,10 @@ class FrontendPermissionToolkit_Service {
      * @param Object_Concrete $object
      * @return array
      */
-    public static function getPermissions(Object_Concrete $object) {
+    public function getPermissions(Object_Concrete $object) {
 
-        if(self::$permissionCache[$object->getId()]) {
-            return self::$permissionCache[$object->getId()];
+        if($this->permissionCache[$object->getId()]) {
+            return $this->permissionCache[$object->getId()];
         }
 
 
@@ -103,7 +104,7 @@ class FrontendPermissionToolkit_Service {
             }
         }
 
-        self::$permissionCache[$object->getId()] = $mergedPermissions;
+        $this->permissionCache[$object->getId()] = $mergedPermissions;
         return $mergedPermissions;
     }
 
@@ -114,8 +115,8 @@ class FrontendPermissionToolkit_Service {
      * @param $resource
      * @return bool
      */
-    public static function isAllowed($object, $resource) {
-        $permissions = self::getPermissions($object);
+    public function isAllowed($object, $resource) {
+        $permissions = $this->getPermissions($object);
         return $permissions[$resource] == self::ALLOW;
     }
 

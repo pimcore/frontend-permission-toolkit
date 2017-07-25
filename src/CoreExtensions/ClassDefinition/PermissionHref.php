@@ -12,8 +12,9 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
+namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-class Object_Class_Data_PermissionHref extends Object_Class_Data_Href {
+class PermissionHref extends \Object_Class_Data_Href {
 
     /**
      * Static type of this element

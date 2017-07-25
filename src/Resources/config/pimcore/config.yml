@@ -1,0 +1,8 @@
+pimcore:
+    objects:
+        class_definitions:
+            data:
+                map:
+                    permissionHref: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref
+                    permissionObjects: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionObjects
+                    permissionResource: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource
