@@ -14,6 +14,12 @@
 
 namespace FrontendPermissionToolkitBundle;
 
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionObjects;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
+use Pimcore\Model\Object\Concrete;
+use Pimcore\Model\Object\ClassDefinition\Data\Objectbricks;
+
 class Service {
 
     const DENY = "deny";
@@ -31,10 +37,10 @@ class Service {
      * - otherwise optimistic merging is used -> once one permission is allowed, it stays that way
      *
      *
-     * @param Object_Concrete $object
+     * @param Concrete $object
      * @return array
      */
-    public function getPermissions(Object_Concrete $object) {
+    public function getPermissions(Concrete $object) {
 
         if($this->permissionCache[$object->getId()]) {
             return $this->permissionCache[$object->getId()];
@@ -50,21 +56,21 @@ class Service {
 
         // get permission resources directly in given object
         foreach($fieldDefinitions as $fd) {
-            if($fd instanceof Object_Class_Data_PermissionObjects) {
+            if($fd instanceof PermissionObjects) {
                 $permissionObjects = array_merge($permissionObjects, $object->{'get' . $fd->getName()}());
             }
-            if($fd instanceof Object_Class_Data_PermissionHref) {
+            if($fd instanceof PermissionHref) {
                 $href = $object->{'get' . $fd->getName()}();
                 if($href) {
                     $permissionObjects[] = $href;
                 }
             }
 
-            if($fd instanceof Object_Class_Data_PermissionResource) {
+            if($fd instanceof PermissionResource) {
                 $permissions[$fd->getName()] = $object->{'get' . $fd->getName()}();
             }
 
-            if($fd instanceof Object_Class_Data_Objectbricks) {
+            if($fd instanceof Objectbricks) {
                 $bricks = $object->{'get' . $fd->getName()}();
                 foreach($bricks->getBrickGetters() as $getter) {
                     $brick = $bricks->$getter();
@@ -72,16 +78,16 @@ class Service {
                     if($brick) {
                         $brickFieldDefinitions = $brick->getDefinition()->getFieldDefinitions();
                         foreach($brickFieldDefinitions as $bfd) {
-                            if($bfd instanceof Object_Class_Data_PermissionObjects) {
+                            if($bfd instanceof PermissionObjects) {
                                 $permissionObjects = array_merge($permissionObjects, $brick->{'get' . $bfd->getName()}());
                             }
-                            if($bfd instanceof Object_Class_Data_PermissionHref) {
+                            if($bfd instanceof PermissionHref) {
                                 $href = $object->{'get' . $bfd->getName()}();
                                 if($href) {
                                     $permissionObjects[] = $href;
                                 }
                             }
-                            if($bfd instanceof Object_Class_Data_PermissionResource) {
+                            if($bfd instanceof PermissionResource) {
                                 $permissions[$bfd->getName()] = $brick->{'get' . $bfd->getName()}();
                             }
                         }

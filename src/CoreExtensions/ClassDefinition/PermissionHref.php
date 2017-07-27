@@ -14,7 +14,9 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-class PermissionHref extends \Object_Class_Data_Href {
+use Pimcore\Model\Object\ClassDefinition\Data\Href;
+
+class PermissionHref extends Href {
 
     /**
      * Static type of this element

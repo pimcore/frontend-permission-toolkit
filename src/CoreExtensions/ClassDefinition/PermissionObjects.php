@@ -14,7 +14,9 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-class PermissionObjects extends \Object_Class_Data_Objects {
+use Pimcore\Model\Object\ClassDefinition\Data\Objects;
+
+class PermissionObjects extends Objects {
 
     /**
      * Static type of this element

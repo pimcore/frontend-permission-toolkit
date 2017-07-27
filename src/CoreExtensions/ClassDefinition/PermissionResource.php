@@ -14,7 +14,11 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-class PermissionResource extends \Object_Class_Data_Select {
+use FrontendPermissionToolkitBundle\Service;
+use Pimcore\Model\Object\ClassDefinition\Data\Select;
+use Pimcore\Model\Object\AbstractObject;
+
+class PermissionResource extends Select {
 
     /**
      * Static type of this element
@@ -26,9 +30,9 @@ class PermissionResource extends \Object_Class_Data_Select {
 
     public function configureOptions () {
         $options = [
-            ["key" => FrontendPermissionToolkit_Service::INHERIT, "value" => FrontendPermissionToolkit_Service::INHERIT],
-            ["key" => FrontendPermissionToolkit_Service::ALLOW, "value" => FrontendPermissionToolkit_Service::ALLOW],
-            ["key" => FrontendPermissionToolkit_Service::DENY, "value" => FrontendPermissionToolkit_Service::DENY]
+            ["key" => Service::INHERIT, "value" => Service::INHERIT],
+            ["key" => Service::ALLOW, "value" => Service::ALLOW],
+            ["key" => Service::DENY, "value" => Service::DENY]
         ];
 
         $this->setOptions($options);
@@ -37,7 +41,7 @@ class PermissionResource extends \Object_Class_Data_Select {
 
     protected function checkForEmpty($data) {
         if(empty($data)) {
-            return FrontendPermissionToolkit_Service::INHERIT;
+            return Service::INHERIT;
         }
         return $data;
     }
@@ -45,7 +49,7 @@ class PermissionResource extends \Object_Class_Data_Select {
     /**
      * @see Object_Class_Data::getDataForResource
      * @param string $data
-     * @param null|Object_Abstract $object
+     * @param null|AbstractObject $object
      * @return string
      */
     public function getDataForResource($data, $object = null, $params = []) {
@@ -64,7 +68,7 @@ class PermissionResource extends \Object_Class_Data_Select {
     /**
      * @see Object_Class_Data::getDataForQueryResource
      * @param string $data
-     * @param null|Object_Abstract $object
+     * @param null|AbstractObject $object
      * @return string
      */
     public function getDataForQueryResource($data, $object = null, $params = []) {
