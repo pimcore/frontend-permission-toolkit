@@ -13,16 +13,16 @@ A scenario to setup a role based permission system:
 - Additional data types for Pimcore objects
   - Permission Resource:
      - represents one specific user right (e.g. login) 
-     - can have values ```allow``` ```deny``` ```inherit``` 
+     - can have values `allow` `deny` `inherit`
   - Permission Objects: Wrapper for default data type `objects` for recursive permission calculation. 
   - Permission Href: Wrapper for default data type `href` for recursive permission calculation.
 
-- Service for checking user rights based on a Pimcore object and a permission resource as service class ```Service``` with 
+- Service for checking user rights based on a Pimcore object and a permission resource as service class `Service` with 
   two methods:
-  - ```Service::getPermissions```: 
+  - `Service::getPermissions`: 
      - returns an array of all permissions for the given object, automatically merges all permission resources of objects related to the given object with 'Permission Objects' or 'Permission Href'.
      - merging: When permission is set to allow / deny directly in object, this is always used. Otherwise optimistic merging is used -> once one permission is allowed, it stays that way.
-  - ```Service::isAllowed```: checks if given object is allowed for given resource
+  - `Service::isAllowed`: checks if given object is allowed for given resource
   
   
   
@@ -52,8 +52,12 @@ As a consequence, you can use Permission Resources in your access control config
 
 ### Integration with Pimcore navigation
 
-To show/hide documents in navigation, you can assign Permission Resources as properties to Pimcore documents. A special
- navigation builder shipped by this bundle (`FrontendPermissionToolkitBundle\CoreExtensions\Navigation\Builder`) 
+To show/hide documents in navigation, you can assign Permission Resources as properties to Pimcore documents.
+Just add a property named `permission_resource` with name name of the `permissionResource` as value to the document. 
+
+![Permission Property](doc/img/property.jpg)
+ 
+A special navigation builder shipped by this bundle (`FrontendPermissionToolkitBundle\CoreExtensions\Navigation\Builder`) 
  then can show/hide documents in navigation based on the permissions of the current user. 
  
 To do so, add following service definition to your application: 
