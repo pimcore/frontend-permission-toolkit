@@ -40,7 +40,7 @@ class Service {
      * @param Concrete $object
      * @return array
      */
-    public function getPermissions(Concrete $object) {
+    public function getPermissions(Concrete $object): array {
 
         if($this->permissionCache[$object->getId()]) {
             return $this->permissionCache[$object->getId()];
@@ -117,11 +117,11 @@ class Service {
     /**
      * checks if given object is allowed for given resource
      *
-     * @param $object
-     * @param $resource
+     * @param Concrete $object
+     * @param string $resource
      * @return bool
      */
-    public function isAllowed($object, $resource) {
+    public function isAllowed(Concrete $object, $resource): bool {
         $permissions = $this->getPermissions($object);
         return $permissions[$resource] == self::ALLOW;
     }

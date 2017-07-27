@@ -54,7 +54,10 @@ class Builder extends \Pimcore\Navigation\Builder
      */
     public function setCurrentUser(TokenStorage $securityTokenStorage)
     {
-        $this->currentUser = $securityTokenStorage->getToken()->getUser();
+        $user = $securityTokenStorage->getToken()->getUser();
+        if($user instanceof Concrete) {
+            $this->currentUser = $user;
+        }
     }
 
 
@@ -70,7 +73,7 @@ class Builder extends \Pimcore\Navigation\Builder
         foreach($children as $child) {
             $permissionResource = $child->getProperty("permission_resource");
 
-            if(empty($permissionResource) || $this->service->isAllowed($this->currentUser, $child->getProperty("permission_resource"))) {
+            if(empty($permissionResource) || $this->currentUser && $this->service->isAllowed($this->currentUser, $child->getProperty("permission_resource"))) {
                 $allowedChildren[] = $child;
             }
         }
