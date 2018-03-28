@@ -3,7 +3,7 @@
 Adds some helpers to define permissions for users in websites based on Pimcore objects.
 So user permissions for complex systems can be defined directly in Pimcore objects.  
 
-A scenario to setup a role based permission system: 
+A scenario to set up a role based permission system: 
 - user represented as objects with a number of permission rights (= Permission Resources)
 - each user has relations to user groups (also Pimcore objects) with also a number of permission rights (= Permission Resources)
 
