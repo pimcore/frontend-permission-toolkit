@@ -15,8 +15,8 @@
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
 use FrontendPermissionToolkitBundle\Service;
-use Pimcore\Model\Object\ClassDefinition\Data\Select;
-use Pimcore\Model\Object\AbstractObject;
+use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
+use Pimcore\Model\DataObject\AbstractObject;
 
 class PermissionResource extends Select {
 
