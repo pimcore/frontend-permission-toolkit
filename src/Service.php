@@ -17,8 +17,8 @@ namespace FrontendPermissionToolkitBundle;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionObjects;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
-use Pimcore\Model\Object\Concrete;
-use Pimcore\Model\Object\ClassDefinition\Data\Objectbricks;
+use Pimcore\Model\DataObject\Concrete;
+use Pimcore\Model\DataObject\ClassDefinition\Data\Objectbricks;
 
 class Service {
 
