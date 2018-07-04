@@ -64,7 +64,7 @@ To do so, add following service definition to your application:
  
 ```yaml
 
-pimcore.navigation.builder:
+Pimcore\Navigation\Builder:
     class: FrontendPermissionToolkitBundle\CoreExtensions\Navigation\Builder
     arguments: ['@pimcore.http.request_helper']
     public: false
