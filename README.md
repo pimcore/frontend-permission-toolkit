@@ -9,6 +9,21 @@ A scenario to set up a role based permission system:
 
 ![sample](doc/img/sample.jpg)
 
+## Installation instructions
+
+1. Inside your pimcore project require the bundle as a dependency:
+
+    ```
+    composer require pimcore/frontend-permission-toolkit-bundle
+    ```
+2. Enable the bundle using the CLI command:
+
+    ```
+    bin/console pimcore:bundle:enable FrintendPermissionToolkitBundle
+    ```
+ 
+ This will enable & install the bundle in your pimcore project as well as run the assets:install command. Alternatively you can log in to your admin area go to _Tools > Extensions_ and enable the bundle from the list by clicking on the appropriate icon.
+
 ### Functionality overview
 - Additional data types for Pimcore objects
   - Permission Resource:
