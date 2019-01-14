@@ -18,7 +18,7 @@ namespace FrontendPermissionToolkitBundle\CoreExtensions\Navigation;
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Http\RequestHelper;
 use Pimcore\Model\Document;
-use Pimcore\Model\Object\Concrete;
+use Pimcore\Model\DataObject\Concrete;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class Builder extends \Pimcore\Navigation\Builder
