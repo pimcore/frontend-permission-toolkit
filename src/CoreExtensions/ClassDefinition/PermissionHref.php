@@ -14,7 +14,7 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use Pimcore\Model\Object\ClassDefinition\Data\Href;
+use Pimcore\Model\DataObject\ClassDefinition\Data\Href;
 
 class PermissionHref extends Href {
 
