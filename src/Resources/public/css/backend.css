@@ -13,15 +13,15 @@
 
 
 .pimcore_icon_data_group_permissionToolkit {
-    background: url("/pimcore/static6/img/flat-color-icons/keys.svg") center center no-repeat !important;
+    background: url("/bundles/pimcoreadmin/img/flat-color-icons/keys.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_permissionResource, .pimcore_icon_permission_resource {
-    background: url("/pimcore/static6/img/flat-color-icons/key.svg") center center no-repeat !important;
+    background: url("/bundles/pimcoreadmin/img/flat-color-icons/key.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_permissionObjects, .pimcore_icon_permission_objects {
-    background: url("/pimcore/static6/img/flat-color-icons/objects.svg") center center no-repeat !important;
+    background: url("/bundles/pimcoreadmin/img/flat-color-icons/objects.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_permissionObjects:before, .pimcore_icon_permission_objects:before,
@@ -37,5 +37,5 @@
 
 
 .pimcore_icon_permissionHref, .pimcore_icon_permission_href {
-    background: url("/pimcore/static6/img/flat-color-icons/href.svg") center center no-repeat !important;
+    background: url("/bundles/pimcoreadmin/img/flat-color-icons/href.svg") center center no-repeat !important;
 }
