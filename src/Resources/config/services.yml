@@ -1,3 +1,5 @@
 services:
     bundle.frontendpermissiontoolkit.service:
         class: FrontendPermissionToolkitBundle\Service
+        autowire: true
+        public: true
