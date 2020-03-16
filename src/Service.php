@@ -14,9 +14,9 @@
 
 namespace FrontendPermissionToolkitBundle;
 
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionObjects;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinition\PermissionHref;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinition\PermissionObjects;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinition\PermissionResource;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Objectbricks;
 

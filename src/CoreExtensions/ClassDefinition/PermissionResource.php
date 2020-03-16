@@ -12,7 +12,7 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
-namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
+namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinition;
 
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
