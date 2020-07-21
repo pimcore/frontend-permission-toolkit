@@ -14,16 +14,14 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\Navigation;
 
-
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Http\RequestHelper;
 use Pimcore\Model\Document;
 use Pimcore\Model\DataObject\Concrete;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class Builder extends \Pimcore\Navigation\Builder
 {
-
     /**
      * @var Service
      */
@@ -33,8 +31,6 @@ class Builder extends \Pimcore\Navigation\Builder
      * @var Concrete
      */
     protected $currentUser;
-
-
 
     public function __construct(RequestHelper $requestHelper, string $pageClass = null)
     {
@@ -50,16 +46,15 @@ class Builder extends \Pimcore\Navigation\Builder
     }
 
     /**
-     * @param TokenStorage $securityTokenStorage
+     * @param TokenStorageInterface $securityTokenStorage
      */
-    public function setCurrentUser(TokenStorage $securityTokenStorage)
+    public function setCurrentUser(TokenStorageInterface $securityTokenStorage)
     {
         $user = $securityTokenStorage->getToken()->getUser();
-        if($user instanceof Concrete) {
+        if ($user instanceof Concrete) {
             $this->currentUser = $user;
         }
     }
-
 
     /**
      * @inheritdoc
@@ -70,15 +65,14 @@ class Builder extends \Pimcore\Navigation\Builder
 
         $allowedChildren = array();
 
-        foreach($children as $child) {
+        foreach ($children as $child) {
             $permissionResource = $child->getProperty("permission_resource");
 
-            if(empty($permissionResource) || $this->currentUser && $this->service->isAllowed($this->currentUser, $child->getProperty("permission_resource"))) {
+            if (empty($permissionResource) || $this->currentUser && $this->service->isAllowed($this->currentUser, $child->getProperty("permission_resource"))) {
                 $allowedChildren[] = $child;
             }
         }
 
         return $allowedChildren;
     }
-
 }
