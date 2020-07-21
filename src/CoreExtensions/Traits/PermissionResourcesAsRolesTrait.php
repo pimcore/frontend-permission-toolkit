@@ -28,7 +28,7 @@ trait PermissionResourcesAsRolesTrait
         /**
          * @var $service Service
          */
-        $service = \Pimcore::getContainer()->get("bundle.frontendpermissiontoolkit.service");
+        $service = \Pimcore::getContainer()->get(Service::class);
         $permissions = $service->getPermissions($this);
 
         $roles = [];

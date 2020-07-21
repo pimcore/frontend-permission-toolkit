@@ -1,3 +1,4 @@
+<?php
 /**
  * Pimcore
  *
@@ -11,10 +12,17 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
+namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-pimcore.registerNS("pimcore.object.tags.permissionHref");
-pimcore.object.tags.permissionHref = Class.create(pimcore.object.tags.href, {
+use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 
-    type: "permissionHref"
+class PermissionManyToManyRelation extends ManyToManyObjectRelation {
 
-});
+    /**
+     * Static type of this element
+     *
+     * @var string
+     */
+    public $fieldtype = "permissionManyToManyRelation";
+
+}

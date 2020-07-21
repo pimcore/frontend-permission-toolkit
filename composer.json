@@ -7,6 +7,9 @@
       "FrontendPermissionToolkitBundle\\": "src/"
     }
   },
+  "require": {
+    "pimcore/pimcore": "^6"
+  },
   "extra": {
     "pimcore": {
       "bundles": [

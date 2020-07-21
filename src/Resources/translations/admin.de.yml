@@ -1,4 +1,4 @@
 permissionResource: Permission Resource
-permissionObjects: Permission Objects
+permissionManyToManyRelation: Permission Objects
 permissionToolkit: Permission Toolkit
-permissionHref: Permission Href
+permissionManyToOneRelation: Permission ManyToOne

@@ -29,28 +29,11 @@ class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle {
             '/bundles/frontendpermissiontoolkit/js/startup.js',
             '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionResource.js',
             '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionResource.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionObjects.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionObjects.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionHref.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionHref.js',
+            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionManyToManyRelation.js',
+            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionManyToManyRelation.js',
+            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionManyToOneRelation.js',
+            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionManyToOneRelation.js',
         ];
     }
-
-
-//
-//	public static function install (){
-//        // implement your own logic here
-//        return true;
-//	}
-//
-//	public static function uninstall (){
-//        // implement your own logic here
-//        return true;
-//	}
-//
-//	public static function isInstalled () {
-//        // implement your own logic here
-//        return true;
-//	}
 
 }
