@@ -42,7 +42,7 @@ class Service {
      */
     public function getPermissions(Concrete $object): array {
 
-        if($this->permissionCache[$object->getId()]) {
+        if(isset($this->permissionCache[$object->getId()])) {
             return $this->permissionCache[$object->getId()];
         }
 
