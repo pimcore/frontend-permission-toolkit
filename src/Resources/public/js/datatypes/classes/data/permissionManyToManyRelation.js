@@ -13,7 +13,7 @@
 
 
 pimcore.registerNS("pimcore.object.classes.data.permissionManyToManyRelation");
-pimcore.object.classes.data.permissionManyToManyRelation = Class.create(pimcore.object.classes.data.manyToManyRelation, {
+pimcore.object.classes.data.permissionManyToManyRelation = Class.create(pimcore.object.classes.data.manyToManyObjectRelation, {
 
     type: "permissionManyToManyRelation",
     allowIndex: true,
@@ -32,6 +32,8 @@ pimcore.object.classes.data.permissionManyToManyRelation = Class.create(pimcore.
         this.type = "permissionManyToManyRelation";
 
         this.initData(initData);
+
+        pimcore.helpers.sanitizeAllowedTypes(this.datax, "classes");
 
         // overwrite default settings
         this.availableSettingsFields = ["name","title","tooltip","mandatory","noteditable","invisible",
@@ -52,5 +54,3 @@ pimcore.object.classes.data.permissionManyToManyRelation = Class.create(pimcore.
         return "pimcore_icon_permission_manyToManyRelation";
     }
 });
-
-pimcore.object.classes.data.permissionObjects = pimcore.object.classes.data.permissionManyToManyRelation;

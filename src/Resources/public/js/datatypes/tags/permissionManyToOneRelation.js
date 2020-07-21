@@ -18,5 +18,3 @@ pimcore.object.tags.permissionManyToOneRelation = Class.create(pimcore.object.ta
     type: "permissionManyToOneRelation"
 
 });
-
-pimcore.object.tags.permissionHref = pimcore.object.tags.permissionManyToOneRelation;

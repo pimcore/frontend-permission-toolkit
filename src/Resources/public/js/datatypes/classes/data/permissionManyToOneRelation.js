@@ -33,6 +33,10 @@ pimcore.object.classes.data.permissionManyToOneRelation = Class.create(pimcore.o
 
         this.initData(initData);
 
+        pimcore.helpers.sanitizeAllowedTypes(this.datax, "classes");
+        pimcore.helpers.sanitizeAllowedTypes(this.datax, "assetTypes");
+        pimcore.helpers.sanitizeAllowedTypes(this.datax, "documentTypes");
+
         // overwrite default settings
         this.availableSettingsFields = ["name","title","tooltip","mandatory","noteditable","invisible",
             "visibleGridView","visibleSearch","style"];
@@ -52,5 +56,3 @@ pimcore.object.classes.data.permissionManyToOneRelation = Class.create(pimcore.o
         return "pimcore_icon_permission_manyToOneRelation";
     }
 });
-
-pimcore.object.classes.data.permissionManyToOneRelation = pimcore.object.classes.data.permissionHref;

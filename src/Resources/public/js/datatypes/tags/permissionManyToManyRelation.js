@@ -13,10 +13,8 @@
 
 
 pimcore.registerNS("pimcore.object.tags.permissionManyToManyRelation");
-pimcore.object.tags.permissionManyToManyRelation = Class.create(pimcore.object.tags.manyToManyRelation, {
+pimcore.object.tags.permissionManyToManyRelation = Class.create(pimcore.object.tags.manyToManyObjectRelation, {
 
     type: "permissionManyToManyRelation"
 
 });
-
-pimcore.object.tags.permissionObjects = pimcore.object.tags.permissionManyToManyRelation;
