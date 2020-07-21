@@ -29,8 +29,14 @@ A scenario to set up a role based permission system:
   - Permission Resource:
      - represents one specific user right (e.g. login) 
      - can have values `allow` `deny` `inherit`
-  - Permission Objects: Wrapper for default data type `objects` for recursive permission calculation. 
-  - Permission Href: Wrapper for default data type `href` for recursive permission calculation.
+  - Dynamic Permission Resource: 
+     - represents a set of specific rights for a user
+     - actual permission resources are defined by a data provider 
+        - defined in the class definition, either defined by class name or service name with leading `@`
+        - data provider class needs to implement `DataProviderInterface`  
+     - each entry can have values `allow` `deny` `inherit`
+  - Permission ManyToMany Relation: Wrapper for default data type `objects` for recursive permission calculation. 
+  - Permission ManyToOne Relation: Wrapper for default data type `href` for recursive permission calculation.
 
 - Service for checking user rights based on a Pimcore object and a permission resource as service class `Service` with 
   two methods:

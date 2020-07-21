@@ -16,26 +16,34 @@
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/keys.svg") center center no-repeat !important;
 }
 
+.pimcore_icon_dynamicPermissionResource, .pimcore_icon_permission_dynamic_resource {
+    background: url("/bundles/pimcoreadmin/img/flat-color-icons/keys.svg") center center no-repeat !important;
+}
+
+
 .pimcore_icon_permissionResource, .pimcore_icon_permission_resource {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/key.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_permissionManyToManyRelation, .pimcore_icon_permission_manyToManyRelation {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/objects.svg") center center no-repeat !important;
+    position: relative;
 }
 
 .pimcore_icon_permissionManyToManyRelation:before, .pimcore_icon_permission_manyToManyRelation:before,
 .pimcore_icon_permissionManyToOneRelation:before, .pimcore_icon_permission_manyToOneRelation:before {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    bottom: 0;
-    right: 0;
+    width: 15px;
+    height: 15px;
+    bottom: 3px;
+    right: -3px;
     content: "";
-    background: url(/pimcore/static6/img/flat-color-icons/key.svg) center center no-repeat !important;
+    background: url(/bundles/pimcoreadmin/img/flat-color-icons/key.svg) center center no-repeat !important;
+    background-size: 100% !important;
 }
 
 
 .pimcore_icon_permissionManyToOneRelation, .pimcore_icon_permission_manyToOneRelation {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/href.svg") center center no-repeat !important;
+    position: relative;
 }

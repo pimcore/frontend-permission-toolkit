@@ -6,3 +6,4 @@ pimcore:
                     permissionManyToOneRelation: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation
                     permissionManyToManyRelation: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToManyRelation
                     permissionResource: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource
+                    dynamicPermissionResource: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\DynamicPermissionResource

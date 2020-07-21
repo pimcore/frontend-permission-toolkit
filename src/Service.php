@@ -14,7 +14,8 @@
 
 namespace FrontendPermissionToolkitBundle;
 
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToMany;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\DynamicPermissionResource;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToManyRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
 use Pimcore\Model\DataObject\Concrete;
@@ -40,10 +41,16 @@ class Service {
      * @param Concrete $object
      * @return array
      */
-    public function getPermissions(Concrete $object): array {
+    public function getPermissions(Concrete $object, array $visitedIds = []): array {
 
         if(isset($this->permissionCache[$object->getId()])) {
             return $this->permissionCache[$object->getId()];
+        }
+
+        if(isset($visitedIds[$object->getId()])) {
+            return [];
+        } else {
+            $visitedIds[$object->getId()] = true;
         }
 
 
@@ -70,6 +77,10 @@ class Service {
                 $permissions[$fd->getName()] = $object->{'get' . $fd->getName()}();
             }
 
+            if($fd instanceof DynamicPermissionResource) {
+                $permissions = array_merge($permissions, $object->{'get' . $fd->getName()}());
+            }
+
             if($fd instanceof Objectbricks) {
                 $bricks = $object->{'get' . $fd->getName()}();
                 foreach($bricks->getBrickGetters() as $getter) {
@@ -90,6 +101,10 @@ class Service {
                             if($bfd instanceof PermissionResource) {
                                 $permissions[$bfd->getName()] = $brick->{'get' . $bfd->getName()}();
                             }
+
+                            if($fd instanceof DynamicPermissionResource) {
+                                $permissions = array_merge($permissions, $brick->{'get' . $fd->getName()}());
+                            }
                         }
                     }
                 }
@@ -101,7 +116,7 @@ class Service {
         // - otherwise optimistic merging is used -> once one permission is allowed, it stays that way
         $mergedPermissions = $permissions;
         foreach($permissionObjects as $permissionObject) {
-            $objectPermissions = self::getPermissions($permissionObject);
+            $objectPermissions = $this->getPermissions($permissionObject, $visitedIds);
 
             foreach($objectPermissions as $key => $value) {
                 if(($permissions[$key] == self::INHERIT || !array_key_exists($key, $permissions)) && $mergedPermissions[$key] != self::ALLOW) {
