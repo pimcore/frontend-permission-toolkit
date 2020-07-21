@@ -2,3 +2,4 @@ permissionResource: Permission Resource
 permissionManyToManyRelation: Permission Objects
 permissionToolkit: Permission Toolkit
 permissionManyToOneRelation: Permission ManyToOne Relation
+permissionResourceProvider: Permission Resource Provider Service

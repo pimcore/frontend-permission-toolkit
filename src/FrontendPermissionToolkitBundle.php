@@ -33,6 +33,8 @@ class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle {
             '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionManyToManyRelation.js',
             '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionManyToOneRelation.js',
             '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionManyToOneRelation.js',
+            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/dynamicPermissionResource.js',
+            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/dynamicPermissionResource.js',
         ];
     }
 
