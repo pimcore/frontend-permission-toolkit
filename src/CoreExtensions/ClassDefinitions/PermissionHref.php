@@ -14,15 +14,17 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use Pimcore\Model\DataObject\ClassDefinition\Data\Href;
+@trigger_error(
+    'Data-type `FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref` is deprecated since version 1.1.0 and will be removed in 2.0.0. ' .
+    'Use `' . PermissionManyToOneRelation::class . '` instead.',
+    E_USER_DEPRECATED
+);
 
-class PermissionHref extends Href {
+class_exists(PermissionManyToOneRelation::class);
 
-    /**
-     * Static type of this element
-     *
-     * @var string
-     */
-    public $fieldtype = "permissionHref";
-
+/**
+ * @deprecated use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation instead
+ */
+class PermissionHref extends PermissionManyToOneRelation
+{
 }

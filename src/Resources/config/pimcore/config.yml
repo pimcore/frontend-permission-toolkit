@@ -3,6 +3,6 @@ pimcore:
         class_definitions:
             data:
                 map:
-                    permissionHref: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref
-                    permissionObjects: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionObjects
+                    permissionManyToOneRelation: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation
+                    permissionManyToManyRelation: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToManyRelation
                     permissionResource: FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource

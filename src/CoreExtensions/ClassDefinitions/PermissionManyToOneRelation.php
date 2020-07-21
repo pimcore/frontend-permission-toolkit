@@ -14,15 +14,15 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use Pimcore\Model\DataObject\ClassDefinition\Data\Objects;
+use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToOneRelation;
 
-class PermissionObjects extends Objects {
+class PermissionManyToOneRelation extends ManyToOneRelation {
 
     /**
      * Static type of this element
      *
      * @var string
      */
-    public $fieldtype = "permissionObjects";
+    public $fieldtype = "permissionManyToOneRelation";
 
 }

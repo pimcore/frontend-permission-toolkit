@@ -14,8 +14,8 @@
 
 namespace FrontendPermissionToolkitBundle;
 
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionHref;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionObjects;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToMany;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Objectbricks;
@@ -56,10 +56,10 @@ class Service {
 
         // get permission resources directly in given object
         foreach($fieldDefinitions as $fd) {
-            if($fd instanceof PermissionObjects) {
+            if($fd instanceof PermissionManyToManyRelation) {
                 $permissionObjects = array_merge($permissionObjects, $object->{'get' . $fd->getName()}());
             }
-            if($fd instanceof PermissionHref) {
+            if($fd instanceof PermissionManyToOneRelation) {
                 $href = $object->{'get' . $fd->getName()}();
                 if($href) {
                     $permissionObjects[] = $href;
@@ -78,10 +78,10 @@ class Service {
                     if($brick) {
                         $brickFieldDefinitions = $brick->getDefinition()->getFieldDefinitions();
                         foreach($brickFieldDefinitions as $bfd) {
-                            if($bfd instanceof PermissionObjects) {
+                            if($bfd instanceof PermissionManyToManyRelation) {
                                 $permissionObjects = array_merge($permissionObjects, $brick->{'get' . $bfd->getName()}());
                             }
-                            if($bfd instanceof PermissionHref) {
+                            if($bfd instanceof PermissionManyToOneRelation) {
                                 $href = $object->{'get' . $bfd->getName()}();
                                 if($href) {
                                     $permissionObjects[] = $href;

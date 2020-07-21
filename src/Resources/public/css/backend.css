@@ -20,22 +20,22 @@
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/key.svg") center center no-repeat !important;
 }
 
-.pimcore_icon_permissionObjects, .pimcore_icon_permission_objects {
+.pimcore_icon_permissionManyToManyRelation, .pimcore_icon_permission_manyToManyRelation {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/objects.svg") center center no-repeat !important;
 }
 
-.pimcore_icon_permissionObjects:before, .pimcore_icon_permission_objects:before,
-.pimcore_icon_permissionHref:before, .pimcore_icon_permission_href:before {
+.pimcore_icon_permissionManyToManyRelation:before, .pimcore_icon_permission_manyToManyRelation:before,
+.pimcore_icon_permissionManyToOneRelation:before, .pimcore_icon_permission_manyToOneRelation:before {
     position: absolute;
     width: 12px;
     height: 12px;
-    bottom: 0px;
-    right: 0px;
+    bottom: 0;
+    right: 0;
     content: "";
     background: url(/pimcore/static6/img/flat-color-icons/key.svg) center center no-repeat !important;
 }
 
 
-.pimcore_icon_permissionHref, .pimcore_icon_permission_href {
+.pimcore_icon_permissionManyToOneRelation, .pimcore_icon_permission_manyToOneRelation {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/href.svg") center center no-repeat !important;
 }

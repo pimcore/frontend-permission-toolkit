@@ -12,9 +12,11 @@
  */
 
 
-pimcore.registerNS("pimcore.object.tags.permissionObjects");
-pimcore.object.tags.permissionObjects = Class.create(pimcore.object.tags.objects, {
+pimcore.registerNS("pimcore.object.tags.permissionManyToOneRelation");
+pimcore.object.tags.permissionManyToOneRelation = Class.create(pimcore.object.tags.manyToOneRelation, {
 
-    type: "permissionObjects"
+    type: "permissionManyToOneRelation"
 
 });
+
+pimcore.object.tags.permissionHref = pimcore.object.tags.permissionManyToOneRelation;
