@@ -12,7 +12,7 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
-namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinition;
+namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
 use Pimcore\Model\DataObject\ClassDefinition\Data\Href;
 
