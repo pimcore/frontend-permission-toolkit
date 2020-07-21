@@ -14,9 +14,9 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use Pimcore\Model\DataObject\ClassDefinition\Data\Objects;
+use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 
-class PermissionObjects extends Objects {
+class PermissionObjects extends ManyToManyObjectRelation {
 
     /**
      * Static type of this element

@@ -14,9 +14,9 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use Pimcore\Model\DataObject\ClassDefinition\Data\Href;
+use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToOneRelation;
 
-class PermissionHref extends Href {
+class PermissionHref extends ManyToOneRelation {
 
     /**
      * Static type of this element
