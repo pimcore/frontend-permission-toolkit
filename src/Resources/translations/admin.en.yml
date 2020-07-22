@@ -1,4 +1,5 @@
 permissionResource: Permission Resource
+dynamicPermissionResource: Dynamic Permission Resource
 permissionManyToManyRelation: Permission Objects
 permissionToolkit: Permission Toolkit
 permissionManyToOneRelation: Permission ManyToOne Relation

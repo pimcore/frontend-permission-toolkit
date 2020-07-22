@@ -24,7 +24,7 @@ use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
 
-class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\EqualComparisonInterface
+class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface
 {
 
     use DataObject\Traits\SimpleComparisonTrait;
