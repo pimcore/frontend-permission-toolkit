@@ -42,6 +42,15 @@
     background-size: 100% !important;
 }
 
+.x-menu-body .pimcore_icon_permission_manyToManyRelation,
+.x-menu-body .pimcore_icon_permission_manyToOneRelation {
+    position: absolute;
+}
+
+.x-menu-body .pimcore_icon_permission_manyToManyRelation:before,
+.x-menu-body .pimcore_icon_permission_manyToOneRelation:before {
+    bottom: 0;
+}
 
 .pimcore_icon_permissionManyToOneRelation, .pimcore_icon_permission_manyToOneRelation {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/href.svg") center center no-repeat !important;
