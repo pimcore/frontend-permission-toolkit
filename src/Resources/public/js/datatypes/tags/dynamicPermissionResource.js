@@ -75,13 +75,15 @@ pimcore.object.tags.dynamicPermissionResource = Class.create(pimcore.object.tags
         this.component = Ext.create("Ext.FormPanel", {
             cls: "object_field",
             style: "margin-bottom: 10px",
+            fieldDefaults: {
+                labelWidth: this.fieldConfig.labelWidth,
+            },
             layout: {
                 type: 'vbox',
                 align: 'left'
             },
             items: permissionItems
         });
-
 
         return this.component;
     },
