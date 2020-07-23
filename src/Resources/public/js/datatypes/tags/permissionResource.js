@@ -40,7 +40,7 @@ pimcore.object.tags.permissionResource = Class.create(pimcore.object.tags.select
             fieldLabel: this.fieldConfig.title,
             store: store,
             itemCls: "object_field",
-            width: 500
+            width: this.fieldConfig.labelWidth + 200
         };
 
         if (typeof this.data == "string" || typeof this.data == "number") {
