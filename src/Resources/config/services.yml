@@ -1,6 +1,7 @@
 services:
 
     FrontendPermissionToolkitBundle\Service:
+        public: true
         autoconfigure: true
         autowire: true
 
