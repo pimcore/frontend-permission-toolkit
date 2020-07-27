@@ -59,7 +59,7 @@ class Builder extends \Pimcore\Navigation\Builder
     /**
      * @inheritdoc
      */
-    protected function getChilds(Document $parentDocument)
+    protected function getChildren(Document $parentDocument): array
     {
         $children = $parentDocument->getChildren();
 
