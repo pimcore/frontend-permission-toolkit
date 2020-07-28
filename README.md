@@ -49,6 +49,53 @@ A scenario to set up a role based permission system:
   
 The Service is registered at the container with the key `bundle.frontendpermissiontoolkit.service`. 
 
+#### Event listener
+
+The postGetPermissions event listener allows you to manipulate the permissions after they have been collected. Take into account that the getPermissions method can be executed recursively. Therefore, make sure you add an object condition.
+
+```php
+namespace AppBundle\EventListener;
+
+use FrontendPermissionToolkitBundle\Event\PermissionsEvent;
+use Pimcore\Model\DataObject\User;
+
+class PermissionsListener
+{
+    public function postGetPermissions(PermissionsEvent $permissionsEvent): void
+    {
+        // Object the permissions are retrieved for
+        $user = $permissionsEvent->getObject();
+        if (!$user instanceof User) {
+            return;
+        }
+
+        // Access service methods to retrieve additional permissions and merge them
+        $service = $permissionsEvent->getService();
+
+        $permissions = $permissionsEvent->getPermissions();
+        $mergedPermissions = $permissions;
+        foreach ($user->getGroups() ?? [] as $userGroup) {
+            $userGroupPermissions = $service->getPermissions($userGroup);
+            $mergedPermissions = $service->mergeNestedObjectPermissions($mergedPermissions, $permissions, $userGroupPermissions);
+        }
+
+        // Update the permissions to return them from the service method
+        $permissionsEvent->setPermissions($mergedPermissions);
+    }
+}
+```
+
+```yaml
+service:
+    AppBundle\EventListener\PermissionsListener:
+        tags:
+            - {
+                name: kernel.event_listener
+                event: frontendPermissionsToolkit.service.postGetPermissions
+                method: postGetPermissions
+            }
+```
+
 
 ### Integration with Symfony Security
 For how to integrate Pimcore objects with Symfony Security in general have a look at 

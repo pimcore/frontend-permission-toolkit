@@ -19,10 +19,12 @@ use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\DynamicPermi
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToManyRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
+use FrontendPermissionToolkitBundle\Event\PermissionsEvent;
 use Pimcore\Model\AbstractModel;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\Objectbrick;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Service
 {
@@ -30,7 +32,20 @@ class Service
     const ALLOW = "allow";
     const INHERIT = "inherit";
 
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
     private $permissionCache = [];
+
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     /**
      * returns array of all permission resources of given object
@@ -72,6 +87,10 @@ class Service
             $objectPermissions = $this->getPermissions($permissionObject, $visitedIds);
             $mergedPermissions = $this->mergeNestedObjectPermissions($mergedPermissions, $permissions, $objectPermissions);
         }
+
+        $permissionsEvent = new PermissionsEvent($mergedPermissions, $object, $this);
+        $this->eventDispatcher->dispatch(PermissionsEvent::POST_GET, $permissionsEvent);
+        $mergedPermissions = $permissionsEvent->getPermissions();
 
         $this->permissionCache[$object->getId()] = $mergedPermissions;
         return $mergedPermissions;
