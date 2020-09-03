@@ -115,6 +115,9 @@ pimcore.object.tags.dynamicPermissionResource = Class.create(pimcore.object.tags
     },
 
     isDirty: function() {
+        if (this.component["__pimcore_dirty"]) {
+            return true;
+        }
 
         if(this.component.items && this.component.items.items) {
 
@@ -122,6 +125,9 @@ pimcore.object.tags.dynamicPermissionResource = Class.create(pimcore.object.tags
 
                 var component = this.component.items.items[i];
                 if(component.isDirty()) {
+
+                    // once a field is dirty it should be always dirty (not an ExtJS behavior)
+                    this.component["__pimcore_dirty"] = true;
                     return true;
                 }
 
