@@ -14,7 +14,7 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Helper\DataProviderResolver;
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;

@@ -12,9 +12,9 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
-namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
+namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Helper;
 
-
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\DataProviderInterface;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Extension\ColumnType;
@@ -22,7 +22,6 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\Extension\QueryColumnType;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
-
 
 class DataProviderResolver extends DataObject\ClassDefinition\Helper\ClassResolver
 {
@@ -34,11 +33,10 @@ class DataProviderResolver extends DataObject\ClassDefinition\Helper\ClassResolv
     {
         $dataProvider = self::resolve($providerClass);
 
-        if($dataProvider instanceof DataProviderInterface) {
+        if ($dataProvider instanceof DataProviderInterface) {
             return $dataProvider;
         }
 
         return null;
     }
-
 }
