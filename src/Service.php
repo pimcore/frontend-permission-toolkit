@@ -165,7 +165,7 @@ class Service
                 $permissions = $object->get($fieldDefinition->getName());
                 break;
 
-            case (!$ignoreObjectBrickFields && $fieldDefinition instanceof ClassDefinition\Data\Objectbricks):
+            case ($fieldDefinition instanceof ClassDefinition\Data\Objectbricks):
                 /* @var $objectBrick Objectbrick */
                 $objectBrick = $object->get($fieldDefinition->getName());
                 foreach ($objectBrick->getBrickGetters() as $brickGetter) {
