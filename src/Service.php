@@ -89,7 +89,7 @@ class Service
         }
 
         $permissionsEvent = new PermissionsEvent($mergedPermissions, $object, $this);
-        $this->eventDispatcher->dispatch(PermissionsEvent::POST_GET, $permissionsEvent);
+        $this->eventDispatcher->dispatch($permissionsEvent, PermissionsEvent::POST_GET);
         $mergedPermissions = $permissionsEvent->getPermissions();
 
         $this->permissionCache[$object->getId()] = $mergedPermissions;
