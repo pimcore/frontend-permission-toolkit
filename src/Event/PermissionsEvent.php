@@ -6,7 +6,7 @@ namespace FrontendPermissionToolkitBundle\Event;
 
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject\Concrete;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class PermissionsEvent extends Event
 {
