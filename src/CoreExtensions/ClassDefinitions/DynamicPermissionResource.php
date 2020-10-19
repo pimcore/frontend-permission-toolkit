@@ -127,7 +127,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
 
     protected function cleanupAndCheckForEmpty($data) {
 
-        $resources = $this->getPermissionResources();
+        $resources = $this->loadPermissionResourcesFromProvider();
 
         $data = $data ?? [];
 
@@ -343,17 +343,22 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
     }
 
 
-    public function enrichFieldDefinition($context = [])
-    {
+    protected function loadPermissionResourcesFromProvider(): array {
         $dataProvider = DataProviderResolver::resolveDataProvider($this->getDataProvider());
 
+        $permissionResources = [];
         if ($dataProvider) {
-            $context['fieldname'] = $this->getName();
+            $context = [
+                'fieldname' => $this->getName()
+            ];
             $permissionResources = $dataProvider->getPermissionResources($context, $this);
-            $this->setPermissionResources($permissionResources);
-        } else {
-            $this->setPermissionResources([]);
         }
+        return $permissionResources;
+    }
+
+    public function enrichFieldDefinition($context = [])
+    {
+        $this->setPermissionResources($this->loadPermissionResourcesFromProvider());
 
         $this->setPermissionOptions([
             ["key" => Service::INHERIT, "value" => Service::INHERIT],
