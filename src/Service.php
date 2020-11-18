@@ -132,7 +132,7 @@ class Service
     public function isAllowed(Concrete $object, $resource): bool
     {
         $permissions = $this->getPermissions($object);
-        return $permissions[$resource] == self::ALLOW;
+        return ($permissions[$resource] ?? false) == self::ALLOW;
     }
 
     /**
