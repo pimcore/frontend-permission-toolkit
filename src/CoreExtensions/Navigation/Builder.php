@@ -50,9 +50,11 @@ class Builder extends \Pimcore\Navigation\Builder
      */
     public function setCurrentUser(TokenStorageInterface $securityTokenStorage)
     {
-        $user = $securityTokenStorage->getToken()->getUser();
-        if ($user instanceof Concrete) {
-            $this->currentUser = $user;
+        if( $securityToken = $securityTokenStorage->getToken() ){
+            $user = $securityToken->getUser();
+            if ($user instanceof Concrete) {
+                $this->currentUser = $user;
+            }
         }
     }
 
