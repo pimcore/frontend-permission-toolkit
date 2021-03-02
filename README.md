@@ -31,10 +31,20 @@ A scenario to set up a role based permission system:
      - can have values `allow` `deny` `inherit`
   - Dynamic Permission Resource: 
      - represents a set of specific rights for a user
+     - each entry can have values `allow` `deny` `inherit`
      - actual permission resources are defined by a data provider 
         - defined in the class definition, either defined by class name or service name with leading `@`
-        - data provider class needs to implement `DataProviderInterface`  
-     - each entry can have values `allow` `deny` `inherit`
+        - data provider class needs to implement `DataProviderInterface` and return an array of roles and labels:
+        ```php
+        public function getPermissionResources(array $context, \Pimcore\Model\DataObject\ClassDefinition\Data $fieldDefinition): array
+        {
+            // static example for explanation
+            return [
+                ['value' => 'testpermission_1', 'label' => 'Permission for test'],
+                ['value' => 'testpermission_2', 'label' => 'Another Permission for test'],
+            ];
+        }
+       ```
   - Permission ManyToMany Relation: Wrapper for default data type `objects` for recursive permission calculation. 
   - Permission ManyToOne Relation: Wrapper for default data type `href` for recursive permission calculation.
 
