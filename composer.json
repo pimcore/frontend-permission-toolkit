@@ -8,8 +8,8 @@
     }
   },
   "require": {
-    "pimcore/pimcore": "^6",
-    "symfony/symfony": "^4"
+    "pimcore/pimcore": "^6.8 || ^10.0",
+    "symfony/symfony": "^4.3 || ^5.0"
   },
   "extra": {
     "pimcore": {
