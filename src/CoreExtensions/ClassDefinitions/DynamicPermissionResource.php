@@ -374,4 +374,23 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         $this->enrichFieldDefinition($context);
     }
 
+    public function getParameterTypeDeclaration(): ?string
+    {
+        return '?array';
+    }
+
+    public function getReturnTypeDeclaration(): ?string
+    {
+        return '?array';
+    }
+
+    public function getPhpdocInputType(): ?string
+    {
+        return 'null|array';
+    }
+
+    public function getPhpdocReturnType(): ?string
+    {
+        return 'null|array';
+    }
 }
