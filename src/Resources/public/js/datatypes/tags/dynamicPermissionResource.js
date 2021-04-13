@@ -46,7 +46,7 @@ pimcore.object.tags.dynamicPermissionResource = Class.create(pimcore.object.tags
             fieldLabel: ts(config['label']),
             store: store,
             itemCls: "object_field",
-            width: this.fieldConfig.labelWidth + 200
+            width: (this.fieldConfig.labelWidth || 0) + 200
         };
 
         if (typeof this.data[name] == "string" || typeof this.data[name] == "number") {
