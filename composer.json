@@ -10,16 +10,13 @@
   },
   "require": {
     "pimcore/pimcore": "^6.8 || ^10.0",
-    "symfony/symfony": "^4.3 || ^5.0"
+    "symfony/symfony": "^4.3 || ^5.2.0"
   },
   "extra": {
     "pimcore": {
       "bundles": [
         "FrontendPermissionToolkitBundle\\FrontendPermissionToolkitBundle"
       ]
-    },
-    "branch-alias": {
-      "dev-6-9-ready": "1.4-dev"
     }
   }
 }
