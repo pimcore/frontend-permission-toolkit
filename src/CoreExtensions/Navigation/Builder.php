@@ -1,23 +1,24 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\Navigation;
 
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Http\RequestHelper;
-use Pimcore\Model\Document;
 use Pimcore\Model\DataObject\Concrete;
+use Pimcore\Model\Document;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class Builder extends \Pimcore\Navigation\Builder
@@ -50,7 +51,7 @@ class Builder extends \Pimcore\Navigation\Builder
      */
     public function setCurrentUser(TokenStorageInterface $securityTokenStorage)
     {
-        if( $securityToken = $securityTokenStorage->getToken() ){
+        if ($securityToken = $securityTokenStorage->getToken()) {
             $user = $securityToken->getUser();
             if ($user instanceof Concrete) {
                 $this->currentUser = $user;
@@ -65,12 +66,12 @@ class Builder extends \Pimcore\Navigation\Builder
     {
         $children = $parentDocument->getChildren();
 
-        $allowedChildren = array();
+        $allowedChildren = [];
 
         foreach ($children as $child) {
-            $permissionResource = $child->getProperty("permission_resource");
+            $permissionResource = $child->getProperty('permission_resource');
 
-            if (empty($permissionResource) || $this->currentUser && $this->service->isAllowed($this->currentUser, $child->getProperty("permission_resource"))) {
+            if (empty($permissionResource) || $this->currentUser && $this->service->isAllowed($this->currentUser, $child->getProperty('permission_resource'))) {
                 $allowedChildren[] = $child;
             }
         }

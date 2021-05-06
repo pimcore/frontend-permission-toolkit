@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
@@ -26,7 +27,6 @@ use Pimcore\Tool\Serialize;
 
 class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface
 {
-
     use DataObject\Traits\SimpleComparisonTrait;
     use ColumnType;
     use QueryColumnType;
@@ -37,7 +37,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
      * @var string
      */
     public $fieldtype = 'dynamicPermissionResource';
-
 
     /**
      * Type for the column to query
@@ -59,7 +58,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
      * @var string
      */
     public $phpdocType = 'array';
-
 
     /**
      * @var string
@@ -124,16 +122,15 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         $this->permissionOptions = $permissionOptions;
     }
 
-
-    protected function cleanupAndCheckForEmpty($data) {
-
+    protected function cleanupAndCheckForEmpty($data)
+    {
         $resources = $this->loadPermissionResourcesFromProvider();
 
         $data = $data ?? [];
 
         $cleanData = [];
 
-        foreach($resources as $resource) {
+        foreach ($resources as $resource) {
             $originalValue = $data[$resource['value']] ?? null;
             $cleanData[$resource['value']] = $originalValue ?: Service::INHERIT;
         }
@@ -183,14 +180,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
     public function getDataForQueryResource($data, $object = null, $params = [])
     {
         $data = $this->cleanupAndCheckForEmpty($data);
-        if(is_array($data)) {
+        if (is_array($data)) {
             return http_build_query($data, '', ';') . ';';
         }
 
         return '';
-
     }
-
 
     /**
      * Returns the the data that should be stored in the resource
@@ -239,7 +234,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-
     /**
      * converts object data to a simple string value or CSV Export
      *
@@ -277,7 +271,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return null;
     }
 
-
     /**
      * @param array|null $oldValue
      * @param array|null $newValue
@@ -288,7 +281,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
     {
         return $this->isEqualArray($oldValue, $newValue);
     }
-
 
     /** Generates a pretty version preview (similar to getVersionPreview) can be either html or
      * a image URL. See the https://github.com/pimcore/object-merger bundle documentation for details
@@ -322,7 +314,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-
     /**
      * @see Data::getVersionPreview
      *
@@ -342,8 +333,8 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return '';
     }
 
-
-    protected function loadPermissionResourcesFromProvider(): array {
+    protected function loadPermissionResourcesFromProvider(): array
+    {
         $dataProvider = DataProviderResolver::resolveDataProvider($this->getDataProvider());
 
         $permissionResources = [];
@@ -353,6 +344,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
             ];
             $permissionResources = $dataProvider->getPermissionResources($context, $this);
         }
+
         return $permissionResources;
     }
 
@@ -361,16 +353,16 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         $this->setPermissionResources($this->loadPermissionResourcesFromProvider());
 
         $this->setPermissionOptions([
-            ["key" => Service::INHERIT, "value" => Service::INHERIT],
-            ["key" => Service::ALLOW, "value" => Service::ALLOW],
-            ["key" => Service::DENY, "value" => Service::DENY]
+            ['key' => Service::INHERIT, 'value' => Service::INHERIT],
+            ['key' => Service::ALLOW, 'value' => Service::ALLOW],
+            ['key' => Service::DENY, 'value' => Service::DENY]
         ]);
-
 
         return $this;
     }
 
-    public function enrichLayoutDefinition($object, $context = []) {
+    public function enrichLayoutDefinition($object, $context = [])
+    {
         $this->enrichFieldDefinition($context);
     }
 

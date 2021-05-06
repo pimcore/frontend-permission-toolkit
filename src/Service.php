@@ -5,12 +5,12 @@
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
 namespace FrontendPermissionToolkitBundle;
@@ -28,9 +28,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Service
 {
-    const DENY = "deny";
-    const ALLOW = "allow";
-    const INHERIT = "inherit";
+    const DENY = 'deny';
+    const ALLOW = 'allow';
+    const INHERIT = 'inherit';
 
     /**
      * @var EventDispatcherInterface
@@ -57,6 +57,7 @@ class Service
      *
      *
      * @param Concrete $object
+     *
      * @return array
      */
     public function getPermissions(Concrete $object, array $visitedIds = []): array
@@ -93,6 +94,7 @@ class Service
         $mergedPermissions = $permissionsEvent->getPermissions();
 
         $this->permissionCache[$object->getId()] = $mergedPermissions;
+
         return $mergedPermissions;
     }
 
@@ -103,6 +105,7 @@ class Service
      * @param array $mergedPermissions Already merged permissions
      * @param array $basePermissions Permissions of the base object
      * @param array $nestedPermissions Permissions of the nested object
+     *
      * @return array Updated merged permissions
      */
     public function mergeNestedObjectPermissions(
@@ -127,17 +130,20 @@ class Service
      *
      * @param Concrete $object
      * @param string $resource
+     *
      * @return bool
      */
     public function isAllowed(Concrete $object, $resource): bool
     {
         $permissions = $this->getPermissions($object);
+
         return ($permissions[$resource] ?? false) == self::ALLOW;
     }
 
     /**
      * @param Concrete|Objectbrick\Data\AbstractData $object
      * @param ClassDefinition\Data $fieldDefinition
+     *
      * @return array
      */
     protected function getPermissionsByFieldDefinition(
@@ -146,26 +152,26 @@ class Service
     ): array {
         $permissions = $permissionObjects = [];
         switch (true) {
-            case ($fieldDefinition instanceof PermissionManyToManyRelation):
+            case $fieldDefinition instanceof PermissionManyToManyRelation:
                 $permissionObjects = $object->get($fieldDefinition->getName());
                 break;
 
-            case ($fieldDefinition instanceof PermissionManyToOneRelation):
+            case $fieldDefinition instanceof PermissionManyToOneRelation:
                 $manyToOneRelation = $object->get($fieldDefinition->getName());
                 if ($manyToOneRelation) {
                     $permissionObjects = [$manyToOneRelation];
                 }
                 break;
 
-            case ($fieldDefinition instanceof PermissionResource):
+            case $fieldDefinition instanceof PermissionResource:
                 $permissions = [$fieldDefinition->getName() => $object->get($fieldDefinition->getName())];
                 break;
 
-            case ($fieldDefinition instanceof DynamicPermissionResource):
+            case $fieldDefinition instanceof DynamicPermissionResource:
                 $permissions = $object->get($fieldDefinition->getName());
                 break;
 
-            case ($fieldDefinition instanceof ClassDefinition\Data\Objectbricks):
+            case $fieldDefinition instanceof ClassDefinition\Data\Objectbricks:
                 /* @var $objectBrick Objectbrick */
                 $objectBrick = $object->get($fieldDefinition->getName());
                 foreach ($objectBrick->getBrickGetters() as $brickGetter) {
