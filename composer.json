@@ -10,7 +10,11 @@
   },
   "require": {
     "pimcore/pimcore": "^6.8 || ^10.0",
-    "symfony/symfony": "^4.3 || ^5.2.0"
+    "symfony/config": "^4.3 || ^5.2.0",
+    "symfony/dependency-injection": "^4.3 || ^5.2.0",
+    "symfony/event-dispatcher": "^4.3 || ^5.2.0",
+    "symfony/event-dispatcher-contracts": "^2.2",
+    "symfony/security-core": "^4.3 || ^5.2.0"
   },
   "extra": {
     "pimcore": {
