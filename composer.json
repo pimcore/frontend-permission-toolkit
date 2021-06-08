@@ -14,7 +14,7 @@
     "symfony/dependency-injection": "^4.3 || ^5.2.0",
     "symfony/event-dispatcher": "^4.3 || ^5.2.0",
     "symfony/event-dispatcher-contracts": "^2.2",
-    "symfony/security-core": "^4.3 || ^5.2.0"
+    "symfony/security-core": "^4.4 || ^5.2.8"
   },
   "extra": {
     "pimcore": {
