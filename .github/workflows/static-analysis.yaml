@@ -34,7 +34,7 @@ jobs:
             -   name: "Setup Pimcore environment"
                 run: |
                     .github/ci/scripts/setup-pimcore-environment.sh
-           
+
             -   name: "Update Pimcore version"
                 env:
                     PIMCORE_VERSION: "${{ matrix.pimcore_version }}"
@@ -43,7 +43,7 @@ jobs:
                           composer require --no-update pimcore/pimcore:"${PIMCORE_VERSION} as 10.99.9"
                     fi
             -   name: "Install dependencies with Composer"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
 
