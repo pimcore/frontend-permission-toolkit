@@ -29,7 +29,7 @@ class Builder extends \Pimcore\Navigation\Builder
     protected $service;
 
     /**
-     * @var Concrete
+     * @var Concrete|null
      */
     protected $currentUser;
 
@@ -71,7 +71,7 @@ class Builder extends \Pimcore\Navigation\Builder
         foreach ($children as $child) {
             $permissionResource = $child->getProperty('permission_resource');
 
-            if (empty($permissionResource) && $this->service->isAllowed($this->currentUser, $child->getProperty('permission_resource'))) {
+            if (empty($permissionResource) || $this->currentUser && $this->service->isAllowed($this->currentUser, $child->getProperty('permission_resource'))) {
                 $allowedChildren[] = $child;
             }
         }
