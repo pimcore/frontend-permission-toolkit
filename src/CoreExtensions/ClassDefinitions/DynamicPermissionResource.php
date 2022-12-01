@@ -314,15 +314,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-    /**
-     * @see Data::getVersionPreview
-     *
-     * @param string $data
-     * @param null|DataObject\Concrete $object
-     * @param mixed $params
-     *
-     * @return string
-     */
     public function getVersionPreview($data, $object = null, $params = [])
     {
         $versionPreview = $this->getDiffVersionPreview($data, $object, $params);
