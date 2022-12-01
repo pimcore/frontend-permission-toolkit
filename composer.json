@@ -16,6 +16,9 @@
     "symfony/event-dispatcher-contracts": "^2.2",
     "symfony/security-core": "^5.4.0"
   },
+  "require-dev": {
+    "phpstan/phpstan": "^1.9"
+  },
   "extra": {
     "pimcore": {
       "bundles": [
