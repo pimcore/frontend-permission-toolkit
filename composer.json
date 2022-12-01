@@ -8,13 +8,15 @@
       "FrontendPermissionToolkitBundle\\": "src/"
     }
   },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
   "require": {
-    "pimcore/pimcore": "^10.5",
-    "symfony/config": "^5.3",
-    "symfony/dependency-injection": "^5.3.3",
-    "symfony/event-dispatcher": "^5.4.0",
+    "pimcore/pimcore": "^11.0",
+    "symfony/config": "^6.1",
+    "symfony/dependency-injection": "^6.1",
+    "symfony/event-dispatcher": "^6.1",
     "symfony/event-dispatcher-contracts": "^2.2",
-    "symfony/security-core": "^5.4.0"
+    "symfony/security-core": "^6.1"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.9"

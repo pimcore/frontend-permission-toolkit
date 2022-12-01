@@ -19,14 +19,14 @@ use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 
 class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle
 {
-    public function getCssPaths()
+    public function getCssPaths(): array
     {
         return [
             '/bundles/frontendpermissiontoolkit/css/backend.css'
         ];
     }
 
-    public function getJsPaths()
+    public function getJsPaths(): array
     {
         return [
             '/bundles/frontendpermissiontoolkit/js/startup.js',

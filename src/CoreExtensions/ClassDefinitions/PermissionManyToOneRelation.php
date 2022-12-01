@@ -19,10 +19,5 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToOneRelation;
 
 class PermissionManyToOneRelation extends ManyToOneRelation
 {
-    /**
-     * Static type of this element
-     *
-     * @var string
-     */
-    public $fieldtype = 'permissionManyToOneRelation';
+    public string $fieldtype = 'permissionManyToOneRelation';
 }

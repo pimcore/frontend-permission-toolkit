@@ -36,7 +36,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
      *
      * @var string
      */
-    public $fieldtype = 'dynamicPermissionResource';
+    public string $fieldtype = 'dynamicPermissionResource';
 
     /**
      * Type for the column to query
@@ -138,46 +138,17 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return $cleanData;
     }
 
-    /**
-     * Returns the data for the editmode
-     *
-     * @param mixed $data
-     * @param null|DataObject\AbstractObject $object
-     * @param mixed $params
-     *
-     * @return mixed
-     */
-    public function getDataForEditmode($data, $object = null, $params = [])
+    public function getDataForEditmode(mixed $data, DataObject\Concrete $object = null, array $params = []): mixed
     {
         return $data;
     }
 
-    /**
-     * Converts data from editmode to internal eg. Image-Id to Asset\Image object
-     *
-     * @param mixed $data
-     * @param null|DataObject\AbstractObject $object
-     * @param mixed $params
-     *
-     * @return mixed
-     */
-    public function getDataFromEditmode($data, $object = null, $params = [])
+    public function getDataFromEditmode(mixed $data, DataObject\Concrete $object = null, array $params = []): mixed
     {
         return $data;
     }
 
-    /**
-     * Returns the data which should be stored in the query columns
-     *
-     * @param mixed $data
-     * @param null|Concrete $object
-     * @param mixed $params
-     *
-     * @return mixed
-     *
-     * abstract public function getDataForQueryResource($data);
-     */
-    public function getDataForQueryResource($data, $object = null, $params = [])
+    public function getDataForQueryResource(mixed $data, Concrete $object = null, array $params = []): mixed
     {
         $data = $this->cleanupAndCheckForEmpty($data);
         if (is_array($data)) {
@@ -187,30 +158,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return '';
     }
 
-    /**
-     * Returns the the data that should be stored in the resource
-     *
-     * @param mixed $data
-     * @param null|Concrete $object
-     * @param mixed $params
-     *
-     * @return mixed
-     */
-    public function getDataForResource($data, $object = null, $params = [])
+    public function getDataForResource(mixed $data, Concrete $object = null, array $params = []): mixed
     {
         return Serialize::serialize($this->cleanupAndCheckForEmpty($data));
     }
 
-    /**
-     * Convert the saved data in the resource to the internal eg. Image-Id to Asset\Image object, this is the inverted getDataForResource()
-     *
-     * @param mixed $data
-     * @param null|Concrete $object
-     * @param mixed $params
-     *
-     * @return mixed
-     */
-    public function getDataFromResource($data, $object = null, $params = [])
+    public function getDataFromResource(mixed $data, Concrete $object = null, array $params = []): mixed
     {
         return $this->cleanupAndCheckForEmpty(Serialize::unserialize($data));
     }
@@ -234,17 +187,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-    /**
-     * converts object data to a simple string value or CSV Export
-     *
-     * @abstract
-     *
-     * @param DataObject\Concrete $object
-     * @param array $params
-     *
-     * @return string
-     */
-    public function getForCsvExport($object, $params = [])
+    public function getForCsvExport(DataObject\Concrete | DataObject\Localizedfield | DataObject\Objectbrick\Data\AbstractData | DataObject\Fieldcollection\Data\AbstractData $object, array $params = []): string
     {
         $data = $this->getDataFromObjectParam($object, $params);
         if (is_array($data)) {
@@ -314,7 +257,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-    public function getVersionPreview($data, $object = null, $params = [])
+    public function getVersionPreview(mixed $data, DataObject\Concrete $object = null, array $params = []): string
     {
         $versionPreview = $this->getDiffVersionPreview($data, $object, $params);
         if (is_array($versionPreview) && $versionPreview['html']) {
