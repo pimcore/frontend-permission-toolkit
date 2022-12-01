@@ -16,7 +16,6 @@
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
 use FrontendPermissionToolkitBundle\Service;
-use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
 use Pimcore\Model\DataObject\Concrete;
 

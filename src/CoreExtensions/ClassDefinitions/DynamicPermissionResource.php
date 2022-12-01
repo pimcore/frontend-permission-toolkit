@@ -187,7 +187,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-    public function getForCsvExport(DataObject\Concrete|DataObject\Localizedfield|DataObject\Objectbrick\Data\AbstractData|DataObject\Fieldcollection\Data\AbstractData $object, array $params = []): string
+    public function getForCsvExport(DataObject\Concrete | DataObject\Localizedfield | DataObject\Objectbrick\Data\AbstractData | DataObject\Fieldcollection\Data\AbstractData $object, array $params = []): string
     {
         $data = $this->getDataFromObjectParam($object, $params);
         if (is_array($data)) {
