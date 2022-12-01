@@ -18,15 +18,11 @@ namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
+use Pimcore\Model\DataObject\Concrete;
 
 class PermissionResource extends Select
 {
-    /**
-     * Static type of this element
-     *
-     * @var string
-     */
-    public $fieldtype = 'permissionResource';
+    public string $fieldtype = 'permissionResource';
 
     public function configureOptions()
     {
@@ -48,40 +44,17 @@ class PermissionResource extends Select
         return $data;
     }
 
-    /**
-     * @see Object_Class_Data::getDataForResource
-     *
-     * @param string $data
-     * @param null|AbstractObject $object
-     *
-     * @return string
-     */
-    public function getDataForResource($data, $object = null, $params = [])
+    public function getDataForResource(mixed $data, Concrete $object = null, array $params = []): ?string
     {
         return $this->checkForEmpty($data);
     }
 
-    /**
-     * @see Object_Class_Data::getDataFromResource
-     *
-     * @param string $data
-     *
-     * @return string
-     */
-    public function getDataFromResource($data, $object = null, $params = [])
+    public function getDataFromResource(mixed $data, Concrete $object = null, array $params = []): ?string
     {
         return $this->checkForEmpty($data);
     }
 
-    /**
-     * @see Object_Class_Data::getDataForQueryResource
-     *
-     * @param string $data
-     * @param null|AbstractObject $object
-     *
-     * @return string
-     */
-    public function getDataForQueryResource($data, $object = null, $params = [])
+    public function getDataForQueryResource(mixed $data, Concrete $object = null, array $params = []): ?string
     {
         return $this->checkForEmpty($data);
     }
