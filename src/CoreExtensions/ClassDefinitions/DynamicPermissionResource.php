@@ -25,7 +25,7 @@ use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
 
-class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface
+class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\FieldDefinitionEnrichmentInterface
 {
     use DataObject\Traits\SimpleComparisonTrait;
     use ColumnType;
@@ -282,7 +282,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return $permissionResources;
     }
 
-    public function enrichFieldDefinition($context = [])
+    public function enrichFieldDefinition(array $context = []): static
     {
         $this->setPermissionResources($this->loadPermissionResourcesFromProvider());
 

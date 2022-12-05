@@ -29,7 +29,7 @@ pimcore.object.tags.permissionResource = Class.create(pimcore.object.tags.select
         var validValues = [];
 
         for (var i = 0; i < this.fieldConfig.options.length; i++) {
-            store.push([this.fieldConfig.options[i].value, ts(this.fieldConfig.options[i].key)]);
+            store.push([this.fieldConfig.options[i].value, t(this.fieldConfig.options[i].key)]);
             validValues.push(this.fieldConfig.options[i].value);
         }
 
