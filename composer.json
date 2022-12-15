@@ -15,7 +15,7 @@
     "symfony/config": "^6.1",
     "symfony/dependency-injection": "^6.1",
     "symfony/event-dispatcher": "^6.1",
-    "symfony/event-dispatcher-contracts": "^2.2",
+    "symfony/event-dispatcher-contracts": "^3.0",
     "symfony/security-core": "^6.1"
   },
   "require-dev": {
