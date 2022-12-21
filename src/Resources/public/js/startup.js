@@ -14,16 +14,16 @@
 
 pimcore.registerNS("pimcore.plugin.frontendpermissiontoolkit");
 
-pimcore.plugin.frontendpermissiontoolkit = Class.create(pimcore.plugin.admin, {
+pimcore.plugin.frontendpermissiontoolkit = Class.create({
     getClassName: function() {
         return "pimcore.plugin.frontendpermissiontoolkit";
     },
 
     initialize: function() {
-        pimcore.plugin.broker.registerPlugin(this);
+        document.addEventListener(pimcore.events.pimcoreReady, this.onPimcoreReady.bind(this));
     },
- 
-    pimcoreReady: function (params,broker){
+
+    onPimcoreReady: function (e) {
         // alert("Example Ready!");
     }
 });
