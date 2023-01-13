@@ -63,7 +63,7 @@ class PermissionResource extends Select
         $this->configureOptions();
     }
 
-    public static function __set_state(array $data): static
+    public static function __set_state(/* array */ $data): static
     {
         $obj = parent::__set_state($data);
         $obj->configureOptions();
