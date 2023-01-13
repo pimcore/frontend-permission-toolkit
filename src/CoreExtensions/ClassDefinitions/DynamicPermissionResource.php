@@ -176,7 +176,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
      *
      * @throws \Exception
      */
-    public function checkValidity($data, $omitMandatoryCheck = false, $params = [])
+    public function checkValidity($data, $omitMandatoryCheck = false, $params = []): void
     {
         if (!$omitMandatoryCheck && $this->getMandatory() && empty($data)) {
             throw new ValidationException('Empty mandatory field [ '.$this->getName().' ]');
