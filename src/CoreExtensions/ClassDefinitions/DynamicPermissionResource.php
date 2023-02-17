@@ -316,12 +316,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return 'null|array';
     }
 
-    public function getQueryColumnType(): array|string
+    public function getQueryColumnType(): array | string
     {
         return $this->queryColumnType;
     }
 
-    public function getColumnType(): array|string
+    public function getColumnType(): array | string
     {
         return $this->columnType;
     }
