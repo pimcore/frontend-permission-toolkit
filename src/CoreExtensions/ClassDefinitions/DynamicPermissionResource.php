@@ -19,8 +19,6 @@ use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Helper\DataP
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
-use Pimcore\Model\DataObject\ClassDefinition\Data\Extension\ColumnType;
-use Pimcore\Model\DataObject\ClassDefinition\Data\Extension\QueryColumnType;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
@@ -318,12 +316,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return 'null|array';
     }
 
-    public function getQueryColumnType(): array|string|null
+    public function getQueryColumnType(): array | string | null
     {
         return $this->queryColumnType;
     }
 
-    public function getColumnType(): array|string|null
+    public function getColumnType(): array | string | null
     {
         return $this->columnType;
     }
