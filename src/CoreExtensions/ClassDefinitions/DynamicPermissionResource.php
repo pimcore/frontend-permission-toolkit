@@ -28,8 +28,6 @@ use Pimcore\Tool\Serialize;
 class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\FieldDefinitionEnrichmentInterface
 {
     use DataObject\Traits\SimpleComparisonTrait;
-    use ColumnType;
-    use QueryColumnType;
 
     /**
      * Static type of this element
@@ -318,5 +316,15 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
     public function getPhpdocReturnType(): ?string
     {
         return 'null|array';
+    }
+
+    public function getQueryColumnType(): array|string|null
+    {
+        return $this->queryColumnType;
+    }
+
+    public function getColumnType(): array|string|null
+    {
+        return $this->columnType;
     }
 }
