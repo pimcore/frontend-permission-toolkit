@@ -19,8 +19,6 @@ use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Helper\DataP
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
-use Pimcore\Model\DataObject\ClassDefinition\Data\Extension\ColumnType;
-use Pimcore\Model\DataObject\ClassDefinition\Data\Extension\QueryColumnType;
 use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
@@ -28,8 +26,6 @@ use Pimcore\Tool\Serialize;
 class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\FieldDefinitionEnrichmentInterface
 {
     use DataObject\Traits\SimpleComparisonTrait;
-    use ColumnType;
-    use QueryColumnType;
 
     /**
      * Static type of this element
@@ -318,5 +314,20 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
     public function getPhpdocReturnType(): ?string
     {
         return 'null|array';
+    }
+
+    public function getQueryColumnType(): array | string
+    {
+        return $this->queryColumnType;
+    }
+
+    public function getColumnType(): array | string
+    {
+        return $this->columnType;
+    }
+
+    public function getFieldType(): string
+    {
+        return $this->fieldtype;
     }
 }
