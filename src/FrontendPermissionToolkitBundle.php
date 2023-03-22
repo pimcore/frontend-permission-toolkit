@@ -15,10 +15,14 @@
 
 namespace FrontendPermissionToolkitBundle;
 
+use Pimcore\Bundle\AdminBundle\Support\BundleAdminSupportTrait;
+use Pimcore\Bundle\AdminBundle\Support\PimcoreBundleAdminSupportInterface;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 
-class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle
+class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle implements PimcoreBundleAdminSupportInterface
 {
+    use BundleAdminSupportTrait;
+
     public function getCssPaths(): array
     {
         return [
