@@ -19,7 +19,7 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - { php-version: "8.1", dependencies: "lowest", pimcore_version: "", experimental: false  }
+                    #- { php-version: "8.1", dependencies: "lowest", pimcore_version: "", experimental: false  } #enable if Pimcore 11 is released
                     - { php-version: "8.1", dependencies: "highest", pimcore_version: "", experimental: false  }
                     - { php-version: "8.1", dependencies: "highest", pimcore_version: "11.x-dev as 11.0.0", experimental: true }
         steps:
