@@ -11,17 +11,18 @@ on:
         branches:
             - "[0-9]+.[0-9]+"
             - "[0-9]+.x"
-
+            - "*_actions"
 jobs:
     static-analysis-phpstan:
         name: "Static Analysis with PHPStan"
         runs-on: "ubuntu-20.04"
+        continue-on-error: ${{ matrix.experimental }}
         strategy:
             matrix:
                 include:
-                    #- { php-version: "8.1", dependencies: "lowest", pimcore_version: "", experimental: false  } #enable if Pimcore 11 is released
-                    - { php-version: "8.1", dependencies: "highest", pimcore_version: "", experimental: false  }
-                    - { php-version: "8.1", dependencies: "highest", pimcore_version: "11.x-dev as 11.0.0", experimental: true }
+                    - { php-version: "8.1", dependencies: "lowest", experimental: false }
+                    - { php-version: "8.2", dependencies: "highest", pimcore_version: "", experimental: false  }
+                    - { php-version: "8.2", dependencies: "highest", pimcore_version: "11.x-dev as 11.0.0", experimental: true }
         steps:
             - name: "Checkout code"
               uses: "actions/checkout@v2"
@@ -51,4 +52,4 @@ jobs:
                   dependency-versions: "${{ matrix.dependencies }}"
 
             - name: "Run a static analysis with phpstan/phpstan"
-              run: "vendor/bin/phpstan analyse --memory-limit=-1"
+              run: "vendor/bin/phpstan analyse ${{ matrix.phpstan_args }} -c phpstan.neon --memory-limit=-1"
