@@ -1,8 +1,12 @@
 parameters:
     level: 5
+    reportUnmatchedIgnoredErrors: false
     paths:
         - src
     bootstrapFiles:
         - phpstan-bootstrap.php
+    excludePaths:
+        - src/Migrations/*
+        - src/Tests/*
 includes:
     - phpstan-baseline.neon

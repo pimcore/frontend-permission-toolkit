@@ -21,6 +21,9 @@
   "require-dev": {
     "phpstan/phpstan": "^1.9"
   },
+  "require-dev": {
+    "phpstan/phpstan": "^1.2"
+  },
   "extra": {
     "pimcore": {
       "bundles": [

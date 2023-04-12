@@ -29,7 +29,7 @@ class Builder extends \Pimcore\Navigation\Builder
     protected $service;
 
     /**
-     * @var Concrete | null
+     * @var Concrete|null
      */
     protected $currentUser;
 
