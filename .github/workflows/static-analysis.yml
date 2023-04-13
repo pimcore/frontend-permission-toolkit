@@ -20,7 +20,7 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - { php-version: "8.1", dependencies: "lowest", experimental: false }
+                    # - { php-version: "8.1", dependencies: "lowest", experimental: false }
                     - { php-version: "8.2", dependencies: "highest", pimcore_version: "", experimental: false  }
                     - { php-version: "8.2", dependencies: "highest", pimcore_version: "11.x-dev as 11.0.0", experimental: true }
         steps:
