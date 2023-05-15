@@ -39,7 +39,7 @@ pimcore.object.tags.permissionResource = Class.create(pimcore.object.tags.select
             editable: false,
             fieldLabel: this.fieldConfig.title,
             store: store,
-            itemCls: "object_field",
+            componentCls: this.getWrapperClassNames(),
             width: this.fieldConfig.labelWidth + 200
         };
 
