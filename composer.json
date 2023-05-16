@@ -9,6 +9,7 @@
     }
   },
   "prefer-stable": true,
+  "minimum-stability": "dev",
   "require": {
     "pimcore/pimcore": "^11.0",
     "symfony/config": "^6.1",
