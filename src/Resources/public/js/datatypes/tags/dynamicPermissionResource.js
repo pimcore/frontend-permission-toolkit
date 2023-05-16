@@ -46,7 +46,7 @@ pimcore.object.tags.dynamicPermissionResource = Class.create(pimcore.object.tags
             editable: false,
             fieldLabel: t(config['label']),
             store: store,
-            itemCls: "object_field",
+            componentCls: this.getWrapperClassNames(),
             width: (this.fieldConfig.labelWidth || 0) + 200
         };
 
