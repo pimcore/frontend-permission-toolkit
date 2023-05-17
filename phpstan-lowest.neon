@@ -1,0 +1,9 @@
+includes:
+    - phpstan.neon
+
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Symfony\\\\Contracts\\\\EventDispatcher\\\\EventDispatcherInterface\\:\\:dispatch\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: src/Service.php
