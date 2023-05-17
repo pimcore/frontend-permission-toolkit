@@ -20,7 +20,6 @@ jobs:
                 include:
                     - { php-version: "7.2", dependencies: "lowest", pimcore_version: "", phpstan_args: "", experimental: false }
                     - { php-version: "8.0", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
-                    - { php-version: "8.1", dependencies: "lowest", pimcore_version: "", phpstan_args: "", experimental: false }
                     - { php-version: "8.1", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
         steps:
             -   name: "Checkout code"
