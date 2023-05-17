@@ -19,7 +19,6 @@ jobs:
             matrix:
                 include:
                     - { php-version: "7.2", dependencies: "lowest", pimcore_version: "", phpstan_args: "", experimental: false }
-                    - { php-version: "7.2", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
                     - { php-version: "8.0", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
                     - { php-version: "8.1", dependencies: "lowest", pimcore_version: "", phpstan_args: "", experimental: false }
                     - { php-version: "8.1", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
@@ -44,6 +43,11 @@ jobs:
                     if [ ! -z "$PIMCORE_VERSION" ]; then
                           composer require --no-update pimcore/pimcore:"${PIMCORE_VERSION}"
                     fi
+            - name: "Fix composer plugins (remove when removing Pimcore 6.9 support)"
+              run: |
+                  composer config --no-plugins allow-plugins.endroid/installer true                    
+                  composer config --no-plugins allow-plugins.ocramius/package-versions true                       
+            
             -   name: "Install dependencies with Composer"
                 uses: "ramsey/composer-install@v2"
                 with:
