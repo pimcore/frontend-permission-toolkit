@@ -23,6 +23,11 @@ class PermissionResource extends Select
 {
     public string $fieldtype = 'permissionResource';
 
+    public function getFieldType(): string
+    {
+        return 'permissionResource';
+    }
+
     public function configureOptions()
     {
         $options = [

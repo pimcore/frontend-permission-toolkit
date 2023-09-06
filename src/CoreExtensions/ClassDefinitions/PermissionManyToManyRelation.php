@@ -20,4 +20,9 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 class PermissionManyToManyRelation extends ManyToManyObjectRelation
 {
     public string $fieldtype = 'permissionManyToManyRelation';
+
+    public function getFieldType(): string
+    {
+        return 'permissionManyToManyRelation';
+    }
 }
