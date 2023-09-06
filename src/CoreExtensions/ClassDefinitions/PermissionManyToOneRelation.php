@@ -19,5 +19,8 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToOneRelation;
 
 class PermissionManyToOneRelation extends ManyToOneRelation
 {
+    /**
+     * @deprecated Will be removed in frontend-permission-toolkit 2, use getFieldType() instead.
+     */
     public string $fieldtype = 'permissionManyToOneRelation';
 }

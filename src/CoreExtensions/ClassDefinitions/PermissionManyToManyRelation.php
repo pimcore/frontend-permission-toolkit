@@ -19,5 +19,8 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 
 class PermissionManyToManyRelation extends ManyToManyObjectRelation
 {
+    /**
+     * @deprecated Will be removed in frontend-permission-toolkit 2, use getFieldType() instead.
+     */
     public string $fieldtype = 'permissionManyToManyRelation';
 }
