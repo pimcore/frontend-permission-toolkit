@@ -28,9 +28,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
     use DataObject\Traits\SimpleComparisonTrait;
 
     /**
-     * Static type of this element
-     *
-     * @var string
+     * @deprecated Will be removed in frontend-permission-toolkit 3, use getFieldType() instead.
      */
     public string $fieldtype = 'dynamicPermissionResource';
 
