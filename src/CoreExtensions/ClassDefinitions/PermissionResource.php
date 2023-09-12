@@ -22,7 +22,7 @@ use Pimcore\Model\DataObject\Concrete;
 class PermissionResource extends Select
 {
     /**
-     * @deprecated Will be removed in frontend-permission-toolkit 2, use getFieldType() instead.
+     * @deprecated Will be removed in frontend-permission-toolkit 3, use getFieldType() instead.
      */
     public string $fieldtype = 'permissionResource';
 
