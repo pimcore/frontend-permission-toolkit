@@ -23,4 +23,9 @@ class PermissionManyToManyRelation extends ManyToManyObjectRelation
      * @deprecated Will be removed in frontend-permission-toolkit 3, use getFieldType() instead.
      */
     public string $fieldtype = 'permissionManyToManyRelation';
+
+    public function getFieldType(): string
+    {
+        return 'permissionManyToManyRelation';
+    }
 }

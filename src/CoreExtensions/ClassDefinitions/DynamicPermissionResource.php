@@ -326,6 +326,6 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
 
     public function getFieldType(): string
     {
-        return $this->fieldtype;
+        return 'dynamicPermissionResource';
     }
 }
