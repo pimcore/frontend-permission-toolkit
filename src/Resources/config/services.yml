@@ -7,3 +7,7 @@ services:
 
     bundle.frontendpermissiontoolkit.service:
         alias: FrontendPermissionToolkitBundle\Service
+
+    FrontendPermissionToolkitBundle\EventSubscriber\CustomLayoutSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
