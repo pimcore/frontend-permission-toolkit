@@ -136,6 +136,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
 
     public function getDataForEditmode(mixed $data, DataObject\Concrete $object = null, array $params = []): mixed
     {
+        $permissions = $this->getPermissionResources();
+        foreach ($permissions as $permission) {
+            if (!array_key_exists($permission['value'], $data)){
+                $data[$permission['value']] = Service::INHERIT;
+            }
+        }
         return $data;
     }
 
