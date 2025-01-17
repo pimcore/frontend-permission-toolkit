@@ -132,7 +132,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return $cleanData;
     }
 
-    public function getDataForEditmode(mixed $data, DataObject\Concrete $object = null, array $params = []): mixed
+    public function getDataForEditmode(mixed $data, ?DataObject\Concrete $object = null, array $params = []): mixed
     {
         $permissions = $this->getPermissionResources();
         foreach ($permissions as $permission) {
@@ -144,12 +144,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return $data;
     }
 
-    public function getDataFromEditmode(mixed $data, DataObject\Concrete $object = null, array $params = []): mixed
+    public function getDataFromEditmode(mixed $data, ?DataObject\Concrete $object = null, array $params = []): mixed
     {
         return $data;
     }
 
-    public function getDataForQueryResource(mixed $data, Concrete $object = null, array $params = []): mixed
+    public function getDataForQueryResource(mixed $data, ?Concrete $object = null, array $params = []): mixed
     {
         $data = $this->cleanupAndCheckForEmpty($data);
         if (is_array($data)) {
@@ -159,12 +159,12 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return '';
     }
 
-    public function getDataForResource(mixed $data, Concrete $object = null, array $params = []): mixed
+    public function getDataForResource(mixed $data, ?Concrete $object = null, array $params = []): mixed
     {
         return Serialize::serialize($this->cleanupAndCheckForEmpty($data));
     }
 
-    public function getDataFromResource(mixed $data, Concrete $object = null, array $params = []): mixed
+    public function getDataFromResource(mixed $data, ?Concrete $object = null, array $params = []): mixed
     {
         return $this->cleanupAndCheckForEmpty(Serialize::unserialize($data));
     }
@@ -258,7 +258,7 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         }
     }
 
-    public function getVersionPreview(mixed $data, DataObject\Concrete $object = null, array $params = []): string
+    public function getVersionPreview(mixed $data, ?DataObject\Concrete $object = null, array $params = []): string
     {
         $versionPreview = $this->getDiffVersionPreview($data, $object, $params);
         if (is_array($versionPreview) && $versionPreview['html']) {

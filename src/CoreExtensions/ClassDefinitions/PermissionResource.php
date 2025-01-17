@@ -51,17 +51,17 @@ class PermissionResource extends Select
         return $data;
     }
 
-    public function getDataForResource(mixed $data, Concrete $object = null, array $params = []): ?string
+    public function getDataForResource(mixed $data, ?Concrete $object = null, array $params = []): ?string
     {
         return $this->checkForEmpty($data);
     }
 
-    public function getDataFromResource(mixed $data, Concrete $object = null, array $params = []): ?string
+    public function getDataFromResource(mixed $data, ?Concrete $object = null, array $params = []): ?string
     {
         return $this->checkForEmpty($data);
     }
 
-    public function getDataForQueryResource(mixed $data, Concrete $object = null, array $params = []): ?string
+    public function getDataForQueryResource(mixed $data, ?Concrete $object = null, array $params = []): ?string
     {
         return $this->checkForEmpty($data);
     }
