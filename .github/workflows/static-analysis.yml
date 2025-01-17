@@ -20,9 +20,9 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - { php-version: "8.1", dependencies: "lowest", experimental: false }
-                    - { php-version: "8.2", dependencies: "highest", pimcore_version: "", experimental: false  }
-                    - { php-version: "8.2", dependencies: "highest", pimcore_version: "11.x-dev as 11.0.0", experimental: true }
+                    - { php-version: "8.3", dependencies: "lowest", experimental: false }
+                    - { php-version: "8.4", dependencies: "highest", pimcore_version: "", experimental: false  }
+                    - { php-version: "8.4", dependencies: "highest", pimcore_version: "12.x-dev as 12.0.0", experimental: true }
         steps:
             - name: "Checkout code"
               uses: "actions/checkout@v2"

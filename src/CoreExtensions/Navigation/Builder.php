@@ -33,7 +33,7 @@ class Builder extends \Pimcore\Navigation\Builder
      */
     protected $currentUser;
 
-    public function __construct(RequestHelper $requestHelper, string $pageClass = null)
+    public function __construct(RequestHelper $requestHelper, ?string $pageClass = null)
     {
         parent::__construct($requestHelper, $pageClass);
     }
