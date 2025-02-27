@@ -15,13 +15,20 @@
 
 namespace FrontendPermissionToolkitBundle;
 
+use FrontendPermissionToolkitBundle\DependencyInjection\FrontendPermissionToolkitExtension;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 use Pimcore\Extension\Bundle\PimcoreBundleAdminClassicInterface;
 use Pimcore\Extension\Bundle\Traits\BundleAdminClassicTrait;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle implements PimcoreBundleAdminClassicInterface
 {
     use BundleAdminClassicTrait;
+
+    public function getContainerExtension(): ExtensionInterface
+    {
+        return new FrontendPermissionToolkitExtension();
+    }
 
     public function getCssPaths(): array
     {
