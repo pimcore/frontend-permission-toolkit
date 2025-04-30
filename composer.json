@@ -1,7 +1,7 @@
 {
   "name": "pimcore/frontend-permission-toolkit-bundle",
   "description": "Provides a way to configure permissions for frontend applications in data objects.",
-  "license": "Pimcore Open Core License (POCL)",
+  "license": "proprietary",
   "type": "pimcore-bundle",
   "autoload": {
     "psr-4": {
