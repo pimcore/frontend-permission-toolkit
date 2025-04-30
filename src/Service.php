@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Pimcore
- *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is available under the terms of the
+ * Pimcore Open Core License (POCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ *  @copyright  Copyright (c) Pimcore GmbH (https://www.pimcore.com)
+ *  @license    Pimcore Open Core License (POCL)
  */
 
 namespace FrontendPermissionToolkitBundle;
@@ -29,7 +26,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class Service
 {
     const DENY = 'deny';
+
     const ALLOW = 'allow';
+
     const INHERIT = 'inherit';
 
     /**
@@ -154,6 +153,7 @@ class Service
         switch (true) {
             case $fieldDefinition instanceof PermissionManyToManyRelation:
                 $permissionObjects = $object->get($fieldDefinition->getName());
+
                 break;
 
             case $fieldDefinition instanceof PermissionManyToOneRelation:
@@ -161,21 +161,24 @@ class Service
                 if ($manyToOneRelation) {
                     $permissionObjects = [$manyToOneRelation];
                 }
+
                 break;
 
             case $fieldDefinition instanceof PermissionResource:
                 $permissions = [$fieldDefinition->getName() => $object->get($fieldDefinition->getName())];
+
                 break;
 
             case $fieldDefinition instanceof DynamicPermissionResource:
                 $permissions = $object->get($fieldDefinition->getName());
+
                 break;
 
             case $fieldDefinition instanceof ClassDefinition\Data\Objectbricks:
-                /* @var $objectBrick Objectbrick */
+                // @var $objectBrick Objectbrick
                 $objectBrick = $object->get($fieldDefinition->getName());
                 foreach ($objectBrick->getBrickGetters() as $brickGetter) {
-                    /* @var $brick Objectbrick\Data\AbstractData */
+                    // @var $brick Objectbrick\Data\AbstractData
                     $brick = $objectBrick->$brickGetter();
                     if (!$brick) {
                         continue;
@@ -191,6 +194,7 @@ class Service
                         $permissionObjects = array_merge($permissionObjects, $brickPermissionObjects);
                     }
                 }
+
                 break;
         }
 
