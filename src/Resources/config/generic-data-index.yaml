@@ -4,7 +4,15 @@ services:
         autoconfigure: true
         public: false
 
-    FrontendPermissionToolkitBundle\GenericDataIndex\FieldDefinitionAdapter\PermissionResourceAdapter:
+    pimcore.front_permission_toolkit.generic_data_index.data_object.relation-adapter:
+        class: Pimcore\Bundle\GenericDataIndexBundle\SearchIndexAdapter\DefaultSearch\DataObject\FieldDefinitionAdapter\RelationAdapter
+        shared: false
+        tags:
+            - { name: "pimcore.generic_data_index.data-object.search_index_field_definition", type: "permissionManyToManyRelation" }
+            - { name: "pimcore.generic_data_index.data-object.search_index_field_definition", type: "permissionManyToOneRelation" }
+
+    pimcore.front_permission_toolkit.generic_data_index.data_object.dynamic-permission-resource-adapter:
+        class: Pimcore\Bundle\GenericDataIndexBundle\SearchIndexAdapter\DefaultSearch\DataObject\FieldDefinitionAdapter\TextKeywordAdapter
         shared: false
         tags:
             - { name: "pimcore.generic_data_index.data-object.search_index_field_definition", type: "permissionResource" }
@@ -13,9 +21,3 @@ services:
         shared: false
         tags:
             - { name: "pimcore.generic_data_index.data-object.search_index_field_definition", type: "dynamicPermissionResource" }
-
-    FrontendPermissionToolkitBundle\GenericDataIndex\FieldDefinitionAdapter\PermissionRelationAdapter:
-        shared: false
-        tags:
-            - { name: "pimcore.generic_data_index.data-object.search_index_field_definition", type: "permissionManyToManyRelation" }
-            - { name: "pimcore.generic_data_index.data-object.search_index_field_definition", type: "permissionManyToOneRelation" }
