@@ -30,5 +30,6 @@ class FrontendPermissionToolkitExtension extends Extension
         );
 
         $loader->load('services.yml');
+        $loader->load('generic-data-index.yaml');
     }
 }
