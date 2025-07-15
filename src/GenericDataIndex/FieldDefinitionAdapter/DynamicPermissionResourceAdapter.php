@@ -15,6 +15,7 @@ namespace FrontendPermissionToolkitBundle\GenericDataIndex\FieldDefinitionAdapte
 
 use Pimcore\Bundle\GenericDataIndexBundle\Enum\SearchIndex\DefaultSearch\AttributeType;
 use Pimcore\Bundle\GenericDataIndexBundle\SearchIndexAdapter\DefaultSearch\DataObject\FieldDefinitionAdapter\AbstractAdapter;
+use Pimcore\Normalizer\NormalizerInterface;
 
 /**
  * @internal
