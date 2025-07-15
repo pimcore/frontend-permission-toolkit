@@ -13,7 +13,6 @@
   "require": {
     "php": "~8.3.0 || ~8.4.0",
     "pimcore/pimcore": "^12.0",
-    "pimcore/generic-data-index-bundle": "^2.1",
     "symfony/event-dispatcher-contracts": "^3.0"
   },
   "conflict": {
