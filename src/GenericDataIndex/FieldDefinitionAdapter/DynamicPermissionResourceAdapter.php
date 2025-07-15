@@ -51,11 +51,6 @@ final class DynamicPermissionResourceAdapter extends AbstractAdapter
             return null;
         }
 
-        $normalizedValues = [];
-        foreach($value as $item) {
-            $normalizedValues[] = $item;
-        }
-
-        return $normalizedValues;
+        return array_values($value);
     }
 }
