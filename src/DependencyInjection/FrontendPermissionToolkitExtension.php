@@ -32,4 +32,16 @@ class FrontendPermissionToolkitExtension extends Extension
         $loader->load('services.yml');
         $loader->load('generic-data-index.yaml');
     }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $loader = new YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../../config')
+        );
+
+        if ($container->hasExtension('pimcore_studio_ui')) {
+            $loader->load('studio_ui.yaml');
+        }
+    }
 }
