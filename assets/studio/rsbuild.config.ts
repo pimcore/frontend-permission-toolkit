@@ -14,6 +14,12 @@ if (!fs.existsSync(buildPath)) {
   fs.mkdirSync(buildPath, { recursive: true });
 }
 
+if (fs.existsSync( path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build'))) {
+  fs.readdirSync(path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build')).forEach((file) => {
+      fs.rmSync(path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build', file), { recursive: true });
+  })
+}
+
 let nodeEnv = process.env.NODE_ENV;
 let env: 'development' | 'production' = 'production';
 
@@ -28,7 +34,7 @@ export default defineConfig({
     port: 3032,
   },
   dev: {
-    ...(!isDevServer ? {assetPrefix: '/bundles/pimcorefrontendpermissiontoolkit/studio/build/' + buildId} : {}),
+    ...(!isDevServer ? {assetPrefix: '/bundles/frontendpermissiontoolkit/studio/build/' + buildId} : {}),
     client: {
       host: 'localhost',
       port: 3032,
@@ -45,7 +51,7 @@ export default defineConfig({
   },
   output: {
     manifest: true,
-    assetPrefix: '/bundles/pimcorefrontendpermissiontoolkit/studio/build/' + buildId,
+    assetPrefix: '/bundles/frontendpermissiontoolkit/studio/build/' + buildId,
     distPath: {
       root: buildPath
     },

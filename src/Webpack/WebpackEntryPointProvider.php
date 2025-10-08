@@ -11,7 +11,7 @@ declare(strict_types=1);
  *  @license    Pimcore Open Core License (POCL)
  */
 
-namespace Pimcore\Bundle\FrontendPermissionToolkitBundle\Webpack;
+namespace FrontendPermissionToolkitBundle\Webpack;
 
 use Pimcore\Bundle\StudioUiBundle\Webpack\WebpackEntryPointProviderInterface;
 

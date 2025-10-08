@@ -4,6 +4,6 @@ services:
     autoconfigure: true
     public: false
 
-  Pimcore\Bundle\FrontendPermissionToolkitBundle\Webpack\WebpackEntryPointProvider:
+  FrontendPermissionToolkitBundle\Webpack\WebpackEntryPointProvider:
     tags:
       - { name: 'pimcore_studio_ui.webpack_entry_point_provider' }

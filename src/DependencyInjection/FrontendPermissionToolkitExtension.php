@@ -16,8 +16,9 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
-class FrontendPermissionToolkitExtension extends Extension
+class FrontendPermissionToolkitExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -37,7 +38,7 @@ class FrontendPermissionToolkitExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../config')
+            new FileLocator(__DIR__ . '/../../src/Resources/config')
         );
 
         if ($container->hasExtension('pimcore_studio_ui')) {
