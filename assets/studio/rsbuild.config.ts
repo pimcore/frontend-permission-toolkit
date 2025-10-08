@@ -10,14 +10,14 @@ import packages from './package.json'
 const buildId = v4();
 const buildPath = path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build', buildId);
 
-if (!fs.existsSync(buildPath)) {
-  fs.mkdirSync(buildPath, { recursive: true });
-}
-
 if (fs.existsSync( path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build'))) {
   for (const file of fs.readdirSync(path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build'))) {
     fs.rmSync(path.resolve(__dirname, '..', '..', 'src', 'Resources', 'public', 'studio', 'build', file), { recursive: true });
   }
+}
+
+if (!fs.existsSync(buildPath)) {
+  fs.mkdirSync(buildPath, { recursive: true });
 }
 
 let nodeEnv = process.env.NODE_ENV;
@@ -34,7 +34,7 @@ export default defineConfig({
     port: 3032,
   },
   dev: {
-    ...(isDevServer ? {assetPrefix: '/bundles/frontendpermissiontoolkit/studio/build/' + buildId} : {}),
+    ...(isDevServer ? {} : {assetPrefix: '/bundles/frontendpermissiontoolkit/studio/build/' + buildId}),
     client: {
       host: 'localhost',
       port: 3032,
