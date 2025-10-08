@@ -1,0 +1,59 @@
+{
+  "id": "pimcore_frontendpermissiontoolkit_bundle",
+  "name": "pimcore_frontendpermissiontoolkit_bundle",
+  "metaData": {
+    "name": "pimcore_frontendpermissiontoolkit_bundle",
+    "type": "app",
+    "buildInfo": {
+      "buildVersion": "0.0.1",
+      "buildName": "pimcore-studio-frontendpermissiontoolkit-bundle"
+    },
+    "remoteEntry": {
+      "name": "static/js/remoteEntry.js",
+      "path": "",
+      "type": "global"
+    },
+    "types": {
+      "path": "",
+      "name": "",
+      "zip": "",
+      "api": ""
+    },
+    "globalName": "pimcore_frontendpermissiontoolkit_bundle",
+    "pluginVersion": "0.14.3",
+    "prefetchInterface": false,
+    "publicPath": "/bundles/frontendpermissiontoolkit/studio/build/53b20b99-a91d-431d-b4be-37bb5fb4a750/"
+  },
+  "shared": [],
+  "remotes": [
+    {
+      "alias": "@pimcore/studio-ui-bundle",
+      "moduleName": "UNKNOWN",
+      "version": "*",
+      "federationContainerName": "promise new Promise(resolve => {\n          const studioUIBundleRemoteUrl = window.StudioUIBundleRemoteUrl\n          const script = document.createElement('script')\n\n          let hasScript = false;\n\n          document.querySelectorAll('script').forEach((el) => {\n            const elPathname = el.src.replace(/https?:\\/\\/[^/]+/, '')\n            const studioUIBundleRemoteUrlPathname = studioUIBundleRemoteUrl.replace(/https?:\\/\\/[^/]+/, '')\n\n            if (elPathname === studioUIBundleRemoteUrlPathname) {\n              hasScript = true;\n              return;\n            }\n          })\n\n          if (hasScript) {\n            resolve({\n              get: (request) => window['pimcore_studio_ui_bundle'].get(request),\n              init: (...arg) => {\n                try {\n                  return window['pimcore_studio_ui_bundle'].init(...arg)\n                } catch(e) {\n                  console.log('remote container already initialized')\n                }\n              }\n            })\n            return\n          }\n\n          script.src = studioUIBundleRemoteUrl\n          script.onload = () => {\n            const proxy = {\n              get: (request) => window['pimcore_studio_ui_bundle'].get(request),\n              init: (...arg) => {\n                try {\n                  return window['pimcore_studio_ui_bundle'].init(...arg)\n                } catch(e) {\n                  console.log('remote container already initialized')\n                }\n              }\n            }\n            resolve(proxy)\n          }\n          document.head.appendChild(script);\n        })\n        ",
+      "consumingFederationContainerName": "pimcore_frontendpermissiontoolkit_bundle",
+      "usedIn": []
+    }
+  ],
+  "exposes": [
+    {
+      "path": ".",
+      "id": "pimcore_frontendpermissiontoolkit_bundle:.",
+      "name": ".",
+      "requires": [],
+      "file": "js/src/plugins.ts",
+      "assets": {
+        "js": {
+          "sync": [
+            "static/js/async/__federation_expose_default_export.71eef3a9.js"
+          ],
+          "async": []
+        },
+        "css": {
+          "sync": [],
+          "async": []
+        }
+      }
+    }
+  ]
+}
