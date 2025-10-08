@@ -10,7 +10,6 @@ export const FrontEndPermissionToolkitPlugin: IAbstractPlugin = {
 
   // Register and overwrite services here
   onInit: ({ container }): void => {
-
   },
 
   // register modules here
