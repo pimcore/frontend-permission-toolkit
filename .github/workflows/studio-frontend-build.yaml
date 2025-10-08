@@ -156,5 +156,5 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: './public/'
+          file_pattern: './src/Resources/public/'
           commit_message: Automatic frontend build
