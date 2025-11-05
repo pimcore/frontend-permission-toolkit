@@ -90,15 +90,32 @@ final class DynamicPermissionResourceAdapter implements DataNormalizerInterface,
 
     public function normalize(mixed $value, Data $fieldDefinition): mixed
     {
+        if (!$fieldDefinition instanceof DynamicPermissionResource) {
+            return null;
+        }
+
         $values = [];
         foreach ($value as $option => $permission) {
             $values[] = [
+                'label' => $this->getLabel($option, $fieldDefinition),
                 'option' => $option,
                 'permission' => $permission,
             ];
         }
 
         return $values;
+    }
+
+    public function getLabel(string $key, DynamicPermissionResource $fieldDefinition)
+    {
+
+        foreach ($fieldDefinition->getPermissionResources() as $permissionResource) {
+            if ($permissionResource['value'] === $key) {
+                return $permissionResource['label'];
+            }
+        }
+
+        return $key;
     }
 
 }
