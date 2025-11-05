@@ -48,12 +48,12 @@ final class DynamicPermissionResourceAdapter implements DataNormalizerInterface,
 
         $saveData = [];
         foreach ($data[$key] as $permissionData) {
-            if(!$this->checkPermissionOption($fieldDefinition, $permissionData['option'])){
+            if (!$this->checkPermissionOption($fieldDefinition, $permissionData['option'])) {
                 throw new InvalidArgumentException(
                     sprintf('Invalid permission option "%s"', $permissionData['option'])
                 );
             }
-            if(!$this->checkPermissionValue($fieldDefinition, $permissionData['permission'])){
+            if (!$this->checkPermissionValue($fieldDefinition, $permissionData['permission'])) {
                 throw new InvalidArgumentException(
                     sprintf('Invalid permission value "%s"', $permissionData['permission'])
                 );
