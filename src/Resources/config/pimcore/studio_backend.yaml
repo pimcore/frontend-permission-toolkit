@@ -1,0 +1,11 @@
+pimcore_studio_backend:
+    data_object_data_adapter_mapping:
+        Pimcore\Bundle\StudioBackendBundle\DataObject\Data\Adapter\SelectAdapter:
+            - "permissionResource"
+        Pimcore\Bundle\StudioBackendBundle\DataObject\Data\Adapter\ManyToOneRelationAdapter:
+            - "permissionManyToOneRelation"
+        Pimcore\Bundle\StudioBackendBundle\DataObject\Data\Adapter\ManyToManyRelationAdapter:
+            - "permissionManyToManyRelation"
+        FrontendPermissionToolkitBundle\DataObject\Data\Adapter\DynamicPermissionResourceAdapter:
+            - "dynamicPermissionResource"
+

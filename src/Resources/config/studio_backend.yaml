@@ -1,0 +1,28 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    #
+    # Column Definitions
+    #
+
+    FrontendPermissionToolkitBundle\Grid\Column\Definition\DynamicPermissionResourceDefinition:
+        tags: [ 'pimcore.studio_backend.grid_column_definition' ]
+
+    FrontendPermissionToolkitBundle\Grid\Column\Definition\PermissionManyToManyRelationDefinition:
+        tags: [ 'pimcore.studio_backend.grid_column_definition' ]
+
+    FrontendPermissionToolkitBundle\Grid\Column\Definition\PermissionManyToOneRelationDefinition:
+        tags: [ 'pimcore.studio_backend.grid_column_definition' ]
+
+    FrontendPermissionToolkitBundle\Grid\Column\Definition\PermissionResourceDefinition:
+        tags: [ 'pimcore.studio_backend.grid_column_definition' ]
+
+
+    #
+    # Data Adapters
+    #
+    FrontendPermissionToolkitBundle\DataObject\Data\Adapter\DynamicPermissionResourceAdapter:
+        tags: [ 'pimcore.studio_backend.data_adapter' ]

@@ -15,9 +15,10 @@ namespace FrontendPermissionToolkitBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class FrontendPermissionToolkitExtension extends Extension
+class FrontendPermissionToolkitExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -31,5 +32,22 @@ class FrontendPermissionToolkitExtension extends Extension
 
         $loader->load('services.yml');
         $loader->load('generic-data-index.yaml');
+
+        $bundles = $container->getParameter('kernel.bundles');
+        if (isset($bundles['PimcoreStudioBackendBundle'])) {
+            $loader->load('studio_backend.yaml');
+        }
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $loader = new YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
+
+        if ($container->hasExtension('pimcore_studio_backend')) {
+            $loader->load('pimcore/studio_backend.yaml');
+        }
     }
 }
