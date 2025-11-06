@@ -1,0 +1,25 @@
+{
+  "entrypoints": {
+    "main": {
+      "js": [
+        "/bundles/frontendpermissiontoolkit/studio/build/544f6dd1-ecf5-4bb3-9b0f-f1eaece01a81/static/js/109.360b609d.js",
+        "/bundles/frontendpermissiontoolkit/studio/build/544f6dd1-ecf5-4bb3-9b0f-f1eaece01a81/static/js/main.2cdf51bb.js"
+      ],
+      "css": []
+    },
+    "pimcore_frontendpermissiontoolkit_bundle": {
+      "js": [
+        "/bundles/frontendpermissiontoolkit/studio/build/544f6dd1-ecf5-4bb3-9b0f-f1eaece01a81/static/js/async/877.ffb90ed8.js",
+        "/bundles/frontendpermissiontoolkit/studio/build/544f6dd1-ecf5-4bb3-9b0f-f1eaece01a81/static/js/async/__federation_expose_default_export.120be5ec.js",
+        "/bundles/frontendpermissiontoolkit/studio/build/544f6dd1-ecf5-4bb3-9b0f-f1eaece01a81/static/js/remoteEntry.js"
+      ],
+      "css": []
+    },
+    "exposeRemote": {
+      "js": [
+        "/bundles/frontendpermissiontoolkit/studio/build/544f6dd1-ecf5-4bb3-9b0f-f1eaece01a81/exposeRemote.js"
+      ],
+      "css": []
+    }
+  }
+}
