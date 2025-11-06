@@ -16,3 +16,6 @@ Thumbs.db
 
 # PhpStorm / IDEA
 .idea
+
+# Studio related files
+assets/studio/node_modules

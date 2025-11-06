@@ -49,5 +49,9 @@ class FrontendPermissionToolkitExtension extends Extension implements PrependExt
         if ($container->hasExtension('pimcore_studio_backend')) {
             $loader->load('pimcore/studio_backend.yaml');
         }
+
+        if ($container->hasExtension('pimcore_studio_ui')) {
+            $loader->load('studio_ui.yaml');
+        }
     }
 }
