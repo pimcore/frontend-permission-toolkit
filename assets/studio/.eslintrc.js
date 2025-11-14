@@ -18,6 +18,8 @@ module.exports = {
         "ecmaFeatures": {
             "jsx": true
         },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "overrides": [
         {
@@ -39,12 +41,9 @@ module.exports = {
             }
         }
     ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
     "plugins": [
-        "react"
+        "react",
+        "header"
     ],
     "rules": {
         "@typescript-eslint/no-misused-promises": "off",
@@ -76,6 +75,17 @@ module.exports = {
                 "logical": "parens-new-line",
                 "prop": "ignore"
             }
-        ]
+        ],
+        'header/header': [2, 'block', [
+            '*',
+            ' * This source file is available under the terms of the',
+            ' * Pimcore Open Core License (POCL)',
+            ' * Full copyright and license information is available in',
+            ' * LICENSE.md which is distributed with this source code.',
+            ' *',
+            ' *  @copyright  Copyright (c) Pimcore GmbH (https://www.pimcore.com)',
+            ' *  @license    Pimcore Open Core License (POCL)',
+            ' '
+        ], 2]
     }
 }
