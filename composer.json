@@ -18,8 +18,7 @@
     "pimcore/studio-backend-bundle": ">=0.12.9 <1.0 || ^1.0"
   },
   "conflict": {
-    "pimcore/pimcore": "<11.0.0-ALPHA6",
-    "pimcore/studio-ui-bundle": "<0.12.9"
+    "pimcore/pimcore": "<11.0.0-ALPHA6"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.10"
