@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace FrontendPermissionToolkitBundle\Grid\Column\Definition;
 
-use Override;
 use Pimcore\Bundle\StudioBackendBundle\Grid\Column\Definition\DataObject\AbstractDefinition;
 
 /**
@@ -31,13 +30,13 @@ final readonly class PermissionManyToManyRelationDefinition extends AbstractDefi
         return 'manyToManyRelation';
     }
 
-    #[Override]
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
     }
 
-    #[Override]
+    #[\Override]
     public function isFilterable(): bool
     {
         return false;
