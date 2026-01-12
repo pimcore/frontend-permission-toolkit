@@ -30,13 +30,13 @@ final readonly class PermissionManyToManyRelationDefinition extends AbstractDefi
         return 'manyToManyRelation';
     }
 
-    #[Override]
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
     }
 
-    #[Override]
+    #[\Override]
     public function isFilterable(): bool
     {
         return false;
