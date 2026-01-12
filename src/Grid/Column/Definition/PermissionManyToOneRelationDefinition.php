@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace FrontendPermissionToolkitBundle\Grid\Column\Definition;
 
-use Override;
 use Pimcore\Bundle\StudioBackendBundle\Grid\Column\Definition\DataObject\AbstractDefinition;
 
 /**
