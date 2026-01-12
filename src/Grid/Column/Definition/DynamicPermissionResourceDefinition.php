@@ -30,13 +30,13 @@ final readonly class DynamicPermissionResourceDefinition extends AbstractDefinit
         return 'dynamic-select';
     }
 
-    #[Override]
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
     }
 
-    #[Override]
+    #[\Override]
     public function isFilterable(): bool
     {
         return false;
