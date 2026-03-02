@@ -14,38 +14,12 @@ namespace FrontendPermissionToolkitBundle;
 
 use FrontendPermissionToolkitBundle\DependencyInjection\FrontendPermissionToolkitExtension;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
-use Pimcore\Extension\Bundle\PimcoreBundleAdminClassicInterface;
-use Pimcore\Extension\Bundle\Traits\BundleAdminClassicTrait;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
-class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle implements PimcoreBundleAdminClassicInterface
+class FrontendPermissionToolkitBundle extends AbstractPimcoreBundle
 {
-    use BundleAdminClassicTrait;
-
     public function getContainerExtension(): ExtensionInterface
     {
         return new FrontendPermissionToolkitExtension();
-    }
-
-    public function getCssPaths(): array
-    {
-        return [
-            '/bundles/frontendpermissiontoolkit/css/backend.css'
-        ];
-    }
-
-    public function getJsPaths(): array
-    {
-        return [
-            '/bundles/frontendpermissiontoolkit/js/startup.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionResource.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionResource.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionManyToManyRelation.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionManyToManyRelation.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/permissionManyToOneRelation.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/permissionManyToOneRelation.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/classes/data/dynamicPermissionResource.js',
-            '/bundles/frontendpermissiontoolkit/js/datatypes/tags/dynamicPermissionResource.js',
-        ];
     }
 }
