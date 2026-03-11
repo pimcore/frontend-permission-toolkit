@@ -33,10 +33,7 @@ class FrontendPermissionToolkitExtension extends Extension implements PrependExt
         $loader->load('services.yml');
         $loader->load('generic-data-index.yaml');
 
-        $bundles = $container->getParameter('kernel.bundles');
-        if (isset($bundles['PimcoreStudioBackendBundle'])) {
-            $loader->load('studio_backend.yaml');
-        }
+        $loader->load('studio_backend.yaml');
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -46,12 +43,7 @@ class FrontendPermissionToolkitExtension extends Extension implements PrependExt
             new FileLocator(__DIR__ . '/../Resources/config')
         );
 
-        if ($container->hasExtension('pimcore_studio_backend')) {
-            $loader->load('pimcore/studio_backend.yaml');
-        }
-
-        if ($container->hasExtension('pimcore_studio_ui')) {
-            $loader->load('studio_ui.yaml');
-        }
+        $loader->load('pimcore/studio_backend.yaml');
+        $loader->load('studio_ui.yaml');
     }
 }
