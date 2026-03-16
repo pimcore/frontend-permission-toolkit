@@ -17,11 +17,11 @@ export const DynamicPermissionResourceSettings = (props: FieldDefinitionAbstract
   const { t } = useTranslation()
 
   return (
-      <Form.Item
-          label={ t('field-definition.dynamic-permission-resource.data-type') }
-          name="dataProvider"
-      >
-          <Input />
-      </Form.Item>
+    <Form.Item
+      label={ t('field-definition.dynamic-permission-resource.data-type') }
+      name="dataProvider"
+    >
+      <Input />
+    </Form.Item>
   )
 }

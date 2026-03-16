@@ -33,7 +33,11 @@ export class DynamicTypeFieldDefinitionDynamicPermissionResource extends Dynamic
     const fieldDefinition = context.fieldDefinitions?.[id]
 
     return (
-      <DynamicPermissionResourceSettings context={ context } id={ fieldDefinition?.name ?? id } type={ this.id } />
+      <DynamicPermissionResourceSettings
+        context={ context }
+        id={ fieldDefinition?.name ?? id }
+        type={ this.id }
+      />
     )
   }
 }
