@@ -43,7 +43,7 @@ export const FrontEndPermissionToolkitPlugin: IAbstractPlugin = {
     const fieldDefinitionRegistry = container.get<DynamicTypeFieldDefinitionRegistry>('DynamicTypes/FieldDefinitionRegistry')
     fieldDefinitionRegistry.registerDropdownGroupInfo('data/frontend-permission-toolkit', {
       icon: { type: 'name', value: 'shield' },
-      translationKey: 'tree.actions.group-frontend-permission-toolkit'
+      translationKey: 'field-definition.groups.data.frontend-permission-toolkit'
     })
 
     fieldDefinitionRegistry.registerDynamicType(container.get(bundleServiceIds['FrontendPermissionToolkit/ClassEditor/PermissionResource']))
