@@ -8,7 +8,7 @@
  *  @license    Pimcore Open Core License (POCL)
  */
 
-import React from 'react'
+import type React from 'react'
 import { DynamicTypeFieldDefinitionDataAbstract, type FieldDefinitionContext } from '@pimcore/studio-ui-bundle/modules/field-definitions'
 import { type ElementIcon } from '@pimcore/studio-ui-bundle/components'
 
