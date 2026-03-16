@@ -16,5 +16,9 @@ export const bundleServiceIds = {
   'FrontendPermissionToolkit/DynamicTypes/ObjectData/PermissionResource': 'FrontendPermissionToolkit/DynamicTypes/ObjectData/PermissionResource',
   'FrontendPermissionToolkit/DynamicTypes/ObjectData/PermissionManyToOneRelation': 'FrontendPermissionToolkit/DynamicTypes/ObjectData/PermissionManyToOneRelation',
   'FrontendPermissionToolkit/DynamicTypes/ObjectData/PermissionManyToManyRelation': 'FrontendPermissionToolkit/DynamicTypes/ObjectData/PermissionManyToManyRelation',
-  'FrontendPermissionToolkit/DynamicTypes/ObjectData/DynamicPermissionResource': 'FrontendPermissionToolkit/DynamicTypes/ObjectData/DynamicPermissionResource'
+  'FrontendPermissionToolkit/DynamicTypes/ObjectData/DynamicPermissionResource': 'FrontendPermissionToolkit/DynamicTypes/ObjectData/DynamicPermissionResource',
+  'FrontendPermissionToolkit/ClassEditor/PermissionResource': 'FrontendPermissionToolkit/ClassEditor/PermissionResource',
+  'FrontendPermissionToolkit/ClassEditor/PermissionManyToManyRelation': 'FrontendPermissionToolkit/ClassEditor/PermissionManyToManyRelation',
+  'FrontendPermissionToolkit/ClassEditor/PermissionManyToOneRelation': 'FrontendPermissionToolkit/ClassEditor/PermissionManyToOneRelation',
+  'FrontendPermissionToolkit/ClassEditor/DynamicPermissionResource': 'FrontendPermissionToolkit/ClassEditor/DynamicPermissionResource'
 } as const
