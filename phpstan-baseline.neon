@@ -1,4 +1,4 @@
 parameters:
 	ignoreErrors:
-        -
-            message: '#Trait FrontendPermissionToolkitBundle\\CoreExtensions\\Traits\\PermissionResourcesAsRolesTrait is used zero times and is not analysed#'
+		-
+			message: '#Trait FrontendPermissionToolkitBundle\\CoreExtensions\\Traits\\PermissionResourcesAsRolesTrait is used zero times and is not analysed#'
