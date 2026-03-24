@@ -1,0 +1,6 @@
+field-definition.groups.data.frontend-permission-toolkit: "Frontend Permission Toolkit"
+field-definition.permission-resource: "Permission Resource"
+field-definition.permission-many-to-one-relation: "Permission Many-to-One Relation"
+field-definition.permission-many-to-many-relation: "Permission Many-to-Many Relation"
+field-definition.dynamic-permission-resource: "Dynamic Permission Resource"
+field-definition.dynamic-permission-resource.data-type: "Permission Resource Provider Service"

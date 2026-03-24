@@ -25,7 +25,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-3.x": "3.3.x-dev"
+      "dev-3.x": "3.4.x-dev"
     },
     "pimcore": {
       "bundles": [
