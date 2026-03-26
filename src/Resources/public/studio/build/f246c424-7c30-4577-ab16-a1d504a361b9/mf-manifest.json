@@ -20,9 +20,9 @@
       "api": ""
     },
     "globalName": "pimcore_frontendpermissiontoolkit_bundle",
-    "pluginVersion": "0.14.3",
+    "pluginVersion": "2.2.3",
     "prefetchInterface": false,
-    "publicPath": "/bundles/frontendpermissiontoolkit/studio/build/722236b1-c90c-4561-92c9-45981f5a2308/"
+    "publicPath": "/bundles/frontendpermissiontoolkit/studio/build/f246c424-7c30-4577-ab16-a1d504a361b9/"
   },
   "shared": [
     {
@@ -35,7 +35,7 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/109.360b609d.js",
+            "static/js/109.3b221149.js",
             "static/js/remoteEntry.js"
           ]
         },
@@ -43,7 +43,8 @@
           "async": [],
           "sync": []
         }
-      }
+      },
+      "fallback": ""
     },
     {
       "id": "pimcore_frontendpermissiontoolkit_bundle:react",
@@ -55,7 +56,7 @@
         "js": {
           "async": [],
           "sync": [
-            "static/js/109.360b609d.js",
+            "static/js/109.3b221149.js",
             "static/js/remoteEntry.js"
           ]
         },
@@ -63,7 +64,8 @@
           "async": [],
           "sync": []
         }
-      }
+      },
+      "fallback": ""
     }
   ],
   "remotes": [
@@ -105,8 +107,8 @@
       "assets": {
         "js": {
           "sync": [
-            "static/js/async/877.ffb90ed8.js",
-            "static/js/async/__federation_expose_default_export.6b1b3b83.js"
+            "static/js/async/216.1be54e9d.js",
+            "static/js/async/__federation_expose_default_export.6cb295e7.js"
           ],
           "async": []
         },
