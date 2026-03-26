@@ -1,0 +1,39 @@
+{
+  "allFiles": [
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/main.37bac552.js",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/remoteEntry.js",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/async/__federation_expose_default_export.6cb295e7.js",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/async/216.1be54e9d.js",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/109.3b221149.js",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/mf-stats.json",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/mf-manifest.json",
+    "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/main.html"
+  ],
+  "entries": {
+    "main": {
+      "html": [
+        "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/main.html"
+      ],
+      "initial": {
+        "js": [
+          "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/109.3b221149.js",
+          "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/main.37bac552.js"
+        ]
+      }
+    },
+    "pimcore_frontendpermissiontoolkit_bundle": {
+      "initial": {
+        "js": [
+          "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/remoteEntry.js"
+        ]
+      },
+      "async": {
+        "js": [
+          "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/async/216.1be54e9d.js",
+          "/bundles/frontendpermissiontoolkit/studio/build/354e5a11-9463-4d36-be18-0055e4e8a2ae/static/js/async/__federation_expose_default_export.6cb295e7.js"
+        ]
+      }
+    }
+  },
+  "integrity": {}
+}
