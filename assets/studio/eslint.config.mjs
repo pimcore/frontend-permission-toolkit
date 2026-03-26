@@ -134,7 +134,7 @@ export default tseslint.config(
       'generator-star-spacing': ['error', { before: true, after: true }],
       'new-cap': ['error', { newIsCap: true, capIsNew: false, properties: true }],
       'new-parens': 'error',
-      'no-array-constructor': 'off',
+      'no-array-constructor': 'off', // superseded by @typescript-eslint/no-array-constructor
       'no-async-promise-executor': 'error',
       'no-caller': 'error',
       'no-case-declarations': 'error',
@@ -232,6 +232,7 @@ export default tseslint.config(
       'wrap-iife': ['error', 'any', { functionPrototypeMethods: true }],
       'yield-star-spacing': ['error', 'both'],
       'yoda': ['error', 'never'],
+      // Turn off base rules superseded by @typescript-eslint/* equivalents
       'camelcase': 'off',
       'dot-notation': 'off',
       'no-implied-eval': 'off',
@@ -244,7 +245,8 @@ export default tseslint.config(
       'no-void': ['error', { allowAsStatement: true }],
 
       // -----------------------------------------------------------------------
-      // @stylistic rules
+      // @stylistic rules (replaces the 17 formatting rules removed from
+      // @typescript-eslint v8, previously wired through standard-with-typescript)
       // -----------------------------------------------------------------------
       '@stylistic/block-spacing': ['error', 'always'],
       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
@@ -310,11 +312,14 @@ export default tseslint.config(
       '@stylistic/type-annotation-spacing': 'error',
 
       // -----------------------------------------------------------------------
-      // @typescript-eslint type-aware rules
+      // @typescript-eslint type-aware rules (from standard-with-typescript)
       // -----------------------------------------------------------------------
+      // no-explicit-any / no-unused-vars: turned off — pre-existing widespread usage;
+      // address in a dedicated cleanup PR
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'no-unused-vars': 'off',
+      // -----------------------------------------------------------------------
       '@typescript-eslint/consistent-type-assertions': ['error', {
         assertionStyle: 'as',
         objectLiteralTypeAssertions: 'never'
@@ -383,11 +388,15 @@ export default tseslint.config(
         types: 'never'
       }],
       '@typescript-eslint/unbound-method': 'off',
+      // v8: renamed no-var-requires → no-require-imports
       '@typescript-eslint/no-require-imports': 'error',
+      // v8: ban-types split into targeted rules
       '@typescript-eslint/no-unsafe-function-type': 'error',
       '@typescript-eslint/no-wrapper-object-types': 'error',
       '@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'always' }],
+      // v8: no-throw-literal renamed to only-throw-error
       '@typescript-eslint/only-throw-error': 'error',
+      // v8: prefer-ts-expect-error deprecated in favour of ban-ts-comment option
       '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
 
       // -----------------------------------------------------------------------
