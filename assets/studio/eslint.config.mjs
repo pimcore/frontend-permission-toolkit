@@ -238,7 +238,6 @@ export default tseslint.config(
       'no-loss-of-precision': 'off',
       'no-redeclare': 'off',
       'no-throw-literal': 'off',
-      'no-unused-vars': 'off',
       'no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
       'no-useless-constructor': 'off',
