@@ -1,6 +1,6 @@
-field-definition.groups.data.frontend-permission-toolkit: "Frontend-Berechtigungs-Toolkit"
-field-definition.permission-resource: "Berechtigungsressource"
-field-definition.permission-many-to-one-relation: "Berechtigungsrelation Many-to-One"
-field-definition.permission-many-to-many-relation: "Berechtigungsrelation Many-to-Many"
-field-definition.dynamic-permission-resource: "Dynamische Berechtigungsressource"
-field-definition.dynamic-permission-resource.data-type: "Permission Resource Provider Service"
+field-definition.groups.data.frontend-permission-toolkit: Frontend-Berechtigungs-Toolkit
+field-definition.permission-resource: Berechtigungsressource
+field-definition.permission-many-to-one-relation: Berechtigungsrelation Many-to-One
+field-definition.permission-many-to-many-relation: Berechtigungsrelation Many-to-Many
+field-definition.dynamic-permission-resource: Dynamische Berechtigungsressource
+field-definition.dynamic-permission-resource.data-type: Permission Resource Provider Service
