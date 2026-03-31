@@ -1,6 +1,6 @@
-field-definition.groups.data.frontend-permission-toolkit: "Frontend-tillatelsesverktøy"
-field-definition.permission-resource: "Tillatelsesressurs"
-field-definition.permission-many-to-one-relation: "Tillatelsesrelasjon Many-to-One"
-field-definition.permission-many-to-many-relation: "Tillatelsesrelasjon Many-to-Many"
-field-definition.dynamic-permission-resource: "Dynamisk tillatelsesressurs"
-field-definition.dynamic-permission-resource.data-type: "Permission Resource Provider Service"
+field-definition.groups.data.frontend-permission-toolkit: Frontend-tillatelsesverktøy
+field-definition.permission-resource: Tillatelsesressurs
+field-definition.permission-many-to-one-relation: Tillatelsesrelasjon Many-to-One
+field-definition.permission-many-to-many-relation: Tillatelsesrelasjon Many-to-Many
+field-definition.dynamic-permission-resource: Dynamisk tillatelsesressurs
+field-definition.dynamic-permission-resource.data-type: Permission Resource Provider Service
