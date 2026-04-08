@@ -1,0 +1,6 @@
+field-definition.groups.data.frontend-permission-toolkit: Frontend-behörighetsverktyg
+field-definition.permission-resource: Behörighetsresurs
+field-definition.permission-many-to-one-relation: Behörighetsrelation Many-to-One
+field-definition.permission-many-to-many-relation: Behörighetsrelation Many-to-Many
+field-definition.dynamic-permission-resource: Dynamisk behörighetsresurs
+field-definition.dynamic-permission-resource.data-type: Permission Resource Provider Service
