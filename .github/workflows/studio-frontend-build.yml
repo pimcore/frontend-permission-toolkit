@@ -7,6 +7,7 @@ on:
       - "[0-9]+.x"
     paths:
       - "assets/studio/**"
+      - "src/Resources/public/studio/build/**"
   pull_request:
     paths:
       - "assets/studio/**"
