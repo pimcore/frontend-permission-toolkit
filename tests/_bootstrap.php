@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This source file is available under the terms of the
@@ -10,4 +11,13 @@
  *  @license    Pimcore Open Core License (POCL)
  */
 
+define('PIMCORE_PROJECT_ROOT', dirname(__DIR__));
+
+// set the used pimcore/symfony environment
+foreach (['APP_ENV' => 'test', 'PIMCORE_SKIP_DOTENV_FILE' => true] as $name => $value) {
+    putenv("{$name}={$value}");
+}
+require_once PIMCORE_PROJECT_ROOT . '/vendor/autoload.php';
+
+\Pimcore\Bootstrap::setProjectRoot();
 \Pimcore\Bootstrap::bootstrap();

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This source file is available under the terms of the
@@ -20,7 +21,6 @@ use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionMa
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
 use FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields;
-use FrontendPermissionToolkitBundle\Telemetry\FieldTypeScanner;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Block;
 use Pimcore\Model\DataObject\ClassDefinition\Data\FieldDefinitionEnrichmentModelInterface;
@@ -89,6 +89,17 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     }
 
     /**
+     * Any of the toolkit's types is a hit, not only the first one on the list.
+     */
+    public function testAnyOfTheToolkitTypesIsAHit(): void
+    {
+        $relation = new PermissionManyToManyRelation();
+        $relation->setName('groups');
+
+        $this->assertTrue($this->walk([fn (): array => [$this->definition($relation)]])->exist());
+    }
+
+    /**
      * Every listing readable, nothing found: a definite "not set up", not unknown.
      */
     public function testAModelWithoutAPermissionFieldIsNotSetUpRatherThanUnknown(): void
@@ -99,6 +110,33 @@ class ClassDefinitionPermissionFieldsTest extends Unit
         ]);
 
         $this->assertFalse($walk->exist());
+    }
+
+    /**
+     * The toolkit resolves permissions from a class's and a brick's top-level fields only; a permission field
+     * inside localized fields or a block is never in effect, so it does not count as set up either.
+     */
+    public function testAPermissionFieldNestedInAContainerIsNotCounted(): void
+    {
+        $localized = new Localizedfields();
+        $localized->setName('localizedfields');
+        $localized->setChildren([$this->permissionField()]);
+        $block = new Block();
+        $block->setName('content');
+        $block->setChildren([$this->permissionField()]);
+
+        $this->assertFalse($this->walk([fn (): array => [$this->definition($localized, $block)]])->exist());
+    }
+
+    /**
+     * Exact type match: a similarly named type must never be mistaken for one of the toolkit's.
+     */
+    public function testTheTypesAreMatchedExactly(): void
+    {
+        $lookalike = $this->createMock(Data::class);
+        $lookalike->method('getFieldType')->willReturn('permissionResources');
+
+        $this->assertFalse($this->walk([fn (): array => [$this->definition($lookalike)]])->exist());
     }
 
     public function testAnUnreadableListingWithNothingFoundElsewhereIsUnknown(): void
@@ -134,26 +172,18 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     }
 
     /**
-     * The failure may sit inside a container, where the scanner meets it: it must still read as unknown
-     * rather than escape as an exception.
+     * An entry that is not a field definition at all is a corrupted definition, not an empty one: unknown
+     * unless a readable definition holds a permission field.
      */
-    public function testAnUnreadableContainerInsideADefinitionIsUnknown(): void
+    public function testACorruptedEntryIsUnknownUnlessAnotherDefinitionHoldsAPermissionField(): void
     {
-        $walk = $this->walk([
-            fn (): array => [$this->definition($this->input('sku'), $this->unreadableContainer())],
-        ]);
+        $corrupted = $this->createMock(FieldDefinitionEnrichmentModelInterface::class);
+        $corrupted->method('getFieldDefinitions')->willReturn(['not a definition', $this->input('title')]);
 
-        $this->assertNull($walk->exist());
-    }
-
-    public function testAPermissionFieldAfterAnUnreadableContainerStillCounts(): void
-    {
-        $walk = $this->walk([
-            fn (): array => [$this->definition($this->unreadableContainer())],
-            fn (): array => [$this->definition($this->permissionField())],
-        ]);
-
-        $this->assertTrue($walk->exist());
+        $this->assertNull($this->walk([fn (): array => [$corrupted]])->exist());
+        $this->assertTrue($this->walk([
+            fn (): array => [$corrupted, $this->definition($this->permissionField())],
+        ])->exist());
     }
 
     /**
@@ -180,20 +210,6 @@ class ClassDefinitionPermissionFieldsTest extends Unit
 
                 throw $this->databaseDown();
             },
-        ]);
-
-        $this->assertTrue($walk->exist());
-    }
-
-    /**
-     * The failing container and the permission field sit in the same definition; the field still wins.
-     */
-    public function testAPermissionFieldAfterAnUnreadableContainerInTheSameDefinitionStillCounts(): void
-    {
-        $walk = $this->walk([
-            fn (): array => [
-                $this->definition($this->unreadableContainer(), $this->input('sku'), $this->permissionField()),
-            ],
         ]);
 
         $this->assertTrue($walk->exist());
@@ -231,7 +247,6 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     {
         // The runner is only reached by the default listings, which these tests replace.
         return new ClassDefinitionPermissionFields(
-            new FieldTypeScanner(),
             new SnapshotQueryRunner($this->createMock(Connection::class), 0),
             $listings
         );
@@ -262,16 +277,6 @@ class ClassDefinitionPermissionFieldsTest extends Unit
             ->willThrowException(new NotFoundException('definition file missing'));
 
         return $definition;
-    }
-
-    private function unreadableContainer(): Localizedfields
-    {
-        $container = $this->createMock(Localizedfields::class);
-        $container->method('getFieldType')->willReturn('localizedfields');
-        $container->method('getFieldDefinitions')
-            ->willThrowException(new NotFoundException('nested definition missing'));
-
-        return $container;
     }
 
     private function permissionField(): PermissionResource

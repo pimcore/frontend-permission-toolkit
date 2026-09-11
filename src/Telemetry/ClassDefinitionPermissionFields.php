@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This source file is available under the terms of the
@@ -16,6 +17,7 @@ use Exception;
 use FrontendPermissionToolkitBundle\Service;
 use function in_array;
 use Pimcore\Model\DataObject\ClassDefinition;
+use Pimcore\Model\DataObject\ClassDefinition\Data;
 use Pimcore\Model\DataObject\ClassDefinition\Data\FieldDefinitionEnrichmentModelInterface as FieldContainer;
 use Pimcore\Model\DataObject\Objectbrick\Definition as ObjectbrickDefinition;
 use Pimcore\Model\DataObject\Objectbrick\Definition\Listing as ObjectbrickListing;
@@ -25,19 +27,22 @@ use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
  * Walks the data model - every class definition of the customer's own and every object brick - for one of
  * the toolkit's permission field types, stopping at the first hit.
  *
- * Classes and bricks are where the toolkit itself resolves permissions from - its {@see Service} reads a
- * user object's class fields and the bricks on it - so a permission field anywhere else would not be in
- * effect. Portal Engine's `PortalUser` and `PortalUserGroup` are left out: that bundle's installer
- * ships them with permission fields already on them and reserves both names, so their fields are Portal
- * Engine's set-up, not the customer's - without the exclusion every Portal Engine install would read as
- * having set the toolkit up.
+ * Only the placements the toolkit resolves count: its {@see Service} reads a user object's class fields and
+ * the fields of the bricks on it, top level each, and never descends into localized fields, blocks or field
+ * collections. A permission field nested there, or on a field collection, would not be in effect, so this
+ * walk looks at the same top-level fields and nothing else.
+ *
+ * Portal Engine's `PortalUser` and `PortalUserGroup` are left out: that bundle's installer ships them with
+ * permission fields already on them and reserves both names, so their fields are Portal Engine's set-up, not
+ * the customer's - without the exclusion every Portal Engine install would read as having set the toolkit up.
  *
  * Raw definitions only (`suppressEnrichment`): the walk needs no container-bound enrichment and no user,
  * which matters because the snapshot runs in the CLI maintenance context.
  *
- * Unknown is not the same as absent: when a listing, a definition or a container inside a definition could
- * not be read and nothing was found elsewhere, the answer is null. A field that was found is a definite yes
- * regardless. Only `Exception` is caught - a programming error surfaces to the collector, as it should.
+ * Unknown is not the same as absent: when a listing or a definition could not be read - or a definition holds
+ * an entry that is not a field definition at all - and nothing was found elsewhere, the answer is null. A
+ * field that was found is a definite yes regardless. Only `Exception` is caught - a programming error
+ * surfaces to the collector, as it should.
  *
  * Every definition is loaded on its own. Class ids come from core's time-boxed telemetry query runner, which
  * throws when the query fails - unlike the class listing, which silently drops a class whose definition
@@ -76,7 +81,6 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
      * @param list<callable(): iterable<mixed>> $listings anything that is not a {@see Definition} is unreadable
      */
     public function __construct(
-        private FieldTypeScanner $scanner,
         private SnapshotQueryRunner $queries,
         private array $listings = [],
     ) {
@@ -153,12 +157,37 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
 
         try {
             $fields = $definition->getFieldDefinitions(['suppressEnrichment' => true]);
-
-            return $this->scanner->containsAnyType($fields, self::FIELD_TYPES);
         } catch (Exception) {
             // This definition could not be read; a later hit still wins.
             return null;
         }
+
+        return $this->containsPermissionField($fields);
+    }
+
+    /**
+     * Top-level fields only - the placements the toolkit resolves; see the class docblock.
+     *
+     * @param iterable<mixed> $fields
+     */
+    private function containsPermissionField(iterable $fields): ?bool
+    {
+        $unreadable = false;
+
+        foreach ($fields as $field) {
+            if (!$field instanceof Data) {
+                // Not a field definition at all - a corrupted entry; its siblings are still readable.
+                $unreadable = true;
+
+                continue;
+            }
+
+            if (in_array($field->getFieldType(), self::FIELD_TYPES, true)) {
+                return true;
+            }
+        }
+
+        return $unreadable ? null : false;
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This source file is available under the terms of the
@@ -18,10 +19,10 @@ use Pimcore\Telemetry\Usage\BundleUsageProviderInterface;
  * Is the Frontend Permission Toolkit set up, or merely installed?
  *
  * "Used" means at least one data-object class **of the customer's own**, or an object brick, carries one of
- * the toolkit's permission field types. The bundle has no storage and no settings; adding one of its data
- * types to a class definition *is* the way it gets set up. This is the L3 question every `usage.*` key
- * answers; whether any user object actually holds permissions is the exercised fact and deliberately not
- * what this key reports.
+ * the toolkit's permission field types among its top-level fields - the placements the toolkit resolves
+ * permissions from. The bundle has no storage and no settings; adding one of its data types to a class
+ * definition *is* the way it gets set up. This is the L3 question every `usage.*` key answers; whether any
+ * user object actually holds permissions is the exercised fact and deliberately not what this key reports.
  *
  * Why "of the customer's own": Portal Engine requires this bundle and its installer creates `PortalUser`
  * and `PortalUserGroup` with permission fields already on them. Without the exclusion, every Portal Engine

@@ -5,8 +5,6 @@ services:
 
     # usage.* provider for the telemetry snapshot. The core extension point is guaranteed by the
     # pimcore/pimcore constraint in composer.json, so it is loaded unconditionally.
-    FrontendPermissionToolkitBundle\Telemetry\FieldTypeScanner: ~
-
     FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields: ~
 
     FrontendPermissionToolkitBundle\Telemetry\PermissionFieldsInterface:
