@@ -5,7 +5,10 @@ services:
 
     # usage.* provider for the telemetry snapshot. The core extension point is guaranteed by the
     # pimcore/pimcore constraint in composer.json, so it is loaded unconditionally.
-    FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields: ~
+    FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields:
+        arguments:
+            # Portal Engine's reserved user classes are skipped only while that bundle is registered
+            $bundles: '%kernel.bundles%'
 
     FrontendPermissionToolkitBundle\Telemetry\PermissionFieldsInterface:
         '@FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields'

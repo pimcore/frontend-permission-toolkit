@@ -36,9 +36,11 @@ use ReflectionClass;
  * collections. A permission field nested there, or on a field collection, would not be in effect, so this
  * walk looks at the same top-level fields and nothing else.
  *
- * Portal Engine's `PortalUser` and `PortalUserGroup` are left out: that bundle's installer ships them with
- * permission fields already on them and reserves both names, so their fields are Portal Engine's set-up, not
- * the customer's - without the exclusion every Portal Engine install would read as having set the toolkit up.
+ * Portal Engine's `PortalUser` and `PortalUserGroup` are left out while that bundle is registered in the
+ * kernel: its installer ships them with permission fields already on them and reserves both names, so their
+ * fields are Portal Engine's set-up, not the customer's - without the exclusion every Portal Engine install
+ * would read as having set the toolkit up. The toolkit installs on its own as well, and there a customer's own
+ * class may carry either name, so the exclusion applies only when Portal Engine is actually present.
  *
  * Raw definitions only (`suppressEnrichment`): the walk needs no container-bound enrichment and no user,
  * which matters because the snapshot runs in the CLI maintenance context.
@@ -63,14 +65,20 @@ use ReflectionClass;
 final readonly class ClassDefinitionPermissionFields implements PermissionFieldsInterface
 {
     /**
-     * Classes another bundle ships with permission fields already on them - Portal Engine's users and
-     * groups, whose names its installer reserves.
+     * Classes Portal Engine ships with permission fields already on them - its users and groups, whose
+     * names its installer reserves.
      *
      * @var list<string>
      */
-    private const BUNDLE_SHIPPED_CLASSES = ['PortalUser', 'PortalUserGroup'];
+    private const PORTAL_ENGINE_CLASSES = ['PortalUser', 'PortalUserGroup'];
 
     /**
+     * The bundle name Portal Engine registers with the kernel.
+     */
+    private const PORTAL_ENGINE_BUNDLE = 'PimcorePortalEngineBundle';
+
+    /**
+     * @param array<string, string> $bundles the kernel's registered bundles, name => class (`%kernel.bundles%`)
      * @param Closure(string): mixed|null $loadClass loads one class definition by id; anything that is not
      *                                              a {@see Definition} is unreadable
      * @param Closure(): iterable<int|string>|null $brickNames lists the object brick keys
@@ -78,6 +86,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
      */
     public function __construct(
         private SnapshotQueryRunner $queries,
+        private array $bundles,
         private ?Closure $loadClass = null,
         private ?Closure $brickNames = null,
         private ?Closure $loadBrick = null,
@@ -110,18 +119,22 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
     }
 
     /**
-     * The class ids to walk: every class except the ones another bundle ships with permission fields.
+     * The class ids to walk: every class, minus the ones Portal Engine ships with permission fields - but only
+     * while Portal Engine is registered; without it, a class of either name is the customer's own.
      *
      * @return list<string>
      */
     private function customerClassIds(): array
     {
+        $portalEngineActive = isset($this->bundles[self::PORTAL_ENGINE_BUNDLE]);
         $ids = [];
 
         foreach ($this->queries->fetchAllKeyValue('SELECT id, name FROM classes') as $id => $name) {
-            if (!in_array($name, self::BUNDLE_SHIPPED_CLASSES, true)) {
-                $ids[] = (string) $id;
+            if ($portalEngineActive && in_array($name, self::PORTAL_ENGINE_CLASSES, true)) {
+                continue;
             }
+
+            $ids[] = (string) $id;
         }
 
         return $ids;

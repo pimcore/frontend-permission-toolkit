@@ -27,8 +27,10 @@ use Pimcore\Telemetry\Usage\BundleUsageProviderInterface;
  * Why "of the customer's own": Portal Engine requires this bundle and its installer creates `PortalUser`
  * and `PortalUserGroup` with permission fields already on them. Without the exclusion, every Portal Engine
  * install would read as having set the toolkit up - the always-true trap this namespace exists to avoid.
- * Those two classes are the only ones any in-tree bundle ships with these field types; if another bundle
- * starts to, it belongs on the list in {@see ClassDefinitionPermissionFields}.
+ * The exclusion applies only while Portal Engine is registered in the kernel; the toolkit also installs on
+ * its own, and there a class of either name is the customer's. Those two classes are the only ones any
+ * in-tree bundle ships with these field types; if another bundle starts to, it belongs on the list in
+ * {@see ClassDefinitionPermissionFields}.
  *
  * The data model is read through {@see PermissionFieldsInterface}, one walk over raw class and brick
  * definitions per snapshot, no hydration and no user.
