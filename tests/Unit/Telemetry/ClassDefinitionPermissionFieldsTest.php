@@ -16,7 +16,7 @@ namespace FrontendPermissionToolkitBundle\Tests\Unit\Telemetry;
 use Codeception\Test\Unit;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\PermissionFieldInterface;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Attribute\PermissionField;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToManyRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
 use FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields;
@@ -27,6 +27,7 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\Input;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields;
 use Pimcore\Model\Exception\NotFoundException;
 use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
+use ReflectionClass;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
@@ -57,7 +58,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
 
     /**
      * Every permission field type the bundle registers is a hit. The cases come from the registration file
-     * itself, so a type added there without the marker interface fails here instead of leaving the metric
+     * itself, so a type added there without the marker attribute fails here instead of leaving the metric
      * blind.
      */
     public function testEveryRegisteredPermissionFieldTypeIsAHit(): void
@@ -67,7 +68,10 @@ class ClassDefinitionPermissionFieldsTest extends Unit
 
         foreach ($registered as $type => $class) {
             $field = new $class();
-            $this->assertInstanceOf(PermissionFieldInterface::class, $field, $type . ' must carry the marker');
+            $this->assertNotEmpty(
+                (new ReflectionClass($field))->getAttributes(PermissionField::class),
+                $type . ' must carry the marker attribute'
+            );
             $this->assertSame($type, $field->getFieldType(), $class . ' must report its registered type');
             $field->setName('permissions');
 
@@ -76,6 +80,18 @@ class ClassDefinitionPermissionFieldsTest extends Unit
                 $type . ' should count as set up'
             );
         }
+    }
+
+    /**
+     * A project may extend one of the toolkit's types; the marker is inherited, so the subclass counts too.
+     */
+    public function testASubclassOfAMarkedTypeIsAHit(): void
+    {
+        $field = new class() extends PermissionManyToManyRelation {
+        };
+        $field->setName('groups');
+
+        $this->assertTrue($this->walk([7 => 'Product'], ['7' => $this->definition($field)])->exist());
     }
 
     public function testAPermissionFieldOnACustomerClassIsFound(): void
@@ -165,7 +181,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     }
 
     /**
-     * The marker interface is the criterion, not the type name: a foreign type that merely reports one of our
+     * The marker attribute is the criterion, not the type name: a foreign type that merely reports one of our
      * names is not one of ours.
      */
     public function testAForeignTypeWithAFamiliarNameIsNotAHit(): void

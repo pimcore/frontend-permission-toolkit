@@ -12,12 +12,13 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\PermissionFieldInterface;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Attribute\PermissionField;
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
 use Pimcore\Model\DataObject\Concrete;
 
-class PermissionResource extends Select implements PermissionFieldInterface
+#[PermissionField]
+class PermissionResource extends Select
 {
     /**
      * @deprecated Will be removed in frontend-permission-toolkit 4, use getFieldType() instead.

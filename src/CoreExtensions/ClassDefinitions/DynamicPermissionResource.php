@@ -12,8 +12,8 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Attribute\PermissionField;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Helper\DataProviderResolver;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\PermissionFieldInterface;
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
@@ -21,11 +21,8 @@ use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
 
-class DynamicPermissionResource extends Data implements
-    Data\ResourcePersistenceAwareInterface,
-    Data\QueryResourcePersistenceAwareInterface,
-    Data\FieldDefinitionEnrichmentInterface,
-    PermissionFieldInterface
+#[PermissionField]
+class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\FieldDefinitionEnrichmentInterface
 {
     use DataObject\Traits\SimpleComparisonTrait;
 
