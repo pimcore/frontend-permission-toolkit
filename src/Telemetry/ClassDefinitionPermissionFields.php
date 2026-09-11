@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace FrontendPermissionToolkitBundle\Telemetry;
 
+use Closure;
 use Exception;
 use FrontendPermissionToolkitBundle\Service;
 use function in_array;
@@ -39,17 +40,18 @@ use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
  * Raw definitions only (`suppressEnrichment`): the walk needs no container-bound enrichment and no user,
  * which matters because the snapshot runs in the CLI maintenance context.
  *
- * Unknown is not the same as absent: when a listing or a definition could not be read - or a definition holds
- * an entry that is not a field definition at all - and nothing was found elsewhere, the answer is null. A
- * field that was found is a definite yes regardless. Only `Exception` is caught - a programming error
- * surfaces to the collector, as it should.
+ * Unknown is not the same as absent: when the class table, the brick listing or a definition could not be
+ * read - or a definition holds an entry that is not a field definition at all - and nothing was found
+ * elsewhere, the answer is null. A field that was found is a definite yes regardless. Only `Exception` is
+ * caught - a programming error surfaces to the collector, as it should.
  *
  * Every definition is loaded on its own. Class ids come from core's time-boxed telemetry query runner, which
  * throws when the query fails - unlike the class listing, which silently drops a class whose definition
  * fails to load and answers 0 from a failed count. Bricks are loaded by key. Every load is guarded on its
  * own: a definition that fails - by returning null or by throwing from its file - yields an unreadable marker
- * instead of hiding its siblings. The listings default to these two; tests inject their own, which is what
- * keeps the walk testable without a kernel.
+ * instead of hiding its siblings. The loaders and the brick listing default to the model's own; tests
+ * inject theirs, which is what keeps the walk testable without a kernel while the class ids still flow
+ * through the query runner.
  *
  * @phpstan-type Definition ClassDefinition|ObjectbrickDefinition|FieldContainer
  *
@@ -62,7 +64,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
      *
      * @var list<string>
      */
-    public const FIELD_TYPES = [
+    private const FIELD_TYPES = [
         'permissionResource',
         'dynamicPermissionResource',
         'permissionManyToManyRelation',
@@ -78,43 +80,54 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
     private const BUNDLE_SHIPPED_CLASSES = ['PortalUser', 'PortalUserGroup'];
 
     /**
-     * @param list<callable(): iterable<mixed>> $listings anything that is not a {@see Definition} is unreadable
+     * @param Closure(string): mixed|null $loadClass loads one class definition by id; anything that is not
+     *                                              a {@see Definition} is unreadable
+     * @param Closure(): iterable<int|string>|null $brickNames lists the object brick keys
+     * @param Closure(string): mixed|null $loadBrick loads one brick definition by key
      */
     public function __construct(
         private SnapshotQueryRunner $queries,
-        private array $listings = [],
+        private ?Closure $loadClass = null,
+        private ?Closure $brickNames = null,
+        private ?Closure $loadBrick = null,
     ) {
     }
 
     public function exist(): ?bool
     {
-        $unreadable = false;
+        $classes = $this->scan(
+            fn (): iterable => $this->customerClassIds(),
+            $this->loadClass ?? static fn (string $id): ?ClassDefinition => ClassDefinition::getById($id)
+        );
 
-        foreach ($this->listings() as $listing) {
-            $found = $this->scanListing($listing);
-
-            if ($found === true) {
-                return true;
-            }
-
-            $unreadable = $unreadable || $found === null;
+        if ($classes === true) {
+            return true;
         }
 
-        return $unreadable ? null : false;
+        $bricks = $this->scan(
+            $this->brickNames ?? static fn (): iterable => (new ObjectbrickListing())->loadNames(),
+            $this->loadBrick ?? static fn (string $key): ?ObjectbrickDefinition => ObjectbrickDefinition::getByKey($key)
+        );
+
+        if ($bricks === true) {
+            return true;
+        }
+
+        // Nothing found. That is a definite "not set up" only if both sources could be read completely;
+        // an unreadable part might hold a field, so the answer is then unknown rather than unused.
+        return $classes === false && $bricks === false ? false : null;
     }
 
     /**
      * The class ids to walk: every class except the ones another bundle ships with permission fields.
      *
-     * @param array<int|string, mixed> $idToName the `classes` table as id => name
-     *
      * @return list<string>
      */
-    public static function customerClassIds(array $idToName): array
+    private function customerClassIds(): array
     {
         $ids = [];
 
-        foreach ($idToName as $id => $name) {
+        foreach ($this->queries->fetchAllKeyValue('SELECT id, name FROM classes') as $id => $name) {
             if (!in_array($name, self::BUNDLE_SHIPPED_CLASSES, true)) {
                 $ids[] = (string) $id;
             }
@@ -124,14 +137,25 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
     }
 
     /**
-     * @param callable(): iterable<mixed> $listing
+     * Loads and scans one definition per key, guarding each load on its own: a definition whose file throws
+     * yields the unreadable marker instead of ending the listing, so the definitions after it are still
+     * scanned and a later hit still wins.
+     *
+     * @param Closure(): iterable<int|string> $keys
+     * @param Closure(string): mixed $load
      */
-    private function scanListing(callable $listing): ?bool
+    private function scan(Closure $keys, Closure $load): ?bool
     {
         $unreadable = false;
 
         try {
-            foreach ($listing() as $definition) {
+            foreach ($keys() as $key) {
+                try {
+                    $definition = $load((string) $key);
+                } catch (Exception) {
+                    $definition = null;
+                }
+
                 $found = $this->scanDefinition($definition);
 
                 if ($found === true) {
@@ -141,7 +165,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
                 $unreadable = $unreadable || $found === null;
             }
         } catch (Exception) {
-            // The listing itself failed; the other listings may still hold a field.
+            // The listing itself failed; the other source may still hold a field.
             $unreadable = true;
         }
 
@@ -198,46 +222,5 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
         return $definition instanceof ClassDefinition
             || $definition instanceof ObjectbrickDefinition
             || $definition instanceof FieldContainer;
-    }
-
-    /**
-     * @return list<callable(): iterable<mixed>>
-     */
-    private function listings(): array
-    {
-        if ($this->listings !== []) {
-            return $this->listings;
-        }
-
-        return [
-            fn (): iterable => self::loadEach(
-                self::customerClassIds($this->queries->fetchAllKeyValue('SELECT id, name FROM classes')),
-                static fn (string $id): ?ClassDefinition => ClassDefinition::getById($id)
-            ),
-            static fn (): iterable => self::loadEach(
-                (new ObjectbrickListing())->loadNames(),
-                static fn (string $key): ?ObjectbrickDefinition => ObjectbrickDefinition::getByKey($key)
-            ),
-        ];
-    }
-
-    /**
-     * Loads one definition per key, guarding each load on its own: a definition whose file throws yields the
-     * unreadable marker instead of ending the listing, so the definitions after it are still scanned.
-     *
-     * @param iterable<int|string> $keys
-     * @param callable(string): mixed $load
-     *
-     * @return iterable<mixed>
-     */
-    private static function loadEach(iterable $keys, callable $load): iterable
-    {
-        foreach ($keys as $key) {
-            try {
-                yield $load((string) $key);
-            } catch (Exception) {
-                yield null;
-            }
-        }
     }
 }

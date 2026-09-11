@@ -28,88 +28,115 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\Input;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields;
 use Pimcore\Model\Exception\NotFoundException;
 use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
+use Throwable;
 
 /**
- * The listing walk, with the model listings injected: what makes the answer true, false, or - when part of
- * the model could not be read and nothing was found elsewhere - null. Definitions are real definition
- * objects with enrichment suppressed, so this runs without a kernel. A listing may be a generator that
- * yields definitions one by one, as the default listings do, and may fail midway.
+ * The data-model walk over the real {@see SnapshotQueryRunner} on a scripted connection, with the definition
+ * loaders and the brick listing injected: what makes the answer true, false, or - when part of the model
+ * could not be read and nothing was found elsewhere - null. Definitions are real definition objects with
+ * enrichment suppressed, so this runs without a kernel. The class ids always flow through the query runner,
+ * so the exclusion of Portal Engine's classes is observed, not assumed.
  */
 class ClassDefinitionPermissionFieldsTest extends Unit
 {
-    /**
-     * The types the walk looks for are exactly the ones the bundle registers - pinned against the real data
-     * types, so a renamed or added type cannot silently make the metric blind.
-     */
-    public function testLooksForExactlyTheTypesTheBundleRegisters(): void
-    {
-        $registered = [
-            (new PermissionResource())->getFieldType(),
-            (new DynamicPermissionResource())->getFieldType(),
-            (new PermissionManyToManyRelation())->getFieldType(),
-            (new PermissionManyToOneRelation())->getFieldType(),
-        ];
-        $expected = ClassDefinitionPermissionFields::FIELD_TYPES;
-        sort($registered);
-        sort($expected);
+    private const CLASSES_SQL = 'SELECT id, name FROM classes';
 
-        $this->assertSame($expected, $registered);
+    /**
+     * @var list<string>
+     */
+    private array $executedSql = [];
+
+    /**
+     * Every permission field type the bundle registers is a hit, pinned against the real data types so a
+     * renamed or added type cannot silently make the metric blind.
+     */
+    public function testEveryRegisteredPermissionFieldTypeIsAHit(): void
+    {
+        $types = [
+            new PermissionResource(),
+            new DynamicPermissionResource(),
+            new PermissionManyToManyRelation(),
+            new PermissionManyToOneRelation(),
+        ];
+
+        foreach ($types as $field) {
+            $field->setName('permissions');
+
+            $this->assertTrue(
+                $this->walk([7 => 'Product'], ['7' => $this->definition($field)])->exist(),
+                $field->getFieldType() . ' should count as set up'
+            );
+        }
+    }
+
+    public function testAPermissionFieldOnACustomerClassIsFound(): void
+    {
+        $walk = $this->walk(
+            [7 => 'Product', 8 => 'Category'],
+            ['7' => $this->definition($this->input('sku')), '8' => $this->definition($this->permissionField())]
+        );
+
+        $this->assertTrue($walk->exist());
+    }
+
+    public function testAPermissionFieldOnABrickIsFound(): void
+    {
+        $walk = $this->walk(
+            [7 => 'Product'],
+            ['7' => $this->definition($this->input('sku'))],
+            [
+                'Pricing' => $this->definition($this->input('price')),
+                'Access' => $this->definition($this->permissionField()),
+            ]
+        );
+
+        $this->assertTrue($walk->exist());
     }
 
     /**
-     * Portal Engine's reserved classes are that bundle's set-up, not the customer's; the match is on the exact
-     * name, so a customer's own `PortalUserProfile` still counts.
+     * Portal Engine's reserved classes are that bundle's set-up, not the customer's: their permission fields
+     * do not count, and their definitions are not even loaded.
      */
     public function testPortalEngineShippedClassesAreLeftOut(): void
     {
-        $classes = [3 => 'PortalUser', 7 => 'Product', 9 => 'PortalUserGroup', 12 => 'PortalUserProfile'];
+        $walk = $this->walk(
+            [3 => 'PortalUser', 9 => 'PortalUserGroup'],
+            [
+                '3' => $this->definition($this->permissionField()),
+                '9' => $this->definition($this->permissionField()),
+            ]
+        );
 
-        $this->assertSame(['7', '12'], ClassDefinitionPermissionFields::customerClassIds($classes));
-    }
-
-    public function testAPermissionFieldInTheFirstListingIsFound(): void
-    {
-        $walk = $this->walk([
-            fn (): array => [$this->definition($this->input('sku'), $this->permissionField())],
-            fn (): array => [$this->definition($this->input('title'))],
-        ]);
-
-        $this->assertTrue($walk->exist());
-    }
-
-    public function testAPermissionFieldInALaterListingIsFound(): void
-    {
-        $walk = $this->walk([
-            fn (): array => [],
-            fn (): array => [$this->definition($this->input('title'))],
-            fn (): array => [$this->definition($this->permissionField())],
-        ]);
-
-        $this->assertTrue($walk->exist());
+        $this->assertFalse($walk->exist());
     }
 
     /**
-     * Any of the toolkit's types is a hit, not only the first one on the list.
+     * The exclusion matches the exact reserved names; a customer's own `PortalUserProfile` still counts.
      */
-    public function testAnyOfTheToolkitTypesIsAHit(): void
+    public function testAClassNamedLikeAReservedOneStillCounts(): void
     {
-        $relation = new PermissionManyToManyRelation();
-        $relation->setName('groups');
+        $walk = $this->walk([12 => 'PortalUserProfile'], ['12' => $this->definition($this->permissionField())]);
 
-        $this->assertTrue($this->walk([fn (): array => [$this->definition($relation)]])->exist());
+        $this->assertTrue($walk->exist());
     }
 
     /**
-     * Every listing readable, nothing found: a definite "not set up", not unknown.
+     * Everything readable, nothing found: a definite "not set up", not unknown.
      */
     public function testAModelWithoutAPermissionFieldIsNotSetUpRatherThanUnknown(): void
     {
-        $walk = $this->walk([
-            fn (): array => [$this->definition($this->input('sku')), $this->definition($this->input('title'))],
-            fn (): array => [],
-        ]);
+        $walk = $this->walk(
+            [7 => 'Product'],
+            ['7' => $this->definition($this->input('sku'), $this->input('title'))],
+            ['Pricing' => $this->definition($this->input('price'))]
+        );
 
         $this->assertFalse($walk->exist());
+    }
+
+    public function testAnEmptyModelIsNotSetUp(): void
+    {
+        $this->assertFalse($this->walk([], [])->exist());
     }
 
     /**
@@ -125,7 +152,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
         $block->setName('content');
         $block->setChildren([$this->permissionField()]);
 
-        $this->assertFalse($this->walk([fn (): array => [$this->definition($localized, $block)]])->exist());
+        $this->assertFalse($this->walk([7 => 'Product'], ['7' => $this->definition($localized, $block)])->exist());
     }
 
     /**
@@ -136,120 +163,210 @@ class ClassDefinitionPermissionFieldsTest extends Unit
         $lookalike = $this->createMock(Data::class);
         $lookalike->method('getFieldType')->willReturn('permissionResources');
 
-        $this->assertFalse($this->walk([fn (): array => [$this->definition($lookalike)]])->exist());
+        $this->assertFalse($this->walk([7 => 'Product'], ['7' => $this->definition($lookalike)])->exist());
     }
 
-    public function testAnUnreadableListingWithNothingFoundElsewhereIsUnknown(): void
+    public function testTheClassIdsAreReadFromTheClassesTable(): void
     {
-        $walk = $this->walk([
-            fn (): array => throw $this->databaseDown(),
-            fn (): array => [$this->definition($this->input('title'))],
-        ]);
+        $this->walk([7 => 'Product'], ['7' => $this->definition($this->input('sku'))])->exist();
 
-        $this->assertNull($walk->exist());
+        $this->assertSame([self::CLASSES_SQL], $this->executedSql);
     }
 
     /**
-     * A positive match wins over an earlier failure: the field that was found is real.
+     * The class table could not be read: unknown, not "no classes" - unless a brick holds a field.
      */
-    public function testAPermissionFieldAfterAnUnreadableListingStillCounts(): void
+    public function testAFailingClassQueryWithNothingFoundElsewhereIsUnknown(): void
     {
-        $walk = $this->walk([
-            fn (): array => throw $this->databaseDown(),
-            fn (): array => [$this->definition($this->permissionField())],
-        ]);
+        $this->assertNull($this->walk(new ConnectionException('database down'), [])->exist());
+    }
+
+    public function testAPermissionFieldOnABrickAfterAFailingClassQueryStillCounts(): void
+    {
+        $walk = $this->walk(
+            new ConnectionException('database down'),
+            [],
+            ['Access' => $this->definition($this->permissionField())]
+        );
 
         $this->assertTrue($walk->exist());
     }
 
-    public function testAnUnreadableDefinitionWithNothingFoundElsewhereIsUnknown(): void
+    /**
+     * A definition whose file throws while loading is unreadable, not the end of the listing: the definition
+     * after it is still loaded and scanned, and a field found there wins.
+     */
+    public function testAPermissionFieldAfterADefinitionWhoseLoadThrowsStillCounts(): void
     {
-        $walk = $this->walk([
-            fn (): array => [$this->unreadableDefinition(), $this->definition($this->input('title'))],
-        ]);
+        $walk = $this->walk(
+            [7 => 'Product', 8 => 'Category'],
+            [
+                '7' => new NotFoundException('definition file missing'),
+                '8' => $this->definition($this->permissionField()),
+            ]
+        );
+
+        $this->assertTrue($walk->exist());
+    }
+
+    public function testADefinitionWhoseLoadThrowsWithNothingFoundElsewhereIsUnknown(): void
+    {
+        $walk = $this->walk(
+            [7 => 'Product', 8 => 'Category'],
+            ['7' => new NotFoundException('definition file missing'), '8' => $this->definition($this->input('title'))]
+        );
 
         $this->assertNull($walk->exist());
     }
 
     /**
+     * The same holds for a brick whose definition throws while loading.
+     */
+    public function testAPermissionFieldAfterABrickWhoseLoadThrowsStillCounts(): void
+    {
+        $walk = $this->walk(
+            [],
+            [],
+            [
+                'Broken' => new NotFoundException('brick file missing'),
+                'Access' => $this->definition($this->permissionField()),
+            ]
+        );
+
+        $this->assertTrue($walk->exist());
+    }
+
+    /**
+     * A load that yields nothing - null for a missing definition, false from a file that did not return one -
+     * is unreadable, not a crash and not "no field".
+     */
+    public function testADefinitionThatFailsToLoadIsUnknown(): void
+    {
+        $this->assertNull($this->walk([7 => 'Product'], ['7' => null])->exist());
+        $this->assertNull($this->walk([7 => 'Product'], ['7' => false])->exist());
+    }
+
+    /**
+     * The failure may sit inside the definition, when its fields are read: still unknown rather than an
+     * exception escaping to the collector.
+     */
+    public function testAnUnreadableDefinitionIsUnknown(): void
+    {
+        $this->assertNull($this->walk([7 => 'Product'], ['7' => $this->unreadableDefinition()])->exist());
+    }
+
+    /**
      * An entry that is not a field definition at all is a corrupted definition, not an empty one: unknown
-     * unless a readable definition holds a permission field.
+     * unless another definition holds a permission field.
      */
     public function testACorruptedEntryIsUnknownUnlessAnotherDefinitionHoldsAPermissionField(): void
     {
         $corrupted = $this->createMock(FieldDefinitionEnrichmentModelInterface::class);
         $corrupted->method('getFieldDefinitions')->willReturn(['not a definition', $this->input('title')]);
 
-        $this->assertNull($this->walk([fn (): array => [$corrupted]])->exist());
-        $this->assertTrue($this->walk([
-            fn (): array => [$corrupted, $this->definition($this->permissionField())],
-        ])->exist());
+        $this->assertNull($this->walk([7 => 'Product'], ['7' => $corrupted])->exist());
+        $this->assertTrue($this->walk(
+            [7 => 'Product', 8 => 'Category'],
+            ['7' => $corrupted, '8' => $this->definition($this->permissionField())]
+        )->exist());
     }
 
     /**
-     * A listing may fail midway, after yielding some definitions. Nothing found among those: unknown.
+     * The brick listing may fail midway, after yielding some keys. Nothing found among those: unknown.
      */
-    public function testAListingThatFailsMidwayMakesTheAnswerUnknown(): void
+    public function testABrickListingThatFailsMidwayMakesTheAnswerUnknown(): void
     {
-        $walk = $this->walk([
+        $walk = $this->walkWithBrickListing(
             function (): iterable {
-                yield $this->definition($this->input('title'));
+                yield 'Pricing';
 
-                throw $this->databaseDown();
+                throw new ConnectionException('database down');
             },
-        ]);
-
-        $this->assertNull($walk->exist());
-    }
-
-    public function testAPermissionFieldYieldedBeforeAListingFailsStillCounts(): void
-    {
-        $walk = $this->walk([
-            function (): iterable {
-                yield $this->definition($this->permissionField());
-
-                throw $this->databaseDown();
-            },
-        ]);
-
-        $this->assertTrue($walk->exist());
-    }
-
-    /**
-     * A definition that failed to load yields an unreadable marker, as the default listings do; the field in
-     * the next definition of the same listing is still found.
-     */
-    public function testAPermissionFieldAfterAFailedDefinitionFileInTheSameListingStillCounts(): void
-    {
-        $walk = $this->walk([
-            fn (): array => [null, $this->definition($this->permissionField())],
-        ]);
-
-        $this->assertTrue($walk->exist());
-    }
-
-    /**
-     * Anything that is not a definition object is unreadable, not a crash.
-     */
-    public function testADefinitionFileThatYieldsNoDefinitionIsUnknown(): void
-    {
-        $walk = $this->walk([
-            fn (): array => [false, $this->definition($this->input('title'))],
-        ]);
-
-        $this->assertNull($walk->exist());
-    }
-
-    /**
-     * @param list<callable(): iterable<mixed>> $listings
-     */
-    private function walk(array $listings): ClassDefinitionPermissionFields
-    {
-        // The runner is only reached by the default listings, which these tests replace.
-        return new ClassDefinitionPermissionFields(
-            new SnapshotQueryRunner($this->createMock(Connection::class), 0),
-            $listings
+            ['Pricing' => $this->definition($this->input('price'))]
         );
+
+        $this->assertNull($walk->exist());
+    }
+
+    public function testAPermissionFieldYieldedBeforeTheBrickListingFailsStillCounts(): void
+    {
+        $walk = $this->walkWithBrickListing(
+            function (): iterable {
+                yield 'Access';
+
+                throw new ConnectionException('database down');
+            },
+            ['Access' => $this->definition($this->permissionField())]
+        );
+
+        $this->assertTrue($walk->exist());
+    }
+
+    /**
+     * @param array<int, string>|Throwable $classes the `classes` table as id => name, or the failure reading it
+     * @param array<int|string, mixed> $definitionsById what loading each class id yields; a Throwable is thrown
+     * @param array<int|string, mixed> $bricksByKey what loading each brick key yields; the keys are the listing
+     */
+    private function walk(
+        array|Throwable $classes,
+        array $definitionsById,
+        array $bricksByKey = []
+    ): ClassDefinitionPermissionFields {
+        return $this->walkWithBrickListing(
+            static fn (): iterable => array_keys($bricksByKey),
+            $bricksByKey,
+            $classes,
+            $definitionsById
+        );
+    }
+
+    /**
+     * @param callable(): iterable<int|string> $brickNames
+     * @param array<int|string, mixed> $bricksByKey
+     * @param array<int, string>|Throwable $classes
+     * @param array<int|string, mixed> $definitionsById
+     */
+    private function walkWithBrickListing(
+        callable $brickNames,
+        array $bricksByKey,
+        array|Throwable $classes = [],
+        array $definitionsById = []
+    ): ClassDefinitionPermissionFields {
+        $this->executedSql = [];
+
+        $connection = $this->createMock(Connection::class);
+        $connection->method('fetchAllKeyValue')->willReturnCallback(
+            function (string $sql) use ($classes): array {
+                $this->executedSql[] = $sql;
+
+                if ($classes instanceof Throwable) {
+                    throw $classes;
+                }
+
+                return $classes;
+            }
+        );
+
+        return new ClassDefinitionPermissionFields(
+            new SnapshotQueryRunner($connection, 0),
+            static fn (string $id): mixed => self::load($definitionsById, $id),
+            $brickNames(...),
+            static fn (string $key): mixed => self::load($bricksByKey, $key)
+        );
+    }
+
+    /**
+     * @param array<int|string, mixed> $byKey
+     */
+    private static function load(array $byKey, string $key): mixed
+    {
+        $result = $byKey[$key] ?? null;
+
+        if ($result instanceof Throwable) {
+            throw $result;
+        }
+
+        return $result;
     }
 
     /**
@@ -263,11 +380,6 @@ class ClassDefinitionPermissionFieldsTest extends Unit
         $block->setChildren($fields);
 
         return $block;
-    }
-
-    private function databaseDown(): ConnectionException
-    {
-        return new ConnectionException('database down');
     }
 
     private function unreadableDefinition(): FieldDefinitionEnrichmentModelInterface
