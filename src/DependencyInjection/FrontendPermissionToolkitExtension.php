@@ -32,6 +32,8 @@ class FrontendPermissionToolkitExtension extends Extension implements PrependExt
 
         $loader->load('services.yml');
         $loader->load('generic-data-index.yaml');
+        // usage.* telemetry provider; the core extension point is guaranteed by the pimcore/pimcore constraint
+        $loader->load('telemetry.yaml');
 
         $loader->load('studio_backend.yaml');
     }

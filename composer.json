@@ -12,7 +12,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": "~8.4.0 || ~8.5.0",
-    "pimcore/pimcore": "^2026.1",
+    "pimcore/pimcore": "^2026.3",
     "pimcore/generic-data-index-bundle": "^2026.1",
     "symfony/event-dispatcher-contracts": "^3.0",
     "pimcore/studio-backend-bundle": "^2026.1",
