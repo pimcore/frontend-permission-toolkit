@@ -92,7 +92,6 @@ pimcore:
             mail_receiver: ''
         archive_treshold: '30'
         archive_alternative_database: ''
-pimcore:
     product_registration:
         instance_identifier: '%env(PIMCORE_INSTANCE_IDENTIFIER)%'
         product_key: '%env(PIMCORE_PRODUCT_KEY)%'
