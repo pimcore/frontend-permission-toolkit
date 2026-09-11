@@ -19,5 +19,3 @@ Thumbs.db
 
 # Studio related files
 assets/studio/node_modules
-# Codeception
-/tests/_output/

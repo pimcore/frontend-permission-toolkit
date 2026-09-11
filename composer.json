@@ -8,11 +8,6 @@
       "FrontendPermissionToolkitBundle\\": "src/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "FrontendPermissionToolkitBundle\\Tests\\": "tests/"
-    }
-  },
   "prefer-stable": true,
   "minimum-stability": "dev",
   "require": {
@@ -24,10 +19,7 @@
     "pimcore/studio-ui-bundle": "^2026.1"
   },
   "require-dev": {
-    "codeception/codeception": "^5.3.7",
-    "codeception/module-asserts": "^3.0",
-    "phpstan/phpstan": "2.1.40",
-    "phpunit/phpunit": "^12.5.23 || ^13.1.7"
+    "phpstan/phpstan": "2.1.40"
   },
   "extra": {
     "branch-alias": {
