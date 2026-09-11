@@ -22,6 +22,8 @@ use Attribute;
  * Every permission data type this bundle registers carries it, and the `usage.*` telemetry walk recognises
  * permission fields by it rather than by a list of type names, so a new permission type is picked up the
  * moment it carries this attribute. Subclasses of a marked type count as well.
+ *
+ * @internal
  */
 #[Attribute(Attribute::TARGET_CLASS)]
 final class PermissionField
