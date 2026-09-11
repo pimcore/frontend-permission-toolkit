@@ -12,9 +12,10 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\PermissionFieldInterface;
 use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToOneRelation;
 
-class PermissionManyToOneRelation extends ManyToOneRelation
+class PermissionManyToOneRelation extends ManyToOneRelation implements PermissionFieldInterface
 {
     /**
      * @deprecated Will be removed in frontend-permission-toolkit 4, use getFieldType() instead.

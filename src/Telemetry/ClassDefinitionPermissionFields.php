@@ -15,6 +15,7 @@ namespace FrontendPermissionToolkitBundle\Telemetry;
 
 use Closure;
 use Exception;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\PermissionFieldInterface;
 use FrontendPermissionToolkitBundle\Service;
 use function in_array;
 use Pimcore\Model\DataObject\ClassDefinition;
@@ -25,8 +26,9 @@ use Pimcore\Model\DataObject\Objectbrick\Definition\Listing as ObjectbrickListin
 use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
 
 /**
- * Walks the data model - every class definition of the customer's own and every object brick - for one of
- * the toolkit's permission field types, stopping at the first hit.
+ * Walks the data model - every class definition of the customer's own and every object brick - for a field
+ * implementing {@see PermissionFieldInterface}, one of the toolkit's permission field types, stopping at the
+ * first hit.
  *
  * Only the placements the toolkit resolves count: its {@see Service} reads a user object's class fields and
  * the fields of the bricks on it, top level each, and never descends into localized fields, blocks or field
@@ -59,18 +61,6 @@ use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
  */
 final readonly class ClassDefinitionPermissionFields implements PermissionFieldsInterface
 {
-    /**
-     * The field types this bundle registers with the class definition.
-     *
-     * @var list<string>
-     */
-    private const FIELD_TYPES = [
-        'permissionResource',
-        'dynamicPermissionResource',
-        'permissionManyToManyRelation',
-        'permissionManyToOneRelation',
-    ];
-
     /**
      * Classes another bundle ships with permission fields already on them - Portal Engine's users and
      * groups, whose names its installer reserves.
@@ -190,7 +180,9 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
     }
 
     /**
-     * Top-level fields only - the placements the toolkit resolves; see the class docblock.
+     * Top-level fields only - the placements the toolkit resolves; see the class docblock. A permission field is
+     * recognised by {@see PermissionFieldInterface}, which every permission data type the bundle registers
+     * implements, so there is no list of type names to keep in step with the registration.
      *
      * @param iterable<mixed> $fields
      */
@@ -206,7 +198,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
                 continue;
             }
 
-            if (in_array($field->getFieldType(), self::FIELD_TYPES, true)) {
+            if ($field instanceof PermissionFieldInterface) {
                 return true;
             }
         }

@@ -16,9 +16,8 @@ namespace FrontendPermissionToolkitBundle\Tests\Unit\Telemetry;
 use Codeception\Test\Unit;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\DynamicPermissionResource;
+use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Interfaces\PermissionFieldInterface;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToManyRelation;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionManyToOneRelation;
 use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\PermissionResource;
 use FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
@@ -28,6 +27,7 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\Input;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields;
 use Pimcore\Model\Exception\NotFoundException;
 use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
+use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
 /**
@@ -41,30 +41,39 @@ class ClassDefinitionPermissionFieldsTest extends Unit
 {
     private const CLASSES_SQL = 'SELECT id, name FROM classes';
 
+    private const DATABASE_DOWN = 'database down';
+
+    private const FILE_MISSING = 'definition file missing';
+
+    /**
+     * The bundle's data-type registration - the single source of which types are permission fields.
+     */
+    private const REGISTRATION = __DIR__ . '/../../../src/Resources/config/pimcore/config.yml';
+
     /**
      * @var list<string>
      */
     private array $executedSql = [];
 
     /**
-     * Every permission field type the bundle registers is a hit, pinned against the real data types so a
-     * renamed or added type cannot silently make the metric blind.
+     * Every permission field type the bundle registers is a hit. The cases come from the registration file
+     * itself, so a type added there without the marker interface fails here instead of leaving the metric
+     * blind.
      */
     public function testEveryRegisteredPermissionFieldTypeIsAHit(): void
     {
-        $types = [
-            new PermissionResource(),
-            new DynamicPermissionResource(),
-            new PermissionManyToManyRelation(),
-            new PermissionManyToOneRelation(),
-        ];
+        $registered = $this->registeredPermissionFieldTypes();
+        $this->assertNotEmpty($registered);
 
-        foreach ($types as $field) {
+        foreach ($registered as $type => $class) {
+            $field = new $class();
+            $this->assertInstanceOf(PermissionFieldInterface::class, $field, $type . ' must carry the marker');
+            $this->assertSame($type, $field->getFieldType(), $class . ' must report its registered type');
             $field->setName('permissions');
 
             $this->assertTrue(
                 $this->walk([7 => 'Product'], ['7' => $this->definition($field)])->exist(),
-                $field->getFieldType() . ' should count as set up'
+                $type . ' should count as set up'
             );
         }
     }
@@ -156,12 +165,13 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     }
 
     /**
-     * Exact type match: a similarly named type must never be mistaken for one of the toolkit's.
+     * The marker interface is the criterion, not the type name: a foreign type that merely reports one of our
+     * names is not one of ours.
      */
-    public function testTheTypesAreMatchedExactly(): void
+    public function testAForeignTypeWithAFamiliarNameIsNotAHit(): void
     {
         $lookalike = $this->createMock(Data::class);
-        $lookalike->method('getFieldType')->willReturn('permissionResources');
+        $lookalike->method('getFieldType')->willReturn('permissionResource');
 
         $this->assertFalse($this->walk([7 => 'Product'], ['7' => $this->definition($lookalike)])->exist());
     }
@@ -178,13 +188,13 @@ class ClassDefinitionPermissionFieldsTest extends Unit
      */
     public function testAFailingClassQueryWithNothingFoundElsewhereIsUnknown(): void
     {
-        $this->assertNull($this->walk(new ConnectionException('database down'), [])->exist());
+        $this->assertNull($this->walk(new ConnectionException(self::DATABASE_DOWN), [])->exist());
     }
 
     public function testAPermissionFieldOnABrickAfterAFailingClassQueryStillCounts(): void
     {
         $walk = $this->walk(
-            new ConnectionException('database down'),
+            new ConnectionException(self::DATABASE_DOWN),
             [],
             ['Access' => $this->definition($this->permissionField())]
         );
@@ -201,7 +211,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
         $walk = $this->walk(
             [7 => 'Product', 8 => 'Category'],
             [
-                '7' => new NotFoundException('definition file missing'),
+                '7' => new NotFoundException(self::FILE_MISSING),
                 '8' => $this->definition($this->permissionField()),
             ]
         );
@@ -213,7 +223,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     {
         $walk = $this->walk(
             [7 => 'Product', 8 => 'Category'],
-            ['7' => new NotFoundException('definition file missing'), '8' => $this->definition($this->input('title'))]
+            ['7' => new NotFoundException(self::FILE_MISSING), '8' => $this->definition($this->input('title'))]
         );
 
         $this->assertNull($walk->exist());
@@ -280,7 +290,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
             function (): iterable {
                 yield 'Pricing';
 
-                throw new ConnectionException('database down');
+                throw new ConnectionException(self::DATABASE_DOWN);
             },
             ['Pricing' => $this->definition($this->input('price'))]
         );
@@ -294,7 +304,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
             function (): iterable {
                 yield 'Access';
 
-                throw new ConnectionException('database down');
+                throw new ConnectionException(self::DATABASE_DOWN);
             },
             ['Access' => $this->definition($this->permissionField())]
         );
@@ -370,6 +380,16 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     }
 
     /**
+     * @return array<string, class-string<Data>> field type => data class, as registered with core
+     */
+    private function registeredPermissionFieldTypes(): array
+    {
+        $config = Yaml::parseFile(self::REGISTRATION);
+
+        return $config['pimcore']['objects']['class_definitions']['data']['map'];
+    }
+
+    /**
      * A definition holding the given fields; a block stands in for a class or brick, since both expose their
      * fields the same way.
      */
@@ -386,7 +406,7 @@ class ClassDefinitionPermissionFieldsTest extends Unit
     {
         $definition = $this->createMock(FieldDefinitionEnrichmentModelInterface::class);
         $definition->method('getFieldDefinitions')
-            ->willThrowException(new NotFoundException('definition file missing'));
+            ->willThrowException(new NotFoundException(self::FILE_MISSING));
 
         return $definition;
     }
