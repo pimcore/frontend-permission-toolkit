@@ -15,7 +15,6 @@ namespace FrontendPermissionToolkitBundle\Telemetry;
 
 use Closure;
 use Exception;
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Attribute\PermissionField;
 use FrontendPermissionToolkitBundle\Service;
 use function in_array;
 use Pimcore\Model\DataObject\ClassDefinition;
@@ -24,12 +23,12 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\FieldDefinitionEnrichmentModel
 use Pimcore\Model\DataObject\Objectbrick\Definition as ObjectbrickDefinition;
 use Pimcore\Model\DataObject\Objectbrick\Definition\Listing as ObjectbrickListing;
 use Pimcore\Telemetry\Snapshot\SnapshotQueryRunner;
-use ReflectionClass;
 
 /**
  * Walks the data model - every class definition of the customer's own and every object brick - for a field
- * whose type carries the {@see PermissionField} attribute, one of the toolkit's permission field types,
- * stopping at the first hit.
+ * of one of the toolkit's permission field types, stopping at the first hit. The type names come from the
+ * bundle's own data-type registration (`config/pimcore/config.yml`), read by the extension, so a new
+ * permission type is picked up the moment it is registered.
  *
  * Only the placements the toolkit resolves count: its {@see Service} reads a user object's class fields and
  * the fields of the bricks on it, top level each, and never descends into localized fields, blocks or field
@@ -78,6 +77,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
     private const PORTAL_ENGINE_BUNDLE = 'PimcorePortalEngineBundle';
 
     /**
+     * @param list<string> $fieldTypes the toolkit's permission field type names, as registered with core
      * @param array<string, string> $bundles the kernel's registered bundles, name => class (`%kernel.bundles%`)
      * @param Closure(string): mixed|null $loadClass loads one class definition by id; anything that is not
      *                                              a {@see Definition} is unreadable
@@ -86,6 +86,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
      */
     public function __construct(
         private SnapshotQueryRunner $queries,
+        private array $fieldTypes,
         private array $bundles,
         private ?Closure $loadClass = null,
         private ?Closure $brickNames = null,
@@ -195,8 +196,7 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
 
     /**
      * Top-level fields only - the placements the toolkit resolves; see the class docblock. A permission field is
-     * recognised by the {@see PermissionField} attribute every permission data type the bundle registers carries,
-     * so there is no list of type names to keep in step with the registration.
+     * recognised by its type name, one of the names the bundle registers with core.
      *
      * @param iterable<mixed> $fields
      */
@@ -212,26 +212,12 @@ final readonly class ClassDefinitionPermissionFields implements PermissionFields
                 continue;
             }
 
-            if (self::isPermissionField($field)) {
+            if (in_array($field->getFieldType(), $this->fieldTypes, true)) {
                 return true;
             }
         }
 
         return $unreadable ? null : false;
-    }
-
-    /**
-     * Whether the field's type - or one it extends - carries the {@see PermissionField} attribute.
-     */
-    private static function isPermissionField(Data $field): bool
-    {
-        for ($class = new ReflectionClass($field); $class !== false; $class = $class->getParentClass()) {
-            if ($class->getAttributes(PermissionField::class) !== []) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

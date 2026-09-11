@@ -12,10 +12,8 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Attribute\PermissionField;
 use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 
-#[PermissionField]
 class PermissionManyToManyRelation extends ManyToManyObjectRelation
 {
     /**

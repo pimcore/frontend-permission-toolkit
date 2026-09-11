@@ -12,12 +12,10 @@
 
 namespace FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions;
 
-use FrontendPermissionToolkitBundle\CoreExtensions\ClassDefinitions\Attribute\PermissionField;
 use FrontendPermissionToolkitBundle\Service;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
 use Pimcore\Model\DataObject\Concrete;
 
-#[PermissionField]
 class PermissionResource extends Select
 {
     /**

@@ -7,6 +7,8 @@ services:
     # pimcore/pimcore constraint in composer.json, so it is loaded unconditionally.
     FrontendPermissionToolkitBundle\Telemetry\ClassDefinitionPermissionFields:
         arguments:
+            # the toolkit's permission field type names, read from config/pimcore/config.yml by the extension
+            $fieldTypes: '%frontend_permission_toolkit.permission_field_types%'
             # Portal Engine's reserved user classes are skipped only while that bundle is registered
             $bundles: '%kernel.bundles%'
 
