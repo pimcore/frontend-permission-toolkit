@@ -1,6 +1,6 @@
 field-definition.groups.data.frontend-permission-toolkit: Frontend Permission Toolkit
-field-definition.permission-resource: Permission Resource
-field-definition.permission-many-to-one-relation: Relacja Permission wiele-do-jednego
-field-definition.permission-many-to-many-relation: Relacja Permission wiele-do-wielu
-field-definition.dynamic-permission-resource: Dynamiczny Permission Resource
+field-definition.permission-resource: Zasób uprawnień
+field-definition.permission-many-to-one-relation: Relacja uprawnień wiele-do-jednego
+field-definition.permission-many-to-many-relation: Relacja uprawnień wiele-do-wielu
+field-definition.dynamic-permission-resource: Dynamiczny zasób uprawnień
 field-definition.dynamic-permission-resource.data-type: Usługa Permission Resource Provider
