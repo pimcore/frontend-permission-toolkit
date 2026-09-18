@@ -36,7 +36,7 @@
     "typescript-eslint": "^8"
   },
   "dependencies": {
-    "@pimcore/studio-ui-bundle": "^1.0.0-canary.20260325-113631-293aa9b",
+    "@pimcore/studio-ui-bundle": "^2026.3.0-canary.20260918-091920-904fc5e",
     "antd-style": "^3.7.1",
     "quill": "^2.0.3",
     "quill-table-better": "^1.1.6",
