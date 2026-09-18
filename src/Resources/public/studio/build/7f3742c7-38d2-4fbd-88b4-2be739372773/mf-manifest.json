@@ -22,7 +22,7 @@
     "globalName": "pimcore_frontendpermissiontoolkit_bundle",
     "pluginVersion": "2.2.3",
     "prefetchInterface": false,
-    "publicPath": "/bundles/frontendpermissiontoolkit/studio/build/bbccb671-7605-4f48-b6a8-14968d8d7a7f/"
+    "publicPath": "/bundles/frontendpermissiontoolkit/studio/build/7f3742c7-38d2-4fbd-88b4-2be739372773/"
   },
   "shared": [
     {
