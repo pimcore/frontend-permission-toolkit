@@ -7,7 +7,7 @@
         window.alternativePluginExportPaths = {}
       }
 
-      window.pluginRemotes.pimcore_frontendpermissiontoolkit_bundle = "/bundles/frontendpermissiontoolkit/studio/build/ec41e3d2-71c6-428e-8bd1-40f1434cc7b8/static/js/remoteEntry.js"
+      window.pluginRemotes.pimcore_frontendpermissiontoolkit_bundle = "/bundles/frontendpermissiontoolkit/studio/build/54854862-c4e0-486a-b45b-28db6f6c8984/static/js/remoteEntry.js"
 
       
     
