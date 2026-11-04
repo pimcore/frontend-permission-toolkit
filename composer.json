@@ -19,7 +19,7 @@
     "pimcore/studio-ui-bundle": "^2026.2.1"
   },
   "require-dev": {
-    "phpstan/phpstan": "2.1.40"
+    "phpstan/phpstan": "2.3.5"
   },
   "extra": {
     "branch-alias": {
