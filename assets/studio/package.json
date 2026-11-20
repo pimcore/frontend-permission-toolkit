@@ -10,7 +10,8 @@
     "lint-fix": "eslint ./js --fix",
     "lint-fix-watch": "nodemon --watch './js/**/*' --exec \"eslint ./js --fix --cache\" -e js,jsx,ts,tsx",
     "check-types": "tsc --noEmit",
-    "check-types-watch": "tsc --noEmit --watch"
+    "check-types-watch": "tsc --noEmit --watch",
+    "test": "node --test test/"
   },
   "license": "proprietary",
   "private": true,
@@ -38,7 +39,7 @@
   },
   "dependencies": {
     "@pimcore/studio-ui-bundle": "^2026.3.0-canary.20260918-091920-904fc5e",
-    "antd": "^5.22.7",
+    "antd": "^5.29.3",
     "antd-style": "^3.7.1",
     "quill": "^2.0.3",
     "quill-table-better": "^1.1.6",
