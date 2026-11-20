@@ -11,7 +11,7 @@
     "lint-fix-watch": "nodemon --watch './js/**/*' --exec \"eslint ./js --fix --cache\" -e js,jsx,ts,tsx",
     "check-types": "tsc --noEmit",
     "check-types-watch": "tsc --noEmit --watch",
-    "test": "node --test test/"
+    "test": "node --test test/*.test.mjs"
   },
   "license": "proprietary",
   "private": true,
