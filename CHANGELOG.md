@@ -2,6 +2,13 @@
 
 Following steps are necessary during updating to newer versions.
 
+## Upgrade to 2026.4.0
+- `DynamicPermissionResource` now implements `LayoutDefinitionEnrichmentInterface`, so the permission resources
+  are loaded into the object editor layout again (Studio and Classic UI) with `pimcore/pimcore` `2026.4`.
+  Its `enrichLayoutDefinition()` method now has the interface signature
+  `enrichLayoutDefinition(?Concrete $object, array $context = []): static`. If you override this method in a
+  subclass, update the signature accordingly.
+
 ## Upgrade to 2026.2.1
 - The compiled Studio frontend is no longer committed as an expanded `src/Resources/public/studio/build/` directory.
   It now ships as a single archive (`build-dist/build-<id>.zip`) that is extracted into
