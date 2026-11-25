@@ -20,7 +20,7 @@ use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\Element\ValidationException;
 use Pimcore\Tool\Serialize;
 
-class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\FieldDefinitionEnrichmentInterface
+class DynamicPermissionResource extends Data implements Data\ResourcePersistenceAwareInterface, Data\QueryResourcePersistenceAwareInterface, Data\FieldDefinitionEnrichmentInterface, Data\LayoutDefinitionEnrichmentInterface
 {
     use DataObject\Traits\SimpleComparisonTrait;
 
@@ -293,9 +293,14 @@ class DynamicPermissionResource extends Data implements Data\ResourcePersistence
         return $this;
     }
 
-    public function enrichLayoutDefinition($object, $context = [])
+    /**
+     * Fills permissionResources/permissionOptions for the object editor layout. Core only calls this when the
+     * field type implements LayoutDefinitionEnrichmentInterface; before, the values only arrived in the layout as
+     * a side effect of the class definition being loaded in admin mode (removed by pimcore/pimcore#19675).
+     */
+    public function enrichLayoutDefinition(?Concrete $object, array $context = []): static
     {
-        $this->enrichFieldDefinition($context);
+        return $this->enrichFieldDefinition($context);
     }
 
     public function getParameterTypeDeclaration(): ?string
